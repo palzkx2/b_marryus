@@ -1,11 +1,9 @@
 package com.spring.marryus.dto;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,29 +11,32 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "sdm")
-public class SdmDTO {
+public class WeddingHall {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
 	private String imageName;
 	
-	@Column(nullable = false)
-	private String Name;
+	private String name;
 	
-	@Column(nullable = false)
 	private String addr;
 	
-	@Column
 	private Integer rating;
 	
-	@Column
+	private Integer price;
+	
+	private String buffet; //뷔페 종류 (한식,중식,양식,일식)
+	
 	private String tag;
 	
-	@Column(nullable = false)
-	private String category; //스튜디오, 드레스, 메이크업 분류해서 입력
+	private String imagePath;
+	
+	private String wido;
+	
+	private String gyungdo;
+	
+	private String imgType;
 
 }
