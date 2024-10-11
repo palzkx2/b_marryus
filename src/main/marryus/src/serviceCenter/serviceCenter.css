@@ -1,0 +1,15 @@
+.btnHover {
+    background: #32CD32;
+    padding: 20px 70px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-size: 18pt;
+    border-radius: 10px;
+}
+
+.btnHover:hover{
+    background: #32CD99;
+    transform: scale(1.1);
+}

@@ -1,0 +1,128 @@
+* {
+    white-space: nowrap;
+}
+
+.smallCategory{
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    font-size: 12pt;
+    padding: 10px 0px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 25%;
+    margin-top: -320px;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.imgBoard {
+    display: flex;
+    width: 220px;
+    margin: 45px;
+    z-index: 1;
+}
+
+.imgDiv{
+    width: 250px;
+    height: 300px;
+    background: gray;
+    flex-direction: column;
+    z-index: 2;
+}
+
+.imgDiv img {
+    padding: 0 15px;
+    border-radius: 35px;
+}
+
+.imgDiv strong {
+    padding-left: 15px;
+}
+
+.imgDiv p {
+    padding-left: 15px;
+}
+
+.imgBoard div{
+    margin-left: 28px;
+    margin-top: 20px;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+.bigCategoryInput{
+    border-top: 3px solid red;
+    width: 286px;
+    margin-left: 150px;
+    margin-top: 50px;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 14pt;
+    color: red;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.5);
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.stk{
+    position: sticky;
+    top: 130px;
+    margin-left: 100px;
+}
+
+.bigCategory{
+    margin-left: 150px;
+}
+
+.categorys{
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    width: 274px;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.categorys:hover .btnStyle{
+    font-weight: bold;
+    color: red;
+}
+
+.categorys:hover p{
+    font-weight: bold;
+    color: red;
+}
+
+.btnStyle {
+    background: none;
+    border: none;
+    font-size: 14pt;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.btnStyle1 {
+    background: none;
+    border: none;
+    font-size: 11pt;
+    padding: 0 15px;
+    cursor: pointer;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.btnStyle1:hover {
+    font-weight: bold;
+    color: red;
+}

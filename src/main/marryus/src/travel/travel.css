@@ -1,0 +1,43 @@
+
+.travel-swiper-slide {
+  width: 100%; /* 슬라이드가 Swiper의 전체 크기를 차지하도록 설정 */
+  height: 100%; /* 슬라이드가 Swiper의 전체 높이를 차지하도록 설정 */
+  display: flex; /* 슬라이드 내용 중앙 정렬 */
+  justify-content: center;
+  align-items: center;
+}
+
+
+.css-1ax683h {
+  margin-left:10px;
+  display: flex;
+  justify-content: center;
+  height: 32px;
+  align-items:'center';
+    max-width: 212px;
+    padding: 8px 16px;
+    font-size: 0.8125rem;
+    line-height: 0.8125rem;
+    letter-spacing: 0px;
+    font-weight: 600;
+    flex: 0 0 auto;
+    cursor: pointer;
+    -webkit-box-align: center;
+    align-items: center;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 100px;
+    border-width: 1.5px;
+    --tw-bg-opacity: 1;
+    background-color: tomato;
+    color: rgb(255, 255, 255);
+}
+
+
+.travel-swiper-slide .ttimg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

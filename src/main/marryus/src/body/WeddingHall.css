@@ -1,0 +1,268 @@
+/* 기능별 정렬 css */
+.functionByContainer{
+    display: flex;
+    flex-direction: row;  
+    margin: 0px 50px 0px 50px;
+}
+
+.functionBySection:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.functionBySection{
+
+    width: 180px;
+    height: 130px;
+
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    margin: 10px 5px 0px 3px;
+    padding: 20px;
+
+    border-radius: 2%;
+    border: 1px solid;
+    border-color: gainsboro;
+
+    font-family: sans-serif, Arial, Helvetica, sans-serif, ;
+    font-size: 20px;
+    font-weight: bold;
+    color: #353535;
+    white-space: nowrap;
+    transition: all 0.4s ease;
+    .sub{
+        white-space: nowrap;
+        font-size: 13px;
+        margin: 20px 10px 10px 10px;
+        padding: 5px;
+        font-weight: normal;
+    }
+}
+.functionByIcon{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    background-color: rgba(215, 230, 233, 0.267);
+    color: rgb(180, 0, 0);
+}
+a{
+    text-decoration: none;
+    color: rgb(231, 103, 178);
+}
+/* 기능별 정렬 css end*/
+
+
+/* 왼쪽 카테고리 css */
+.header{
+    margin:20px;
+    padding-top: 20px;
+    border-color:  rgb(76, 126, 20);
+    border-top: 1px solid;
+    color:rgb(76, 126, 20);
+    border-width: 3px;
+    width: 218px;
+}
+.headerSubject{
+    margin: auto;
+    padding-left: 60px;
+    font-weight: bold;
+    color: rgb(48, 82, 10);
+    font-size: 22px;
+}
+.searchBox-container{
+    position: relative;
+    margin-bottom: 20px;
+}
+.searchBox{
+    border: 1px solid gainsboro;
+    width: 214px;
+    height: 28px;
+    padding: 1px;
+    font-size: 12px;
+    margin-top: 10px;
+    white-space: nowrap;
+}
+.searchBoxIcon{
+    position: absolute;
+    top: 70%;
+    left: 194px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    white-space: nowrap;
+}
+.letCategory{
+    border: 1px solid;
+    border-color: gainsboro;
+    background-color: rgba(220, 220, 220, 0.199);
+    padding: 12px;
+    color: black;
+    display: flex;
+    font-size: 12px;
+    white-space: nowrap;
+}
+details {
+    overflow: hidden;
+  }
+  
+  details[open] p {
+    max-height: 300px; /* 콘텐츠 높이를 충분히 설정 */
+    transition: max-height 0.5s ease-in-out; /* 트랜지션을 항상 적용 */
+  }
+  
+  details:not([open]) p {
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+  }
+.scoption{
+    width: 218px;
+    background-color: white;
+}
+.arrowIcon{
+    width: 18px;
+    height: 18px;
+    color: gainsboro;
+}
+.letCategory:hover{
+    background-color: white;
+    cursor: pointer;
+}
+
+.letCategory:hover .gt{
+    color: rgba(0, 0, 0, 0.911);
+}
+
+.gt{
+    flex-direction: row;
+    color: rgba(220, 220, 220, 0.473);
+    font-size: 12px;
+    margin: auto;
+    font-weight: bold;
+    white-space: nowrap;
+}
+/* 왼쪽 카테고리 css */
+
+
+/* 전체상품 */
+.allProductHr{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    color: gainsboro;
+    border-width: 1px;
+    white-space: nowrap;
+}
+.allProduct{
+    margin: 10px;
+    white-space: nowrap;
+    color: black;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+.fixed-element {
+    position: fixed; /* 기본 고정 위치 */
+    transition: top 0.3s; /* 부드러운 전환 효과 */
+    left: 325px;
+    padding-top: 500px;
+}
+
+.fixed {
+    position: fixed;
+   
+    
+}
+
+.absolute {
+    position: absolute;
+}
+
+.itemContainer{
+    background-color: rgba(221, 210, 220, 0.322);
+    margin: 10px;
+    border-radius: 3%;
+    width: 300px;
+    height: 540px;
+    position: relative;
+}
+
+.LocationSearchSticky{
+    /* style={{marginTop:'20px',position:'sticky',top:'130px'} */
+    margin-top: 20px;
+    position: sticky;
+    top: 130px;
+}
+.toArticle{
+    all: initial;
+    cursor: pointer;
+}
+.alignGood{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.mainContainere{
+    width: 1400px;
+    height: 1327px;
+    margin: 0 10px 0px 10px;
+    padding: 0px 0;
+    background-color: rgba(220, 220, 220, 0.205);
+}
+.artiImage{
+    width: 98px;
+    height: 98px;
+    padding: 1px;
+}
+.artiImgConBox{
+    margin: 10px 10px 10px 10px;
+    padding: 15px 0px 10px 30px;
+}
+.conBox{
+    margin: 10px;
+    padding: 20px 20px 17px 17px;
+    display: flex;
+}
+.byeBtnaLoc{
+    display: flex;
+    position: absolute;
+    margin: -114px 10px 10px 680px;
+    padding: 10px 11px 13px 14px;
+}
+.byeBtna{
+    width: 130px;
+    height: 30px;
+    border: 1px solid pink;
+    padding: 15px;
+    margin: 20px;
+    font-size: 30px;
+    background-color: rgba(241, 99, 184, 0.829);
+    color: rgb(247, 245, 245);
+    border-radius: 3%;
+    font-weight: bold;
+
+}
+.artiSubCon{
+    margin: 11px 10px 10px 25px;;
+    padding: 30px 172px 2px 35px;
+}
+.artiSubCon .artiSub{
+    width: 100px;
+    height: 100px;
+    font-size: 20px;
+    margin: 0px 10px 10px 10px;
+    padding: 0px 10px 10px 10px;
+}
+.artiSubCon .artiSc{
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    margin: 10px 10px 10px 10px;
+    padding: 10px;
+    margin:10px
+}

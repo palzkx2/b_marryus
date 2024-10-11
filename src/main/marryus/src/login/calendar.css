@@ -1,0 +1,15 @@
+.transCale {
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    opacity: 0; /* 초기 상태는 투명 */
+    transform: translateY(-10px); /* 초기 위치를 살짝 위로 이동 */
+    pointer-events: none; /* 클릭 방지 */
+    position: absolute; /* 절대 위치 설정 */
+    left: 20px; /* 입력 필드 위치에 맞춤 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+.transCale.active {
+    opacity: 1; /* 활성화 시 불투명 */
+    transform: translateY(0); /* 원래 위치로 돌아옴 */
+    pointer-events: auto; /* 클릭 가능 */
+}

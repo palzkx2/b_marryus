@@ -1,0 +1,9 @@
+.signUpHover {
+    color: white;
+    transition: all 0.4s ease;
+}
+
+.signUpHover:hover{
+    color: red;
+    transition: 0.4s;
+}

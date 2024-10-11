@@ -1,0 +1,14 @@
+* {
+    margin-top: 0px;
+    padding: 0px;
+}
+
+.footer {
+    background: #353744;
+    height: 241.55px;
+    width: 1391;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    flex-direction: row;
+}
