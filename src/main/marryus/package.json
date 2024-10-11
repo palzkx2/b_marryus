@@ -1,12 +1,14 @@
 {
-  "name": "f_marryus",
+  "name": "marryus",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^1.7.7",
     "date-fns": "^4.1.0",
+    "http-proxy-middleware": "2.0.6",
     "numeral": "^2.0.6",
     "react": "^18.3.1",
     "react-calendar": "^5.0.0",
@@ -23,6 +25,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  
+  "proxy":"http://localhost:8080",
+  
   "eslintConfig": {
     "extends": [
       "react-app",
