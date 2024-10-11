@@ -17,7 +17,9 @@ public class SdmService {
 	
 	public List<SdmDTO> getList() {
 		
-		return sdmRepository.findAll();
+		SdmDTO dto = new SdmDTO();
+		
+		
 		
 	}
 
