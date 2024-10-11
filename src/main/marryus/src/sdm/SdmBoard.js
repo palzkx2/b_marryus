@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import './sdmBoard.css';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import studioImg from '../s_images/studioImage.jpg'
+import axios from 'axios'
 
 const SdmBoard = () => {
+
+	//const [test,setTest] = useState()
+	
+	//useEffect(() => {
+		
+	//},[])
+
     const sdmInfo = [
         {
             name: "아우라스튜디오",
