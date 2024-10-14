@@ -1,4 +1,4 @@
-import React, { useState,useHistory } from 'react';
+import React, { useState } from 'react';
 import './WeddingHall.css'
 import { TbHeartQuestion, TbMapPinHeart } from "react-icons/tb";
 import { GiBookmarklet } from "react-icons/gi";
@@ -13,9 +13,7 @@ import WeddingHallArticle from './WeddingHallArticle';
 import Bar from './mypage/Bar';
 import loginImg from '../s_images/weddingHall/wdHallBar1.jpg'
 import axios from 'axios';
-
-
-
+import regions from './regionsData'
 
 const WeddingHall = () => {
 
@@ -306,7 +304,7 @@ const WeddingHall = () => {
             {/* 게시판 */}
                 {/* 게시판 헤더 */}
                 {
-                    userRole === admin &&
+                    userRole === 'ADMIN' &&
                     <div style={{display:'flex', justifyContent:'end', alignContent:'end', marginTop:'15px'}}>
                         <Link to='/insertWeddingHall'><button style={{padding:'15px'}}>추가</button></Link>
                     </div>
