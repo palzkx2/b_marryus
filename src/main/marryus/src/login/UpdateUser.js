@@ -10,6 +10,7 @@ import './calendar.css'
 const UpdateUser = () => {
 
     const [joinHover,setJoinHover] = useState(false)
+    const [emailAgree,setEmailAgree] = useState('')
     const [date, setDate] = useState(null); // 선택된 날짜 상태
     const [showCalendar, setShowCalendar] = useState(false); // 달력 표시 상태
     const inputRef = useRef(null); // input 필드 참조
@@ -97,16 +98,23 @@ const UpdateUser = () => {
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
-                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>예식희망지역</p>
+                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>주소</p>
                     </div>
                     <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
-                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>결혼예정일</p>
+                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>예식희망지역</p>
                     </div>
                     <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'871px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                        <input type='text' style={{marginLeft:'20px'}}/>
+                    </div>
+
+                    <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
+                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>결혼예정일</p>
+                    </div>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input
                             style={{ marginLeft: '20px', paddingLeft:'12px' }}
                             ref={inputRef}
@@ -132,9 +140,9 @@ const UpdateUser = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid gray'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 수신여부</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid gray', alignContent:'center'}}>
-                        <input type='radio' name='emailAgree' style={{marginLeft:'20px', fontSize:'8pt'}}/>이메일 수신 동의
-                        <input type='radio' name='emailAgree' style={{marginLeft:'20px', fontSize:'8pt'}}/>이메일 수신 거부
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'973px', borderBottom:'1px solid gray', alignContent:'center'}}>
+                        <input type='radio' value={'Y'} name='emailAgree' style={{marginLeft:'20px', fontSize:'8pt'}}/>이메일 수신 동의
+                        <input type='radio' value={'N'} name='emailAgree' style={{marginLeft:'20px', fontSize:'8pt'}}/>이메일 수신 거부
                     </div>
 
                     <div style={{display:'flex', justifyContent:'center', alignContent:'center', marginTop:'30px'}}>
