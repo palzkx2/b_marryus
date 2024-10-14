@@ -24,10 +24,10 @@ const WdReviewArticle = () => {
 
                         </div>
                         <a href='#'>
-                            <div className='a1t2' style={{marginLeft:'460px',fontSize:'9pt'}}>수정</div>
+                            <div className='a1t2' style={{margin:'-28px 300px 20px 1130px',fontSize:'9pt',position:'absolute'}}>수정</div>
                         </a>
                         <a href='#'>
-                            <div className='a1t2' style={{marginLeft:'10px',fontSize:'9pt'}}>삭제</div>
+                            <div className='a1t2' style={{margin:'-28px 300px 20px 1160px',fontSize:'9pt',position:'absolute'}}>삭제</div>
                         </a>
                     </div>
                     <div style={{display:'flex',float:'right'}}>
