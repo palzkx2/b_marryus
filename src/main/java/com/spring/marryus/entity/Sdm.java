@@ -1,4 +1,4 @@
-package com.spring.marryus.dto;
+package com.spring.marryus.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "sdm")
-public class SdmDTO {
+public class Sdm {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

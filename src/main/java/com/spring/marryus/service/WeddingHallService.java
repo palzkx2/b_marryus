@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.marryus.dao.WeddingHallRepository;
-import com.spring.marryus.dto.WeddingHall;
+import com.spring.marryus.entity.WeddingHall;
 
 import lombok.RequiredArgsConstructor;
 

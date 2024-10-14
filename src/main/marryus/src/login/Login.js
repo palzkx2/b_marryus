@@ -21,7 +21,7 @@ const Login = () => {
                             아이디 <input type='text' style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'20px'}}/>
                         </div>
                         <div style={{marginTop:'190px', position:'absolute', fontWeight:'bold'}}>
-                            비밀번호 <input type='text' style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px'}}/>
+                            비밀번호 <input type='password' style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px', fontFamily: 'Arial, sans-serif'}}/>
                         </div>
                         <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold', marginLeft:'400px'}}>
                             <button style={{width:'70px', height:'70px', borderRadius:'5px', background:'#5DC060', border:'none', cursor:'pointer', fontWeight:'bold'}}>로그인</button>

@@ -62,14 +62,14 @@ const Join = () => {
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호</p>
                     </div>
                     <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'616px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
-                        <input type='text' style={{marginLeft:'20px'}}/>
+                        <input type='password' style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호 확인</p>
                     </div>
                     <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'667px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
-                        <input type='text' style={{marginLeft:'20px'}}/>
+                        <input type='password' style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>

@@ -1,4 +1,4 @@
-package com.spring.marryus.dto;
+package com.spring.marryus.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

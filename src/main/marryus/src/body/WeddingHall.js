@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useHistory } from 'react';
 import './WeddingHall.css'
 import { TbHeartQuestion, TbMapPinHeart } from "react-icons/tb";
 import { GiBookmarklet } from "react-icons/gi";
@@ -8,10 +8,11 @@ import proData from './proData';
 import WeddingHallItem from './WeddingHallItem';
 import { TiArrowDownOutline, TiArrowUpOutline } from 'react-icons/ti';
 import { RxDoubleArrowDown, RxDoubleArrowUp } from 'react-icons/rx';
-import { Link, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, Route, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import WeddingHallArticle from './WeddingHallArticle';
 import Bar from './mypage/Bar';
 import loginImg from '../s_images/weddingHall/wdHallBar1.jpg'
+import axios from 'axios';
 
 
 
@@ -273,25 +274,47 @@ const WeddingHall = () => {
         setIsOpen(!isOpen);
     };
 
-        // 기존 코드 생략...
+    // 기존 코드 생략...
 
-        const [isOpenRegion, setIsOpenRegion] = useState(false);
-        const [isOpenPrice, setIsOpenPrice] = useState(false);
-        const [isOpenMeal, setIsOpenMeal] = useState(false);
-        const [isOpenCost, setIsOpenCost] = useState(false);
-        const [isOpenCeremony, setIsOpenCeremony] = useState(false);
-        const [isOpenGuarantee, setIsOpenGuarantee] = useState(false);
+    const [isOpenRegion, setIsOpenRegion] = useState(false);
+    const [isOpenPrice, setIsOpenPrice] = useState(false);
+    const [isOpenMeal, setIsOpenMeal] = useState(false);
+    const [isOpenCost, setIsOpenCost] = useState(false);
+    const [isOpenCeremony, setIsOpenCeremony] = useState(false);
+    const [isOpenGuarantee, setIsOpenGuarantee] = useState(false);
+
+    // 각각의 토글 함수
+    const toggleRegion = () => setIsOpenRegion(!isOpenRegion);
+    const togglePrice = () => setIsOpenPrice(!isOpenPrice);
+    const toggleMeal = () => setIsOpenMeal(!isOpenMeal);
+    const toggleCost = () => setIsOpenCost(!isOpenCost);
+    const toggleCeremony = () => setIsOpenCeremony(!isOpenCeremony);
+    const toggleGuarantee = () => setIsOpenGuarantee(!isOpenGuarantee);
+
+    const [userRole,setUserRole] = useState(null)
+    const history = useHistory();
     
-        // 각각의 토글 함수
-        const toggleRegion = () => setIsOpenRegion(!isOpenRegion);
-        const togglePrice = () => setIsOpenPrice(!isOpenPrice);
-        const toggleMeal = () => setIsOpenMeal(!isOpenMeal);
-        const toggleCost = () => setIsOpenCost(!isOpenCost);
-        const toggleCeremony = () => setIsOpenCeremony(!isOpenCeremony);
-        const toggleGuarantee = () => setIsOpenGuarantee(!isOpenGuarantee);
+    const handleLogin = async (credentials) => {
+        
+        try{
 
-  
+            const response = await axios.post('http://localhost:8080/api/login', credentials);
+            const user = response.data;
 
+            setUserRole(user.role);
+
+            if(user.role === 'ADMIN'){
+                history.push('/admin'); // 관리자 페이지로 리디렉션
+            }else{
+                history.push('/user'); // 사용자 페이지로 리디렉션
+            }
+
+        }catch(error) {
+            console.error('로그인 오류:', error);
+            alert('로그인에 실패했습니다.');
+        }
+
+    }
 
     return (
         <div style={{justifyContent:'center', alignContent:'center'}}>
@@ -517,12 +540,12 @@ const WeddingHall = () => {
 
             {/* 게시판 */}
                 {/* 게시판 헤더 */}
-                {/* {
-                    user_role===admin &&  */}
-                        <div style={{display:'flex', justifyContent:'end', alignContent:'end', marginTop:'15px'}}>
-                            <Link to='/insertWeddingHall'><button style={{padding:'15px'}}>추가</button></Link>
-                        </div>
-                {/* } */}
+                {
+                    userRole === admin &&
+                    <div style={{display:'flex', justifyContent:'end', alignContent:'end', marginTop:'15px'}}>
+                        <Link to='/insertWeddingHall'><button style={{padding:'15px'}}>추가</button></Link>
+                    </div>
+                }
                 <div className='header allProductHr' style={{marginTop:'40px'}}/>
                 <div style={{display:'flex'}}>
                     <a href='#'>
