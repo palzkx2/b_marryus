@@ -9,14 +9,6 @@ import axios from 'axios';
 
 const NavBar = () => {
 
-	const [data,setData] = useState([])
-	
-	useEffect(() => {
-		axios.get('/api/data')
-		.then(res => setData(res.data))
-		.catch(error => console.log(error))
-	},[])
-
     const [windowScroll, setWindowScroll] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 

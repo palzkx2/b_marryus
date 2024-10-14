@@ -31,7 +31,7 @@ public class WeddingHall {
 	
 	private String tag;
 	
-	private String imagePath;
+	private String imgPath;
 	
 	private String wido;
 	

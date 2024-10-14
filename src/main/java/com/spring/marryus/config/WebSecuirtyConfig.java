@@ -30,6 +30,7 @@ public class WebSecuirtyConfig {
             )
             .formLogin().disable()  // 기본 로그인 폼 비활성화
             .httpBasic().disable()
+            .csrf().disable()  // CSRF 보호 비활성화
             ; // 기본 인증 방식 비활성화
 		
 		return http.build();

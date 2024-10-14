@@ -295,8 +295,8 @@ const WeddingHall = () => {
 
     return (
         <div style={{justifyContent:'center', alignContent:'center'}}>
-             <div style={{margin:'auto',width:'1400px', height:'350px', display:'flex', justifyContent:'center', alignContent:'center', backgroundImage:`url(${loginImg})`, backgroundSize:'cover', backgroundPosition:`center calc(100% - -130px)`}}>
-             </div>   
+            <div style={{margin:'auto',width:'1400px', height:'350px', display:'flex', justifyContent:'center', alignContent:'center', backgroundImage:`url(${loginImg})`, backgroundSize:'cover', backgroundPosition:`center calc(100% - -130px)`}}>
+        </div>
         <div className='mainContainer' style={{margin:'auto',display:'flex', justifyContent:'center', alignContent:'center'}}>
             
             {/* 왼쪽 카테고리,검색 */}
@@ -517,6 +517,12 @@ const WeddingHall = () => {
 
             {/* 게시판 */}
                 {/* 게시판 헤더 */}
+                {/* {
+                    user_role===admin &&  */}
+                        <div style={{display:'flex', justifyContent:'end', alignContent:'end', marginTop:'15px'}}>
+                            <Link to='/insertWeddingHall'><button style={{padding:'15px'}}>추가</button></Link>
+                        </div>
+                {/* } */}
                 <div className='header allProductHr' style={{marginTop:'40px'}}/>
                 <div style={{display:'flex'}}>
                     <a href='#'>
