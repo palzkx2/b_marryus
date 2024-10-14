@@ -3,10 +3,10 @@ import img1 from '../s_images/weddingHall/1.jpg'
 import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Bar from './mypage/Bar';
 import data from './proData'
-import WeddingHallMap from './map/WeddingHallMap';
 import WeddingHallReview from './reveiw/WeddingHallReview';
 import Numeral from 'numeral';
 import loginImg from '../s_images/weddingHall/wdArticleBar.jpg'
+import MapOfMarryus from './map/MapOfMarryus';
 
 
 const WeddingHallArticle = () => {
@@ -87,7 +87,7 @@ const WeddingHallArticle = () => {
             
             <div className='alignGood' style={{marginTop:'30px'}}>
                 {/* 지도 API */}
-                <WeddingHallMap/>
+                <MapOfMarryus/>
                 {/* 지도 API END*/}
             </div>
 

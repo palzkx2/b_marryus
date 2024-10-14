@@ -24,8 +24,8 @@ import SdmArticle from "./sdmArticle/SdmArticle";
 import WeddingHallArticle from "./body/WeddingHallArticle";
 import Cart from "./cart/Cart";
 import ServiceCenter from "./serviceCenter/ServiceCenter";
-import InsertWeddingHall from "./body/InsertWeddingHall";
-import FindId from "./login/FindId";
+import TravelArticle from "./travel/TravelArticle";
+import TravelOnCat from "./travel/TravelOnCat";
 
 function App() {
   return (
@@ -55,8 +55,8 @@ function App() {
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
         <Route path={['/cart']}><Cart/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
-        <Route path={['/insertWeddingHall']}><InsertWeddingHall/></Route>
-        <Route path={['/findId']}><FindId/></Route>
+        <Route path={['/travelArticle/:place']}><TravelArticle/></Route>
+        <Route path={['/travelOnCat/:place']}><TravelOnCat/></Route>
       </Switch>
       <Footer/>
     </div>
