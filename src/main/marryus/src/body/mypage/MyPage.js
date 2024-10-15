@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaClipboardList, FaRegCalendarAlt } from 'react-icons/fa';
 import { FaListCheck } from 'react-icons/fa6';
 import { GiBookmarklet } from 'react-icons/gi';
@@ -9,9 +9,31 @@ import { TbBellHeart, TbShoppingCartHeart } from 'react-icons/tb';
 import './myPage.css'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Bar from './Bar';
+import axios from 'axios';
 
 
 const MyPage = () => {
+
+    const [userRole,setUserRole] = useState('')
+
+    useEffect(() => {
+
+        const fetchSessionData = async () => {
+
+            try {
+                const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
+                console.log('세션 정보 : ', response.data)
+                setUserRole(response.data.userRole); // 세션 정보를 상태에 저장
+            } catch (error) {
+                console.error('세션 정보 가져오기 실패:', error);
+            }
+
+        };
+
+        fetchSessionData();
+
+    }, []);
+
     return (
         <div>
             <div className='alignGood'>

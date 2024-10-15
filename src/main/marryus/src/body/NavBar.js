@@ -9,6 +9,50 @@ import axios from 'axios';
 
 const NavBar = () => {
 
+    const [userRole,setUserRole] = useState('')
+    const [user,setUser] = useState([])
+
+    useEffect(()=>{
+        axios.get('/api/oauthUserInfo')
+        .then(res=>setUserRole(res.data))
+        .catch(error=>console.log(error))
+    },[])
+    
+    useEffect(() => {
+
+        const fetchSessionData1 = async () => {
+
+            try {
+                const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
+                console.log('세션 정보 : ', response.data)
+                setUserRole(response.data.userRole); // 세션 정보를 상태에 저장
+                setUser(response.data.user);
+            } catch (error) {
+                console.error('세션 가져오기 실패:', error);
+                if (error.response && error.response.status === 401) {
+                // 사용자에게 로그인 페이지로 리다이렉트하도록 안내
+                console.log('세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
+            }
+
+        };
+
+        fetchSessionData1();
+
+    }, []);
+
+    const logout = async () => {
+
+        try{
+            const response = await axios.post('/api/logout');
+            console.log('세션 정보 : ', response.data)
+            console.log('로그아웃 성공')
+            window.location.reload();
+        }catch(error) {
+            console.error('로그아웃 실패: ', error);
+        }
+
+    }
+
     const [windowScroll, setWindowScroll] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -77,7 +121,11 @@ const NavBar = () => {
 
             <div style={{justifyContent:'center', alignContent:'center', display:'flex', margin:'30px 0'}}>
                 <div className='login' style={{display:'flex', flexDirection:'row'}}>
-                    <Link to='/login'><p>로그인</p></Link>
+                    {
+                        userRole ?
+                        <Link to='/'><p onClick={logout}>로그아웃</p></Link> : <Link to='/login'><p>로그인</p></Link>
+                    }
+
                     <Link to='/signup'><p style={{marginLeft:'50px'}}>회원가입</p></Link>
                     <Link to='/myPage'><p style={{marginLeft:'50px'}}>마이페이지</p></Link>
                     <strong style={{margin:'0 300px', fontSize:'36pt', color:'black'}}><Link to='/' style={{color:'black'}}>Marry Us</Link></strong>

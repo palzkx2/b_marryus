@@ -2,6 +2,8 @@ package com.spring.marryus.service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,16 @@ public class MemberService {
 	        throw new IllegalArgumentException("해당 이메일로 등록된 사용자가 없습니다.");
 	    }
 	    
+	}
+	
+	@Transactional
+	public void deleteUser(String email) throws IllegalAccessException {
+		System.out.println(email);
+		
+		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalAccessException("존재하지 않는 회원입니다."));
+		
+		memberRepository.delete(member);
+		
 	}
 	
 }
