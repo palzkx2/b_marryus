@@ -56,6 +56,12 @@ public class MemberController {
     @PostMapping("/api/login")
     public ResponseEntity<String> login(HttpServletRequest httpRequest, @RequestBody Map<String, String> loginData) {
     	
+    	// 세션 존재 여부 확인
+        HttpSession session = httpRequest.getSession(false);
+        if (session != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 로그인 상태입니다.");
+        }
+    	
     	String email = loginData.get("email");
     	String password = loginData.get("password");
     	
@@ -66,7 +72,7 @@ public class MemberController {
     	}
     	
     	// 인증 성공 시 세션 생성 및 사용자 정보를 세션에 저장
-        HttpSession session = httpRequest.getSession();
+        session = httpRequest.getSession();
         
         session.setAttribute("user", authenticatedMember);
         session.setAttribute("userRole", authenticatedMember.getUserRole()); // userRole을 세션에 저장
@@ -76,10 +82,24 @@ public class MemberController {
     	
     }
     
-    @GetMapping("/api/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-    	new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-    	return "redirect:/";
+    @PostMapping("/api/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        // SecurityContext에서 인증 정보를 가져와 로그아웃 처리
+        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+        
+        // 현재 세션 무효화
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // JSESSIONID 쿠키 삭제
+        Cookie cookie = new Cookie("JSESSIONID", null);
+        cookie.setPath("/"); // 쿠키의 경로를 설정
+        cookie.setMaxAge(0); // 쿠키 만료 시간을 0으로 설정하여 삭제
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("로그아웃 성공");
     }
     
     @DeleteMapping("/api/deleteUser")
