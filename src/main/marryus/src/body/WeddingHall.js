@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './WeddingHall.css'
 import { TbHeartQuestion, TbMapPinHeart } from "react-icons/tb";
 import { GiBookmarklet } from "react-icons/gi";
@@ -54,30 +54,25 @@ const WeddingHall = () => {
     const toggleCeremony = () => setIsOpenCeremony(!isOpenCeremony);
     const toggleGuarantee = () => setIsOpenGuarantee(!isOpenGuarantee);
 
-    const [userRole,setUserRole] = useState(null)
-    const history = useHistory();
+    const [userRole,setUserRole] = useState('')
     
-    const handleLogin = async (credentials) => {
-        
-        try{
+    useEffect(() => {
 
-            const response = await axios.post('http://localhost:8080/api/login', credentials);
-            const user = response.data;
+        const fetchSessionData = async () => {
 
-            setUserRole(user.role);
-
-            if(user.role === 'ADMIN'){
-                history.push('/admin'); // 관리자 페이지로 리디렉션
-            }else{
-                history.push('/user'); // 사용자 페이지로 리디렉션
+            try {
+                const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
+                console.log('세션 정보 : ', response.data)
+                setUserRole(response.data.userRole); // 세션 정보를 상태에 저장
+            } catch (error) {
+                console.error('세션 정보 가져오기 실패:', error);
             }
 
-        }catch(error) {
-            console.error('로그인 오류:', error);
-            alert('로그인에 실패했습니다.');
-        }
+        };
 
-    }
+        fetchSessionData();
+
+    }, []);
 
     return (
         <div style={{justifyContent:'center', alignContent:'center'}}>

@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { GiLockedHeart } from "react-icons/gi";
 import loginImg from '../s_images/loginImage.jpg'
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from 'axios';
 
 const Login = () => {
+
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const history = useHistory()
+
+    const handleLogin = async () => {
+
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+
+        try{
+            const response = await axios.post('/api/login', {email,password}, { withCredentials: true });
+            console.log('이메일 받았냐---------------------',email)
+            console.log('비밀번호 받았냐----------------------',password)
+
+            if(response.status === 200){
+                console.log('로그인 성공 : ', response.data);
+                history.push('/')
+            }
+
+        }catch(error) {
+            console.log('로그인 실패 : ', error.response.data);
+        }
+
+    }
+
     return (
         <div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
@@ -18,13 +45,13 @@ const Login = () => {
                             <GiLockedHeart style={{width:'60px', height:'60px', color:'silver'}}/>
                         </div>
                         <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold'}}>
-                            아이디 <input type='text' style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'20px'}}/>
+                            이메일 <input type='text' ref={emailRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'20px'}}/>
                         </div>
                         <div style={{marginTop:'190px', position:'absolute', fontWeight:'bold'}}>
-                            비밀번호 <input type='password' style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px', fontFamily: 'Arial, sans-serif'}}/>
+                            비밀번호 <input type='password' ref={passwordRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px', fontFamily: 'Arial, sans-serif'}}/>
                         </div>
                         <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold', marginLeft:'400px'}}>
-                            <button style={{width:'70px', height:'70px', borderRadius:'5px', background:'#5DC060', border:'none', cursor:'pointer', fontWeight:'bold'}}>로그인</button>
+                            <button style={{width:'70px', height:'70px', borderRadius:'5px', background:'#5DC060', border:'none', cursor:'pointer', fontWeight:'bold'}} onClick={handleLogin}>로그인</button>
                         </div>
                         <div style={{marginTop:'250px', position:'absolute', fontWeight:'bold'}}>
                             <Link to='/findId'>
