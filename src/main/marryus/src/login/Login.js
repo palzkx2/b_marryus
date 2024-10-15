@@ -36,6 +36,13 @@ const Login = () => {
 
     }
 
+    // 키 입력 감지 함수
+    const enterKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
     const openModalWindow = (site) => {
         const width = 600;
         const height = 400;
@@ -94,10 +101,10 @@ const Login = () => {
                             <GiLockedHeart style={{width:'60px', height:'60px', color:'silver'}}/>
                         </div>
                         <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold'}}>
-                            이메일 <input type='text' ref={emailRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'20px'}}/>
+                            이메일 <input type='text' ref={emailRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'20px'}} onKeyDown={enterKeyPress}/>
                         </div>
                         <div style={{marginTop:'190px', position:'absolute', fontWeight:'bold'}}>
-                            비밀번호 <input type='password' ref={passwordRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px', fontFamily: 'Arial, sans-serif'}}/>
+                            비밀번호 <input type='password' ref={passwordRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px', fontFamily: 'Arial, sans-serif'}} onKeyDown={enterKeyPress}/>
                         </div>
                         <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold', marginLeft:'400px'}}>
                             <button style={{width:'70px', height:'70px', borderRadius:'5px', background:'#5DC060', border:'none', cursor:'pointer', fontWeight:'bold'}} onClick={handleLogin}>로그인</button>
