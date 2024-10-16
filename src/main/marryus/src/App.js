@@ -28,12 +28,15 @@ import ServiceCenterArticle from "./serviceCenter/ServiceCenterArticle";
 import ServiceCenterCreate from "./serviceCenter/ServiceCenterCreate";
 import TravelArticle from "./travel/TravelArticle";
 import TravelOnCat from "./travel/TravelOnCat";
+import ScrollToTop from "./body/ScrollToTop";
+import InsertWeddingHall from "./body/InsertWeddingHall";
 
 
 function App() {
   return (
-    <div>      
-      <NavBar/> 
+    <div>
+      <ScrollToTop/>
+      <NavBar/>
       <Switch>
         <Route path={['/','/main']} exact><Main/></Route>
         <Route path={['/sdm']}><SdmBoard/></Route>
@@ -62,6 +65,7 @@ function App() {
         <Route path={['/serviceCenterArticle']}><ServiceCenterArticle/></Route>
         <Route path={['/travelArticle/:place']}><TravelArticle/></Route>
         <Route path={['/travelOnCat/:place']}><TravelOnCat/></Route>
+        <Route path={['/insertWeddingHall']}><InsertWeddingHall/></Route>
       </Switch>
       <Footer/>
     </div>

@@ -205,7 +205,8 @@ const Join = () => {
             const response = await axios.post('/api/register', memberData);
             if (response.status === 201) {
                 alert('회원가입이 성공적으로 완료되었습니다.');
-                history.push('/');
+                history.push('/login');
+                window.location.reload();
             }
         } catch (error) {
             if (error.response && error.response.status === 409) {

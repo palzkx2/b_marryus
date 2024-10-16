@@ -337,7 +337,7 @@ const WeddingHall = () => {
                     {
                         data.map((item,index)=>
                             
-                            <div className='itemContainer'>
+                            <div className='itemContainer' key={index}>
                                 <Link to={`/wdArticle/${item.name}`} className='toArticle'>
                                     <WeddingHallItem key={index} item={item}/>                             
                                 </Link>

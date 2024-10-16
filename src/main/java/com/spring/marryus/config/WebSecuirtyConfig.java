@@ -31,7 +31,11 @@ public class WebSecuirtyConfig {
             .formLogin().disable()  // �⺻ �α��� �� ��Ȱ��ȭ
             .httpBasic().disable()
             .csrf().disable()  // CSRF ��ȣ ��Ȱ��ȭ
-            .formLogin().disable()  // 기본 로그인 폼 비활성화
+            .logout()
+            .logoutUrl("/api/logout")
+            .logoutSuccessUrl("/") //�α׾ƿ� ������ ���ư��� ������ URL
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
             .httpBasic().disable()	// 기본 HTTP 인증 비활성화
             ;
 
