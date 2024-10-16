@@ -71,6 +71,11 @@ public class MemberController {
         session.setAttribute("user", authenticatedMember);
         session.setAttribute("userRole", authenticatedMember.getUserRole()); // userRole을 세션에 저장
         session.setAttribute("email", authenticatedMember.getEmail());
+        session.setAttribute("name", authenticatedMember.getName());
+        session.setAttribute("phone", authenticatedMember.getPhone());
+        session.setAttribute("addr", authenticatedMember.getAddr());
+        session.setAttribute("hopeArea", authenticatedMember.getHopeArea());
+        session.setAttribute("weddingDate", authenticatedMember.getWeddingDate());
     	
     	return ResponseEntity.ok("로그인 성공");
     	
@@ -124,8 +129,39 @@ public class MemberController {
         Map<String, String> response = new HashMap<>();
 
         response.put("userRole", user.getUserRole());
+        response.put("email", user.getEmail());
+        response.put("name", user.getName());
+        response.put("phone", user.getPhone());
+        response.put("addr", user.getAddr());
+        response.put("hopeArea", user.getHopeArea());
+        response.put("weddingDate", user.getWeddingDate());
         
         return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/api/updateUser")
+    public ResponseEntity<String> updateUser(HttpServletRequest request, @RequestBody Member updatedMember) {
+    	
+        // 세션에서 현재 사용자 정보를 가져옴
+        HttpSession session = request.getSession();
+        Member currentUser = (Member) session.getAttribute("user");
+
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인하지 않았습니다.");
+        }
+
+        // DB에서 사용자 정보를 수정
+        // 예: memberService.updateMember(updatedMember);
+        boolean isUpdated = memberService.updateMember(updatedMember); // 업데이트 메소드 호출
+
+        if (isUpdated) {
+            // 수정 후 세션 정보 업데이트
+            session.setAttribute("user", updatedMember);
+            return ResponseEntity.ok("정보가 수정되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정에 실패했습니다.");
+        }
+        
     }
 
 }

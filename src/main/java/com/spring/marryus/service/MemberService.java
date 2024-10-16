@@ -24,6 +24,7 @@ public class MemberService {
 		return memberRepository.findByEmail(email).isPresent();
 	}
 	
+	// 로그인 메소드
 	public Member authenticate(String email,String password) {
 		
 		Optional<Member> memberOptional = memberRepository.findByEmail(email);
@@ -45,6 +46,8 @@ public class MemberService {
 	    
 	}
 	
+	
+	//회원탈퇴 메소드
 	@Transactional
 	public void deleteUser(String email) throws IllegalAccessException {
 		System.out.println(email);

@@ -1,137 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './cart.css';
-import {  TbShoppingCartHeart } from 'react-icons/tb';
+import { TbShoppingCartHeart } from 'react-icons/tb';
+import cartdata from './cartData';
+import Numeral from 'numeral';
+
 const Cart = () => {
+
+    const [cartData] = useState(cartdata);
+
+    const totalAmount = cartData.reduce((acc,item)=>{
+        const itemPrice = parseInt(item.price.replace('won', ''), 10); // "won" 제거 후 숫자로 변환
+        return acc + (itemPrice * item.su);
+    },[])
+
+    const resdate = cartData.map(item=>item.resdate);
     return (
-        
-        <div className='cart'>
-            <div>
-                <div>   
+        <div className='cart' style={{justifyContent:'center', display:'flex', alignContent:'center'}}>
+            <div className='cart-inside'> 
+                <div className='cart-content'>   
                     <div className='cart-flex-container'>
-                        <h2 style={{marginTop:'1em', marginLeft:'1em'}} className='cart-Name'><TbShoppingCartHeart className='icon1'/> 장바구니</h2>
+                        <h2 style={{ marginTop:'1em', marginLeft:'1em' }} className='cart-Name'>
+                            <TbShoppingCartHeart className='icon1'/> 장바구니
+                        </h2>
                     </div>
 
-                    <div className='cart-flex-container'>
-                        <table className='cart-table'>
-                            <colgroup>
-                                <col style={{width:'189px'}}/>
-                                <col style={{width:'189px'}}/>
-                                <col style={{width:'147px'}}/>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th className='cartleft'> 
-                                        <label className='cart-custom-checkbox'>
-                                            <input type="checkbox"/>
-                                            <span></span> 상품정보
-                                        </label>
-                                    </th>
-                                    <th>수량</th>
-                                    <th>예약일자</th>
-                                    <th> 주문금액</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td>
-                                        <button>선택상품 삭제</button>
-                                        <button>품절상품 삭제</button>
-                                    </td>
-                                    
-                                    <td colSpan={3}><span>결제 시 추가 할인 적용에 따라 배송비가 변경될 수 있습니다.</span>
-                                    
-                                    <span>네이버페이로 결제 시 할인금액과 배송비가 변경될 수 있습니다.</span>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <tr>
-                                    <td className='cartleft'>
-                                        <label className='cart-custom-checkbox'>
-                                            <input type="checkbox" />
-                                            <span></span>에베레스트 간당
-                                        </label>    
-                                    </td>
-                                    <td>1 <br/><button>수량변경</button></td>
-                                    <td>24.10.09<br/><button>날짜변경</button></td>
-                                    <td>$777</td>
-                                </tr>
-                                <tr>
-                                    <td className='cartleft'>
-                                        <label className='cart-custom-checkbox'>
-                                            <input type="checkbox" />
-                                            <span></span>괌 간당
-                                        </label>
-                                    </td>
-                                    <td>2<br/><button>수량변경</button></td>
-                                    <td>24.10.09<br/><button>날짜변경</button></td>
-                                    <td>$777</td>
-                                </tr>
-                                <tr>
-                                    <td className='cartleft'>
-                                        <label className='cart-custom-checkbox'>
-                                            <input type="checkbox"/><span></span>온가족이 호주 간당
-                                        </label>
-                                    </td>
-                                    <td>5<br/><button>수량변경</button></td>
-                                    <td>24.10.09<br/><button>날짜변경</button></td>
-                                    <td>$777</td>
-                                </tr>
-                                <tr>
-                                    <td className='cartleft'>
-                                        <label className='cart-custom-checkbox'>
-                                            <input type="checkbox" />
-                                            <span></span>괌 안간당 보라카이간당
-                                        </label>
-                                    </td>
-                                    <td>5<br/><button>수량변경</button></td>
-                                    <td>24.10.09<br/><button>날짜변경</button></td>
-                                    <td>$777</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <br/>
                     <div className='cart-flex-container2'>
-                        <table className='cart-table2'>
-                            <thead>
-                                <tr>
-                                    <th rowSpan={2}>총 주문상품</th>
-                                </tr>    
-                            </thead>
-                            <tfoot className='cart-flex-item'>
-                                <tr>
-                                    <td>
-                                        <div className='cartdiv'>
-                                            <div>
-                                                <p className='cartp'>666,000원</p>
-                                                <p className='cartp2'>상품금액</p>
-                                            </div>
-                                            <div> + </div>
-                                            <div>
-                                                <p className='cartp'>25.10.09</p>
-                                                <p className='cartp2'>예약일자</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <i>::before</i>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        
-                        <div className='cart-order'>
-                            <div className='codiv'>
-                                <button className='codbtn'> 주문하기</button>
+                        <div className="cart-table">
+                            <div className="cart-row cart-header">
+                                <div className="cart-column1" >
+                                    <label className='cart-custom-checkbox' style={{justifyContent:'left', alignContent:'left', display:'flex'}}>
+                                        <input type="checkbox" />
+                                        <span></span> 상품정보
+                                    </label>
+                                </div>
+                                <div className="cart-column2">수량</div>
+                                <div className="cart-column3">예약일자</div>
+                                <div className="cart-column4">주문금액</div>
                             </div>
-                            <div className='codiv'>
-                                <button className='codbtn2'>네이버페이로 간편구매</button>
+                            {cartData.map((item, no) => (
+                                <div key={no} className="cart-row">
+                                    <div className="cart-column">
+                                        <label className='cart-custom-checkbox' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <input type="checkbox" />
+                                            <span></span> 
+                                           
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <img 
+                                                src={item.img} 
+                                                alt={item.itemname} 
+                                                style={{ width: '100px', height: '100px' }} 
+                                            />
+                                            <p style={{ maxWidth: '150px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', margin: '0' }}>
+                                                {item.itemname}
+                                            </p>
+                                        </div>
+                                        </label>
+                                    </div>
+                                    <div className="cart-column" style={{flexDirection:'column'}} >
+                                        {item.su} 
+                                        
+                                        <button>수량변경</button>
+                                    </div>
+                                    <div className="cart-column"style={{flexDirection:'column'}} >
+                                        {item.resdate}
+                                        <br/>
+                                        <button>날짜변경</button>
+                                    </div>
+                                    <div className="cart-column">
+                                        {Numeral(item.price.replace('won', '')).format('0,0')} 원
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    
+                    <br/>
+
+                    <div className='cart-flex-container2'>
+                        <div className="cart-table2">
+                            <div className="cart-row cart-summary">
+                                <div className="cart-column" >
+                                    <p style={{justifyContent: 'center', alignContent:'center', display:'flex'}}>총 주문상품</p>
+                                </div>
+                            </div>
+                            <div className="cart-row cart-flex-item">
+                                <div className="cartdiv">
+                                    <p className="cartp">{Numeral(totalAmount).format('0,0')} 원</p>
+                                    <p className="cartp2">상품금액</p>
+                                </div>
+                                <div>+</div>
+                                <div>
+                                    <p className="cartp">24.10.10</p>
+                                    <p className="cartp2">예약일자</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>        
-            </div>
+
+                    {/**버튼 */}
+                    <div className='cart-order'>
+                        <div className='codiv'>
+                            <button className='codbtn'> 주문하기</button>
+                        </div>
+                        <div className='codiv'>
+                            <button className='codbtn2'>네이버페이로 간편구매</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>        
         </div>
     );
 };
