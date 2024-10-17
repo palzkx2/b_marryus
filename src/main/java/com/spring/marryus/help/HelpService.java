@@ -61,11 +61,6 @@ public class HelpService {
 	    }
 	}
 	
-	//문의 삭제
-	public void deleteMessage(Long id) {
-		helpMapper.deleteById(id);
-	}
-	
 	// 최신순으로 모든 문의 조회
     public List<HelpDTO> getAllMessageSortedByDate() {
         return helpMapper.findAllOrderByCreatedDesc();
@@ -74,6 +69,22 @@ public class HelpService {
     // 조회수순으로 모든 문의 조회
     public List<HelpDTO> getAllMessageSortedByHit() {
         return helpMapper.findAllOrderByHitDesc();
+    }
+    
+    public HelpDTO updateMessage(Long id, HelpDTO updatedMessage) {
+    	HelpDTO existingMessage = helpMapper.findById(id)
+            .orElseThrow(() -> new RuntimeException("메세지 없음"));
+        existingMessage.setSubject(updatedMessage.getSubject());
+        existingMessage.setContent(updatedMessage.getContent());
+
+        helpMapper.save(existingMessage);
+        return new HelpDTO();
+    }
+
+    public void deleteMessage(Long id) {
+    	HelpDTO existingMessage = helpMapper.findById(id)
+            .orElseThrow(() -> new RuntimeException("메세지 없음"));
+        helpMapper.delete(existingMessage);
     }
 
 }

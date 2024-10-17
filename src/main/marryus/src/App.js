@@ -4,7 +4,7 @@ import WeddingHall from "./body/WeddingHall";
 import NavBar from "./body/NavBar";
 import Footer from "./footer/Footer";
 import SdmBoard from "./sdm/SdmBoard";
-import Coma from "./weddingItem/Coma";
+import WeddingItem from "./weddingItem/WeddingItem";
 import Login from "./login/Login";
 import SignUp from "./login/SignUp";
 import Join from "./login/Join";
@@ -39,7 +39,7 @@ function App() {
         <Route path={['/','/main']} exact><Main/></Route>
         <Route path={['/sdm']}><SdmBoard/></Route>
         <Route path={['/weddingHall']}><WeddingHall/></Route>
-        <Route path={['/weddingItem']}><Coma/></Route>
+        <Route path={['/weddingItem']}><WeddingItem/></Route>
         <Route path={['/login']}><Login/></Route>
         <Route path={['/signup']}><SignUp/></Route>
         <Route path={['/join']}><Join/></Route>

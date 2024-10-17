@@ -1,0 +1,79 @@
+/* 전체 컨테이너 스타일 */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f8f8;
+}
+
+/* 메인 이미지 스타일 */
+.main-image {
+    width: 1400px;
+    height: 350px;
+    object-fit: cover;
+    margin-bottom: 45px;
+}
+
+/* 버튼 컨테이너 스타일 */
+.button-container {
+    margin-bottom: 20px;
+}
+
+/* 카테고리 버튼 스타일 */
+.category-button {
+    margin: 0 15px; /* 버튼 간의 좌우 간격 */
+    padding: 20px 65px; /* 버튼의 상하, 좌우 패딩 조정 */
+    font-size: 18px; /* 버튼 글자 크기 조정 */
+    cursor: pointer; /* 커서가 포인터로 변하도록 */
+    border: none; /* 테두리 없앰 */
+    background-color: #99cdff; /* 배경색 */
+    color: white; /* 글자색 */
+    transition: background-color 0.3s; /* 배경색 변화 효과 */
+}
+
+.category-button.active {
+    background-color: #0056b3;
+}
+
+/* 이미지 갤러리 스타일 */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap; /* 여러 줄로 감싸기 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    margin-top: 20px;
+    max-width: 1400px; /* main-image와 같은 너비 설정 */
+}
+
+/* 갤러리 이미지 스타일 */
+.gallery-image {
+    width: 340px; /* 고정된 너비 */
+    height: 399px; /* 고정 높이 */
+    margin: 5px; /* 간격 설정 */
+    object-fit: cover; /* 이미지 비율 유지 */
+}
+
+/* 이미지 넓이를 25%로 설정, 마진을 고려 */
+.image-gallery > .gallery-image {
+    flex: 0 0 calc(25% - 10px); /* 마진을 고려한 너비 설정 */
+}
+
+/* 이미지 이름 스타일 */
+.image-name {
+    font-size: 20px; /* 이름 글자 크기 */
+    font-weight: bold; /* 이름 굵게 */
+    margin: 5px 0; /* 위 아래 간격 */
+}
+
+/* 이미지 가격 스타일 */
+.image-price {
+    font-size: 18px; /* 가격 글자 크기 */
+    color: #777; /* 가격 색상 */
+    margin: 5px 0; /* 위 아래 간격 */
+}
+
+/* 이미지 별점 스타일 */
+.image-rating {
+    font-size: 14px; /* 별점 글자 크기 */
+    margin: 5px 0; /* 위 아래 간격 */
+    margin-bottom: 50px;
+}

@@ -20,6 +20,7 @@
     align-items: center; /* 중앙 정렬 */
     width: 100%; /* 전체 너비 */
     margin-top: 20px; /* 상단 여백 */
+    margin: auto;
 }
 
 .faq-item {

@@ -1,22 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import img1 from '../s_images/weddingHall/1.jpg'
-import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useLocation, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import Bar from './mypage/Bar';
 import data from './proData'
 import WeddingHallReview from './reveiw/WeddingHallReview';
 import Numeral from 'numeral';
 import loginImg from '../s_images/weddingHall/wdArticleBar.jpg'
 import MapOfMarryus from './map/MapOfMarryus';
+import axios from 'axios';
 
 
 const WeddingHallArticle = () => {
 
     const {itemName} = useParams()
+    const location = useLocation()
+    const [weddingHall,setWeddingHall] = useState(null);
 
+    // URL 쿼리에서 페이지 정보를 가져옴
+    const queryParams = new URLSearchParams(location.search);
+    const previousPage = queryParams.get('page') || 0;
 
-    const thisPro = data.find(item=>item.name===itemName)
+    useEffect(() => {
 
+        const fetchWeddingHall = async () => {
 
+            try{
+                const response = await axios.get(`/api/weddingHall/${itemName}`)
+                setWeddingHall(response.data);
+            }catch(error){
+                console.error('웨딩홀 정보를 불러오는 데 실패했습니다.',error);
+            }
+
+        }
+
+        fetchWeddingHall();
+
+    },[itemName])
+
+    if(!weddingHall){
+        return <div>Loading...</div>
+    }
+
+    const filename = weddingHall.imgPath.split('\\').pop();
 
     return (
         <div>
@@ -33,32 +58,32 @@ const WeddingHallArticle = () => {
 
                         <div style={{display:'flex'}}>
                             {/* 큰 이미지 */}
-                            <img style={{width:'600px',padding:'20px 10px 0px 23px',borderRadius:'1%'}} src={img1}/>
+                            <img style={{width:'600px',padding:'20px 10px 0px 23px',borderRadius:'1%', height:'800px'}} src={`/api/images/${filename}`}/>
 
                             <div className='artiSubCon'>
-                                <div className='artiSub' style={{fontSize:'40pt'}}>{thisPro.name}</div>
+                                <div className='artiSub' style={{fontSize:'40pt'}}>{weddingHall.name}</div>
                                 <div className='artiSub'>
                                     평점
                                     <div className='artiSc'>9점</div>
                                 </div>
                                 <div className='artiSub'>위치
-                                    <div className='artiSc'>{thisPro.addr}</div>
+                                    <div className='artiSc'>{weddingHall.addr}</div>
                                 </div>
                                 <div className='artiSub'>태그
                                     <div className='artiSc' style={{fontSize:'20px'}}>
-                                        {thisPro.tag}
+                                        {weddingHall.tag}
                                     </div>
                                 </div>
                                 <div className='artiSub'>
                                         가격
                                     <div className='artiSc'>
-                                        {Numeral(thisPro.price).format('0,0')} 원
+                                        {Numeral(weddingHall.price).format('0,0')} 원
                                     </div>
                                 </div>
                                 <div className='artiSub'>
                                     메뉴
                                     <div className='artiSc'>
-                                        {thisPro.menu}
+                                        {weddingHall.menu}
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +107,7 @@ const WeddingHallArticle = () => {
                 </div>
             </div>
             <div className='alignGood'>
-                <Link to='/weddingHall'><p className='byeBtna'  style={{backgroundColor:'gray',border:'none',paddingRight:'25px'}}>되돌아가기</p></Link>
+                <Link to={`/weddingHall?page=${previousPage}`}><p className='byeBtna'  style={{backgroundColor:'gray',border:'none',paddingRight:'25px'}}>되돌아가기</p></Link>
             </div>
             
             <div className='alignGood' style={{marginTop:'30px'}}>
