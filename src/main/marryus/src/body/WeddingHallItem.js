@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './WeddingHallItem.css';
 import image from '../s_images/weddingHall/1.jpg'
 import Numeral from 'numeral';
 import { BsBookmarkHeart, BsBookmarkHeartFill, BsCartPlus, BsCartPlusFill } from 'react-icons/bs';
+import axios from 'axios';
 
 const WeddingHallItem = ({item}) => {
 
@@ -18,6 +19,7 @@ const WeddingHallItem = ({item}) => {
                 <div className='wdSub'>{addr}</div>
                 <div className='wdSub' style={{fontSize:'14px'}}>{tag}</div>
                 <div className='wdSub' style={{fontSize:'15px'}}>{menu}</div>
+                
 
                 <div className='wdSub' style={{fontWeight:'bold',fontSize:'15px',marginBottom:'5px'}}>
                     {Numeral(price).format('0,0')}
@@ -27,7 +29,7 @@ const WeddingHallItem = ({item}) => {
                         <BsBookmarkHeart className='addIcon'/>
                         <BsBookmarkHeartFill className='addIcon'/>
                     </div>
-                </div>   
+                </div>
         </>
     );
 };

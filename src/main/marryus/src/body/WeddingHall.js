@@ -17,17 +17,31 @@ import regions from './regionsData'
 
 const WeddingHall = () => {
 
-    const [images,setImages] = useState([]);
     const [page,setPage] = useState(0);
     const [totalPages,setTotalPages] = useState(0);
+    const [name,setName] = useState('')
+    const [images,setImages] = useState([]);
+    const [results,setResults] = useState([])
     const history = useHistory()
     const location = useLocation()
+
+    const pageNumbers = [];
+
+    for(let i=1;i<=totalPages;i++){
+        pageNumbers.push(i);
+    }
 
     // 페이지 로드시 쿼리 파라미터로 전달된 페이지 번호 확인
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const pageQueryParam = queryParams.get('page');
+        const nameQueryParam = queryParams.get('name');
+
         setPage(Number(pageQueryParam) || 0); // 쿼리 파라미터가 없으면 0 페이지로 설정
+        setName(nameQueryParam || '');
+
+        // 페이지네이션과 검색어에 따라 데이터 불러오기
+        fetchImages(nameQueryParam, Number(pageQueryParam) || 0);
     }, [location]);
 
     const fetchImages = async () => {
@@ -35,9 +49,7 @@ const WeddingHall = () => {
         try{
             const response = await axios.get(`/api/images?page=${page}&size=9`);
             setImages(response.data.content);
-            console.log('페이지의 이미지 데이터-----------------',response.data.content);
             setTotalPages(response.data.totalPages);
-            console.log('전체 페이지 수-------------------',response.data.totalPages);
         }catch(error){
             console.log('이미지 가져오기 실패:',error);
         }
@@ -50,10 +62,78 @@ const WeddingHall = () => {
 
     // 페이지 변경 함수
     const handlePageChange = (pageNumber) => {
-        history.push(`/weddingHall?page=${pageNumber}`);
+        history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=${pageNumber}`);
         setPage(pageNumber);
     };
 
+    const searchBtn = async () => {
+
+        try{
+
+            let response;
+
+            if (name.trim() === '') {
+                response = await axios.get(`/api/images?page=${page}&size=9`);
+                setResults([]);
+            } else {
+                response = await axios.get(`/api/searchWeddingHall?name=${name}&page=${page}&size=9`);
+            }
+
+            if (response.data && response.data.content) {
+                setImages(response.data.content);
+                setResults(response.data.content);
+                setTotalPages(response.data.totalPages);
+                setPage(0)
+            } else {
+                console.error('예상한 데이터 구조가 아닙니다:', response.data);
+            }
+
+        }catch(error){
+            console.error('웨딩홀 검색 실패',error)
+        }
+
+    }
+
+    useEffect(() => {
+        if(name.trim() !== ''){
+            searchBtn();
+        }
+    }, [])
+
+    //삭제 버튼
+    const deleteImage = async (imgPath) => {
+
+        const confirmed = window.confirm('웨딩홀을 삭제하시겠습니까?')
+
+        if(confirmed){
+
+            try{
+                console.error('imgPath불러옴-------------------',imgPath)
+                await axios.delete(`/api/deleteWeddingHall?imgPath=${encodeURIComponent(imgPath)}`,{method: 'DELETE'})
+                setImages(prevImages => prevImages.filter(image => image.imgPath !== imgPath));
+                setResults(prevResults => prevResults.filter(image => image.imgPath !== imgPath));
+
+                await fetchImages();
+
+                alert('웨딩홀이 삭제되었습니다.')
+                console.log('이미지 삭제 성공')
+
+            }catch(error){
+                console.error('이미지 삭제 실패: ',error)
+            }
+
+        }else{
+            alert('삭제가 취소되었습니다.')
+        }
+
+    }
+
+    // 키 입력 감지 함수
+    const enterKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            searchBtn();
+        }
+    };
 
     const [selectedRegion, setSelectedRegion] = useState('시/도를 선택해주세요');
     const [subRegions, setSubRegions] = useState([]);
@@ -124,11 +204,11 @@ const WeddingHall = () => {
                     <div>
                         <div className='headerSubject'>웨딩홀</div>
                         <div className='searchBox-container'>
-                            <input className='searchBox' type='text' placeholder='웨딩홀 및 태그를 검색해 보세요'/>
+                            <input className='searchBox' type='text' placeholder='웨딩홀 및 태그를 검색해 보세요' value={name} onChange={(e) => setName(e.target.value)} onKeyDown={enterKeyPress}/>
                             <div className='searchBoxIcon'>
-                                <a href='#'>
+                                <button onClick={searchBtn} style={{background:'none', border:'none'}}>
                                     <BsSearchHeart style={{color:'gray'}}/>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -378,18 +458,34 @@ const WeddingHall = () => {
                                 <Link to={`/wdArticle/${item.name}?page=${page}`} className='toArticle'>
                                     <WeddingHallItem key={index} item={item}/>
                                 </Link>
+                                {
+                                    userRole === 'ADMIN' &&
+                                    <div style={{marginLeft:'15px', marginTop:'10px'}}>
+                                        <button style={{marginRight:'5px', padding:'5px'}}>수정</button>
+                                        <button style={{padding:'5px'}} onClick={() => deleteImage(item.imgPath)}>삭제</button>
+                                    </div>
+                                }
                             </div>
                         )
                     }
                 </div>
-                <div className="pagination">
-                    <button onClick={() => handlePageChange(Math.max(page - 1, 0))} disabled={page === 0}>
-                        이전
-                    </button>
-                    <span>{page + 1} / {totalPages}</span>
-                    <button onClick={() => handlePageChange(Math.min(page + 1, totalPages - 1))} disabled={page === totalPages - 1}>
-                        다음
-                    </button>
+                <div>
+                    <button onClick={() => handlePageChange(0)} disabled={page === 0}>&lt;&lt;</button>
+                    <button onClick={() => handlePageChange(Math.max(page - 1, 0))} disabled={page === 0}>&lt;</button>
+                    
+                    {
+                        pageNumbers.map(number => (
+                            <button
+                                key={number}
+                                onClick={() => handlePageChange(number - 1)} // 0부터 시작하는 인덱스에 맞춰 조정
+                                style={{ fontWeight: page === number - 1 ? 'bold' : 'normal' }}
+                            >
+                                {number}
+                            </button>
+                        ))
+                    }
+                    <button onClick={() => handlePageChange(Math.min(page + 1, totalPages - 1))} disabled={page === totalPages - 1}>&gt;</button>
+                    <button onClick={() => handlePageChange(totalPages - 1)} disabled={page === totalPages - 1}>&gt;&gt;</button>
                 </div>
             </div>
         </div>
