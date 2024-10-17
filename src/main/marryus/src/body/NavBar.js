@@ -12,6 +12,7 @@ const NavBar = () => {
     const [userRole,setUserRole] = useState('')
     const history = useHistory()
     
+    
     useEffect(() => {
 
         const fetchSessionData1 = async () => {
@@ -34,10 +35,26 @@ const NavBar = () => {
 
         try{
             const response = await axios.get('/api/logout');
+            setData(null)
             console.log('세션 정보 : ', response.data)
             console.log('로그아웃 성공')
             history.push('/')
             window.location.reload();
+        }catch(error) {
+            console.error('로그아웃 실패: ', error);
+        }
+
+    }
+
+    const oauthLogout = async () => {
+
+        alert(data.name)
+
+        try{
+            const response = await axios.post('/api/oauthLogout');
+            history.push('/')
+            window.location.reload();
+            //setData(null)
         }catch(error) {
             console.error('로그아웃 실패: ', error);
         }
@@ -67,6 +84,16 @@ const NavBar = () => {
         }
 
     }, [windowScroll])
+
+
+
+    const [data,setData] = useState({});
+
+    useEffect(()=>{
+        axios.get('/api/oauthUserInfo',{withCredentials: true})
+        .then(res=>setData(res.data))
+        .catch(error=>console.log(error))
+    },[])
 
     return (
         <div>
@@ -113,8 +140,8 @@ const NavBar = () => {
             <div style={{justifyContent:'center', alignContent:'center', display:'flex', margin:'30px 0'}}>
                 <div className='login' style={{display:'flex', flexDirection:'row'}}>
                     {
-                        userRole ?
-                        <Link to='/'><p onClick={logout}>로그아웃</p></Link> : <Link to='/login'><p>로그인</p></Link>
+                        data.name!==undefined  ?
+                        <Link to='/'><p onClick={oauthLogout}>로그아웃</p></Link> : <Link to='/login'><p>로그인</p></Link>
                     }
 
                     <Link to='/signup'><p style={{marginLeft:'50px'}}>회원가입</p></Link>

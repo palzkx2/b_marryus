@@ -79,11 +79,17 @@ const Login = () => {
               return;
             }
             if (event.data === 'success') {
-                alert('로그인 성공!');
                 authWindow.close();
                 history.push('/')
+                alert('로그인 성공!');
                 window.location.reload()
+            }else if (event.data === 'signup'){
+                history.push('/oauthSignup')
+                window.location.reload();
+                alert('로그인 성공! 추가정보를 입력해주세요');
             }
+
+
           });
       };
 
