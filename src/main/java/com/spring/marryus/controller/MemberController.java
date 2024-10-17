@@ -34,16 +34,16 @@ public class MemberController {
     public ResponseEntity<String> registerMember(@RequestBody Member member) {
         
         if(memberService.checkEmailExists(member.getEmail())) {
-        	return ResponseEntity.status(HttpStatus.CONFLICT).body("ÀÌ¹Ì »ç¿ë ÁßÀÎ ÀÌ¸ÞÀÏÀÔ´Ï´Ù.");
+        	return ResponseEntity.status(HttpStatus.CONFLICT).body("ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
         }
         
         Member savedMember = memberService.saveMember(member);
         
-        return ResponseEntity.status(HttpStatus.CREATED).body("È¸¿ø°¡ÀÔÀÌ ¼º°øÀûÀ¸·Î ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         
     }
 	
-	// Áßº¹ È®ÀÎ ±â´É Ãß°¡
+	// ï¿½ßºï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
     @GetMapping("/api/checkEmail")
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
     	
@@ -62,14 +62,14 @@ public class MemberController {
     	Member authenticatedMember = memberService.authenticate(email, password);
     	
     	if(authenticatedMember == null) {
-    		return ResponseEntity.status(401).body("¾ÆÀÌµð ¹× ºñ¹Ð¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.");
+    		return ResponseEntity.status(401).body("ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
     	}
     	
-    	// ÀÎÁõ ¼º°ø ½Ã ¼¼¼Ç »ý¼º ¹× »ç¿ëÀÚ Á¤º¸¸¦ ¼¼¼Ç¿¡ ÀúÀå
+    	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½
         HttpSession session = httpRequest.getSession();
         
         session.setAttribute("user", authenticatedMember);
-        session.setAttribute("userRole", authenticatedMember.getUserRole()); // userRoleÀ» ¼¼¼Ç¿¡ ÀúÀå
+        session.setAttribute("userRole", authenticatedMember.getUserRole()); // userRoleï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½
         session.setAttribute("email", authenticatedMember.getEmail());
         session.setAttribute("name", authenticatedMember.getName());
         session.setAttribute("phone", authenticatedMember.getPhone());
@@ -77,7 +77,7 @@ public class MemberController {
         session.setAttribute("hopeArea", authenticatedMember.getHopeArea());
         session.setAttribute("weddingDate", authenticatedMember.getWeddingDate());
     	
-    	return ResponseEntity.ok("·Î±×ÀÎ ¼º°ø");
+    	return ResponseEntity.ok("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
     	
     }
     
@@ -95,18 +95,18 @@ public class MemberController {
     	System.out.println(userEmail);
     	
     	if(userEmail == null) {
-    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("·Î±×ÀÎµÈ »ç¿ëÀÚ Á¤º¸°¡ ¾ø½À´Ï´Ù.");
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
     	}
     	
     	memberService.deleteUser(userEmail);
     	
-    	// JSESSIONID ÄíÅ° »èÁ¦ (¸¸·á)
+    	// JSESSIONID ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½)
         Cookie cookie = new Cookie("JSESSIONID", null);
         cookie.setPath("/");
-        cookie.setMaxAge(0);  // ÄíÅ° ¸¸·á
+        cookie.setMaxAge(0);  // ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
         response.addCookie(cookie);
         
-    	return ResponseEntity.ok("È¸¿ø Å»Åð°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+    	return ResponseEntity.ok("È¸ï¿½ï¿½ Å»ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
     	
     }
     
@@ -114,9 +114,9 @@ public class MemberController {
     @GetMapping("/api/session")
     public ResponseEntity<Map<String, String>> getSessionData(HttpServletRequest request) {
     	
-    	System.out.println("api session È£Ãâ");
+    	System.out.println("api session È£ï¿½ï¿½");
     	
-        HttpSession session = request.getSession(false); // ¼¼¼ÇÀÌ ¾øÀ¸¸é null ¹ÝÈ¯
+        HttpSession session = request.getSession(false); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ null ï¿½ï¿½È¯
         
         if (session == null || session.getAttribute("user") == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -124,7 +124,7 @@ public class MemberController {
         
         Member user = (Member)session.getAttribute("user");
         
-        System.out.println("¼¼¼Ç¿¡ ÀúÀåµÈ »ç¿ëÀÚ Á¤º¸: " + user); // ·Î±× Ãß°¡
+        System.out.println("ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: " + user); // ï¿½Î±ï¿½ ï¿½ß°ï¿½
 
         Map<String, String> response = new HashMap<>();
 

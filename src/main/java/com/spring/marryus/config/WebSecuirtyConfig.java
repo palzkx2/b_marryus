@@ -25,19 +25,19 @@ public class WebSecuirtyConfig {
 		
 		http
 		.authorizeHttpRequests((requests) -> requests
-                .antMatchers("/api/**", "/**").permitAll()  // "/main" °æ·Î¿¡ ´ëÇÑ ÀÎÁõ ºñÈ°¼ºÈ­
+                .antMatchers("/api/**", "/**").permitAll()  // "/main" ê²½ë¡œì— ëŒ€í•œ ì ‘ê·¼ í—ˆìš©
                 .anyRequest().authenticated()
             )
-            .formLogin().disable()  // ±âº» ·Î±×ÀÎ Æû ºñÈ°¼ºÈ­
+            .formLogin().disable()  // ï¿½âº» ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
             .httpBasic().disable()
-            .csrf().disable()  // CSRF º¸È£ ºñÈ°¼ºÈ­
+            .csrf().disable()  // CSRF ï¿½ï¿½È£ ï¿½ï¿½È°ï¿½ï¿½È­
             .logout()
             .logoutUrl("/api/logout")
-            .logoutSuccessUrl("/") //·Î±×¾Æ¿ô ¼º°ø½Ã µ¹¾Æ°¡´Â ÆäÀÌÁö URL
+            .logoutSuccessUrl("/") //ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ URL
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
-            ; // ±âº» ÀÎÁõ ¹æ½Ä ºñÈ°¼ºÈ­
-		
+            ;
+
 		return http.build();
 		
 	}
