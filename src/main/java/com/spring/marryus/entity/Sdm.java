@@ -24,7 +24,7 @@ public class Sdm {
 	private String imageName;
 	
 	@Column(nullable = false)
-	private String Name;
+	private String name; // ë³€ìˆ˜ëª…ì„ camelCaseë¡œ ìˆ˜ì •
 	
 	@Column(nullable = false)
 	private String addr;
@@ -36,6 +36,6 @@ public class Sdm {
 	private String tag;
 	
 	@Column(nullable = false)
-	private String category; //½ºÆ©µğ¿À, µå·¹½º, ¸ŞÀÌÅ©¾÷ ºĞ·ùÇØ¼­ ÀÔ·Â
+	private String category; // ì¹´í…Œê³ ë¦¬: ì›¨ë”©í™€, ìŠ¤ë“œë©”, í˜¼ìˆ˜ ì»¬ë ‰ì…˜ ë“±
 
 }

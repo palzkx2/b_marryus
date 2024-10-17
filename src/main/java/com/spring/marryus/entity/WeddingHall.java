@@ -27,15 +27,14 @@ public class WeddingHall {
 	
 	private Integer price;
 	
-	private String buffet; //ºßÆä Á¾·ù (ÇÑ½Ä,Áß½Ä,¾ç½Ä,ÀÏ½Ä)
+	private String buffet; // ë·”í˜ ì¢…ë¥˜ (ë·”í˜, í•œì •ì‹, ì„ì‹, ì¡°ì‹)
 	
 	private String tag;
 	
 	private String imgPath;
 	
-	private String wido;
-	
-	private String gyungdo;
+	private String wido; // ì‹œë„
+	private String gyungdo; // ê²½ë„
 	
 	private String imgType;
 

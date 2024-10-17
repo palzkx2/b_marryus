@@ -8,7 +8,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,17 +26,17 @@ import com.spring.marryus.entity.WeddingHall;
 import com.spring.marryus.service.WeddingHallService;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:3000") // React ¾ÖÇÃ¸®ÄÉÀÌ¼ÇÀÇ URL·Î º¯°æ
+@CrossOrigin(origins = "http://localhost:3000") // React ì• í”Œë¦¬ì¼€ì´ì…˜ì˜ URLì„ í—ˆìš©
 @RequiredArgsConstructor
 @RestController
 public class WeddingHallController {
-	
-	private String imagePath = "C:/marryus/weddingHall";
-	
-	private final WeddingHallService weddingHallService;
-	
-	@PostMapping("/api/insertWeddingHall")
-	public String insertWeddingHall(@RequestParam("imageName") String imageName,
+    
+    private String imagePath = "C:/marryus/weddingHall";
+    
+    private final WeddingHallService weddingHallService;
+    
+    @PostMapping("/api/insertWeddingHall")
+    public String insertWeddingHall(@RequestParam("imageName") String imageName,
             @RequestPart("imageFile") MultipartFile imageFile,
             @RequestParam("name") String name,
             @RequestParam("addr") String addr,
@@ -45,30 +44,30 @@ public class WeddingHallController {
             @RequestParam("buffet") String buffet,
             @RequestParam("tag") String tag) throws Exception {
 
-		// ¼­ºñ½º ¸Ş¼­µå¸¦ È£ÃâÇÏ¿© ¿şµùÈ¦ Á¤º¸¸¦ Ãß°¡
-		weddingHallService.insert(imageName, imageFile, name, addr, price, buffet, tag);
-		return "¿şµùÈ¦ ÀÔ·ÂÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.";
-	}
-	
-	//ÆäÀÌÂ¡Ã³¸®µÈ ¿şµùÈ¦ ¸®½ºÆ® ¹İÈ¯
-	@GetMapping("/api/images")
-	public ResponseEntity<Page<WeddingHall>> getImages(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size){
-		Pageable pageable = PageRequest.of(page, size);
-		Page<WeddingHall> imagePage = weddingHallService.getImages(pageable);
-		return ResponseEntity.ok(imagePage);
-	}
-	
-	//ÀÌ¹ÌÁö ÆÄÀÏ Á¦°ø ÄÁÆ®·Ñ·¯
-	@GetMapping("/api/images/{filename:.+}")
-	public ResponseEntity<Resource> getImage(@PathVariable String filename){
-		
-		File file = new File(imagePath, filename); // ¿äÃ»µÈ ÆÄÀÏ °æ·Î
-		
+        // ì›¨ë”©í™€ ì •ë³´ë¥¼ DBì— ì¶”ê°€
+        weddingHallService.insert(imageName, imageFile, name, addr, price, buffet, tag);
+        return "ì›¨ë”©í™€ ì •ë³´ê°€ ì„±ê³µì ìœ¼ë¡œ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.";
+    }
+    
+    // ëª¨ë“  ì›¨ë”©í™€ ëª©ë¡ ë°˜í™˜
+    @GetMapping("/api/images")
+    public ResponseEntity<Page<WeddingHall>> getImages(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        Page<WeddingHall> imagePage = weddingHallService.getImages(pageable);
+        return ResponseEntity.ok(imagePage);
+    }
+    
+    // íŠ¹ì • ì´ë¯¸ì§€ ë°˜í™˜
+    @GetMapping("/api/images/{filename:.+}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename){
+        
+        File file = new File(imagePath, filename); // ìš”ì²­í•œ íŒŒì¼ ê²½ë¡œ
+        
         if (file.exists()) {
             Resource resource = new FileSystemResource(file);
-            MediaType mediaType = MediaType.IMAGE_JPEG; // ÀÌ¹ÌÁöÀÇ MIME Å¸ÀÔ ¼³Á¤ (¿¹: JPEG)
+            MediaType mediaType = MediaType.IMAGE_JPEG; // ê¸°ë³¸ MIME íƒ€ì… (JPEG)
 
-            // ÆÄÀÏ È®ÀåÀÚ¿¡ µû¶ó MIME Å¸ÀÔÀ» ¼³Á¤
+            // íŒŒì¼ í™•ì¥ìì— ë”°ë¼ MIME íƒ€ì… ê²°ì •
             if (filename.endsWith(".png")) {
                 mediaType = MediaType.IMAGE_PNG;
             } else if (filename.endsWith(".gif")) {
@@ -81,44 +80,44 @@ public class WeddingHallController {
                     .contentType(mediaType)
                     .body(resource);
         } else {
-            return ResponseEntity.notFound().build(); // ÆÄÀÏÀÌ ¾øÀ¸¸é 404 ¹İÈ¯
+            return ResponseEntity.notFound().build(); // íŒŒì¼ì´ ì—†ìœ¼ë©´ 404 ë°˜í™˜
         }
-		
-	}
-	
-	//nameÀ¸·Î ÇÏ³ªÀÇ µ¥ÀÌÅÍ Ã£±â
-	@GetMapping("/api/weddingHall/{name}")
-	public ResponseEntity<WeddingHall> getWeddingHallByName(@PathVariable String name) {
-		WeddingHall weddingHall = weddingHallService.getWeddingHallByName(name);
-		return weddingHall != null ? ResponseEntity.ok(weddingHall) : ResponseEntity.notFound().build();
-	}
-	
-	//nameÀ¸·Î °Ë»ö ±â´É
-	@GetMapping("/api/searchWeddingHall")
-	public ResponseEntity<Page<WeddingHall>> searchWeddingHall(@RequestParam String name,Pageable pageable){
-		
-		Page<WeddingHall> results = weddingHallService.searchWeddingHall(name, pageable);
-		
-		if(results.isEmpty()) {
-			return ResponseEntity.noContent().build();
-		}
-		
-		return ResponseEntity.ok(results);
-		
-	}
-	
-	@DeleteMapping("/api/deleteWeddingHall")
-	public ResponseEntity<String> deleteWeddingHall(@RequestParam String imgPath){
-		
-		boolean isDeleted = weddingHallService.deleteWeddingHall(imgPath);
-		System.out.println("imgPathÁ¦´ë·Î ³Ñ¾î¿À³ª------------------" + imgPath);
-		
-		if(isDeleted) {
-			return ResponseEntity.ok("¿şµùÈ¦ÀÌ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
-		}else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ÇØ´ç ÀÌ¹ÌÁö °æ·Î¿¡ ´ëÇÑ ¿şµùÈ¦À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
-		}
-		
-	}
+        
+    }
+    
+    // ì´ë¦„ìœ¼ë¡œ ì›¨ë”©í™€ ì •ë³´ ê²€ìƒ‰
+    @GetMapping("/api/weddingHall/{name}")
+    public ResponseEntity<WeddingHall> getWeddingHallByName(@PathVariable String name) {
+        WeddingHall weddingHall = weddingHallService.getWeddingHallByName(name);
+        return weddingHall != null ? ResponseEntity.ok(weddingHall) : ResponseEntity.notFound().build();
+    }
+    
+    // ì´ë¦„ìœ¼ë¡œ ì›¨ë”©í™€ ê²€ìƒ‰
+    @GetMapping("/api/searchWeddingHall")
+    public ResponseEntity<Page<WeddingHall>> searchWeddingHall(@RequestParam String name, Pageable pageable){
+        
+        Page<WeddingHall> results = weddingHallService.searchWeddingHall(name, pageable);
+        
+        if(results.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        
+        return ResponseEntity.ok(results);
+        
+    }
+    
+    @DeleteMapping("/api/deleteWeddingHall")
+    public ResponseEntity<String> deleteWeddingHall(@RequestParam String imgPath){
+        
+        boolean isDeleted = weddingHallService.deleteWeddingHall(imgPath);
+        System.out.println("imgPath ìš”ì²­ëœ ê²½ë¡œ------------------" + imgPath);
+        
+        if(isDeleted) {
+            return ResponseEntity.ok("ì›¨ë”©í™€ì´ ì„±ê³µì ìœ¼ë¡œ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("í•´ë‹¹ ì›¨ë”©í™€ì˜ ì´ë¦„ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+        }
+        
+    }
 
 }

@@ -21,24 +21,24 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()  // CSRF ��ȣ ��Ȱ��ȭ
-            .headers().frameOptions().disable() // H2 �ܼ��� ����ϱ� ���� frame options ��Ȱ��ȭ
+            .csrf().disable()  // CSRF 보호 비활성화
+            .headers().frameOptions().disable() // H2 콘솔에 대한 frame options 비활성화
             .and()
             .authorizeHttpRequests((requests) -> requests
-                .antMatchers("/**", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()  // Ư�� ��� ���
-                .antMatchers("/api/vi/**").hasRole(BaseAuthRole.USER.name())  // USER ���Ҹ� ���
-                .anyRequest().authenticated()  // ��� ��û�� ���� �ʿ�
+                .antMatchers("/**", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()  // 모든 요청 허용
+                .antMatchers("/api/v1/**").hasRole(BaseAuthRole.USER.name())  // USER 역할이 필요한 요청
+                .anyRequest().authenticated()  // 그 외 요청은 인증 필요
             )
             .logout()
-                .logoutUrl("/api/logout")  // �α׾ƿ� URL ����
-                .logoutSuccessUrl("/")  // �α׾ƿ� ���� �� �̵��� URL
-                .invalidateHttpSession(true)  // ���� ��ȿȭ
-                .deleteCookies("JSESSIONID")  // JSESSIONID ��Ű ����
+                .logoutUrl("/api/logout")  // 로그아웃 URL 설정
+                .logoutSuccessUrl("/")  // 로그아웃 성공 후 리다이렉트할 URL
+                .invalidateHttpSession(true)  // 세션 무효화
+                .deleteCookies("JSESSIONID")  // JSESSIONID 쿠키 삭제
             .and()
             .oauth2Login()
-                .defaultSuccessUrl("/OauthSuccess")  // OAuth �α��� ���� �� �̵��� URL
+                .defaultSuccessUrl("/OauthSuccess")  // OAuth 로그인 성공 후 리다이렉트할 URL
                 .userInfoEndpoint()
-                    .userService(baseCustomOAuth2UserService);  // ����� ���� ���� ����
+                    .userService(baseCustomOAuth2UserService);  // 사용자 정보 서비스 설정
 
         return http.build();
     }

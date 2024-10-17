@@ -1,108 +1,95 @@
 package com.spring.marryus.oauth;
 
 import java.util.Map;
-
-
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class OAuthAttributes {
-	
-	private Map<String, Object> attributes;
-	
-	private String nameAttributeKey;
-	private String name;
-	private String email;
-	private String picture;
-	
-	//¿À¹ö·ÎµùµÈ »ı¼ºÀÚ ¸¸µë
-	@Builder
-	public OAuthAttributes(Map<String, Object> attributes,
-			String nameAttributeKey, String name,String email, String picture) {
-		this.attributes = attributes;
-		this.nameAttributeKey = nameAttributeKey;
-		this.name= name;
-		this.email = email;
-		this.picture = picture;
-	}
-	
-	//±¸±Û,Ä«Ä«¿À,³×ÀÌ¹ö µîÀ» ±¸ºĞ(µ¥ÀÌÅÍÀÇ ¸ğ¾çÀÌ ´Ù¸§)
-	public static OAuthAttributes of(String registrationId,
-			String userNameAttributeName,
-			Map<String, Object> attributes) {
-		
-		if(registrationId.equals("kakao")) {
-			return ofKakao(userNameAttributeName,attributes);//(id)
-		}else if(registrationId.equals("naver")) {
-			return ofNaver("id",attributes);
-		}
-		
-		return ofGoogle(userNameAttributeName,attributes);
-	}
-	
-	private static OAuthAttributes ofNaver(String userNameAttributeName,
-			Map<String, Object> attributes ) {
-		
-		Map<String, Object> response =
-				(Map<String, Object>)attributes.get("response");
-		
-		return OAuthAttributes.builder()
-				.name((String)response.get("name"))
-				.email((String)response.get("email"))
-				.picture((String)response.get("profile_image"))
-				.attributes(response)
-				.nameAttributeKey(userNameAttributeName)
-				.build();
-	}
-	
-	private static OAuthAttributes ofKakao(String userNameAttributeName,
-			Map<String, Object> attributes) {
-		
-		//»ç¿ëÀÚÀÇ Á¤º¸°¡ ¸ÊÀ¸·Î ±¸¼ºµÇ¾î ÀÖ±â¶§¹®¿¡ ¹ŞÀ»¶§µµ ¸ÊÀ¸·Î ¹Ş¾ÆÁà¾ß ÇÔ.
-			
-		Map<String, Object> kakaoAccount = 
-				(Map<String, Object>)attributes.get("kakao_account");
-		
-		Map<String, Object> kakaoProfile = 
-				(Map<String, Object>)kakaoAccount.get("profile");//kakao_account ¾ÈÀÇ profileÀ» ¹Ş¾Æ³¿.
-		
-		return OAuthAttributes.builder()
-				.name((String)kakaoProfile.get("nickname"))
-				.email("emailTest@test.com")
-				.picture((String)kakaoProfile.get("profile_image_url"))
-				.attributes(attributes)
-				.nameAttributeKey(userNameAttributeName)
-				.build();
-	
-	}
-	
-	
-	
-	private static OAuthAttributes ofGoogle(String userNameAttributeName,
-			Map<String, Object> attributes) {//±¸±ÛÀÇ Á¤º¸¸¦ ¹Ş¾Æ ¹İÈ¯ÇØÁÜ . ÀÌ ¸Ş¼Òµå´Â À§¿¡¼­ ½ÇÇà
-		
-		return OAuthAttributes.builder()
-				.name((String)attributes.get("name"))
-				.email((String)attributes.get("email"))
-				.picture((String)attributes.get("picture"))
-				.attributes(attributes)
-				.nameAttributeKey(userNameAttributeName)
-				.build();
-		
-	}
-	
-	public BaseAuthUser toEntity() {//±¸±ÛÀ» ÅëÇØ¼­ µé¾î¿Ã¶§ÀÇ °¡ÀÔÁ¤º¸°¡ GUESTÀÓ. ROLE¿¡¼­ÀÇ °ªÀÓ.
-		//°¡ÀÔÇÒ‹šÀÇ ±âº» ±ÇÇÑÀÌ GUEST°¡ µÇ´Â °ÍÀÓ.
-		//ÀÌ°ÍÀÌ ¿£Æ¼Æ¼¸¦ ÅëÇØ¼­ role ÄÃ·³¿¡ ÀúÀåµÇ´Â °ÍÀÌ´Ù.
-		
-		return BaseAuthUser.builder()
-				.name(name)
-				.email(email)
-				.picture(picture)
-				.role(BaseAuthRole.GUEST)
-				.build();
-	}
-	
+    
+    private Map<String, Object> attributes; // OAuth ì¸ì¦ ì‹œ ë°˜í™˜ë˜ëŠ” ì‚¬ìš©ì ì •ë³´
+    private String nameAttributeKey; // ì‚¬ìš©ì ì´ë¦„ ì†ì„±ì˜ í‚¤
+    private String name; // ì‚¬ìš©ì ì´ë¦„
+    private String email; // ì‚¬ìš©ì ì´ë©”ì¼
+    private String picture; // ì‚¬ìš©ì í”„ë¡œí•„ ì´ë¯¸ì§€
 
+    // Builder íŒ¨í„´ì„ ì‚¬ìš©í•œ ìƒì„±ì
+    @Builder
+    public OAuthAttributes(Map<String, Object> attributes,
+                           String nameAttributeKey, String name, String email, String picture) {
+        this.attributes = attributes;
+        this.nameAttributeKey = nameAttributeKey;
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+    }
+
+    // OAuth ì œê³µìì— ë”°ë¼ ì ì ˆí•œ ì‚¬ìš©ì ì •ë³´ë¥¼ ë°˜í™˜
+    public static OAuthAttributes of(String registrationId,
+                                      String userNameAttributeName,
+                                      Map<String, Object> attributes) {
+        
+        if (registrationId.equals("kakao")) {
+            return ofKakao(userNameAttributeName, attributes); // Kakao ì‚¬ìš©ì ì •ë³´ ì²˜ë¦¬
+        } else if (registrationId.equals("naver")) {
+            return ofNaver("id", attributes); // Naver ì‚¬ìš©ì ì •ë³´ ì²˜ë¦¬
+        }
+        
+        return ofGoogle(userNameAttributeName, attributes); // Google ì‚¬ìš©ì ì •ë³´ ì²˜ë¦¬
+    }
+
+    // Naverì—ì„œ ë°˜í™˜ëœ ì‚¬ìš©ì ì •ë³´ë¥¼ OAuthAttributes ê°ì²´ë¡œ ë³€í™˜
+    private static OAuthAttributes ofNaver(String userNameAttributeName,
+                                            Map<String, Object> attributes) {
+        
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        
+        return OAuthAttributes.builder()
+                .name((String) response.get("name")) // ì´ë¦„
+                .email((String) response.get("email")) // ì´ë©”ì¼
+                .picture((String) response.get("profile_image")) // í”„ë¡œí•„ ì´ë¯¸ì§€
+                .attributes(response) // ì „ì²´ ì‘ë‹µ ì •ë³´
+                .nameAttributeKey(userNameAttributeName) // ì‚¬ìš©ì ì´ë¦„ ì†ì„±ì˜ í‚¤
+                .build();
+    }
+
+    // Kakaoì—ì„œ ë°˜í™˜ëœ ì‚¬ìš©ì ì •ë³´ë¥¼ OAuthAttributes ê°ì²´ë¡œ ë³€í™˜
+    private static OAuthAttributes ofKakao(String userNameAttributeName,
+                                            Map<String, Object> attributes) {
+        
+        // Kakao ê³„ì • ì •ë³´ ì¶”ì¶œ
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile"); // í”„ë¡œí•„ ì •ë³´
+        
+        return OAuthAttributes.builder()
+                .name((String) kakaoProfile.get("nickname")) // ë‹‰ë„¤ì„
+                .email("emailTest@test.com") // ì´ë©”ì¼ (í…ŒìŠ¤íŠ¸ìš©)
+                .picture((String) kakaoProfile.get("profile_image_url")) // í”„ë¡œí•„ ì´ë¯¸ì§€ URL
+                .attributes(attributes) // ì „ì²´ ì‘ë‹µ ì •ë³´
+                .nameAttributeKey(userNameAttributeName) // ì‚¬ìš©ì ì´ë¦„ ì†ì„±ì˜ í‚¤
+                .build();
+    }
+
+    // Googleì—ì„œ ë°˜í™˜ëœ ì‚¬ìš©ì ì •ë³´ë¥¼ OAuthAttributes ê°ì²´ë¡œ ë³€í™˜
+    private static OAuthAttributes ofGoogle(String userNameAttributeName,
+                                             Map<String, Object> attributes) {
+        
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name")) // ì´ë¦„
+                .email((String) attributes.get("email")) // ì´ë©”ì¼
+                .picture((String) attributes.get("picture")) // í”„ë¡œí•„ ì´ë¯¸ì§€
+                .attributes(attributes) // ì „ì²´ ì‘ë‹µ ì •ë³´
+                .nameAttributeKey(userNameAttributeName) // ì‚¬ìš©ì ì´ë¦„ ì†ì„±ì˜ í‚¤
+                .build();
+    }
+
+    // OAuthAttributesë¥¼ BaseAuthUser ì—”í‹°í‹°ë¡œ ë³€í™˜
+    public BaseAuthUser toEntity() {
+        return BaseAuthUser.builder()
+                .name(name) // ì´ë¦„
+                .email(email) // ì´ë©”ì¼
+                .picture(picture) // í”„ë¡œí•„ ì´ë¯¸ì§€
+                .role(BaseAuthRole.GUEST) // ê¸°ë³¸ ì—­í• : GUEST
+                .build();
+    }
 }

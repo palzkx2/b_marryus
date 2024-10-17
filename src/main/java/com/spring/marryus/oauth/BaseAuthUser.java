@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,25 +36,24 @@ public class BaseAuthUser {
 	
 	private String addr;
 	
-	
-	
 	@Builder
-	public BaseAuthUser(String name,String email, String picture, BaseAuthRole role) {
+	public BaseAuthUser(String name, String email, String picture, BaseAuthRole role) {
 		this.name = name;
 		this.email = email;
 		this.picture = picture;
 		this.role = role;
 	}
 	
-	//È¸¿ø Á¤º¸ ¼öÁ¤(±¸±Û¿¡ ÀÖ´Â ±×¸²°°Àº °ÍÀ» ¹Ù…fÀ»¶§ ¿Í¼­ ¹Ù²î°Ô²û ÇÔ)
-	public BaseAuthUser update(String name,String picture) {//ÀÌ¸ŞÀÏÀº ¾ÆÀÌµğ¹Ç·Î ¹Ù²ğ¼ö ¾ø´Ù. ÀÌ¸§ÀÌ³ª ÇÈÃÄ´Â ¹Ù²ğ ¼öÀÖÀ½
-		this.name = name;
-		this.picture = picture;
+	// ì‚¬ìš©ì ì •ë³´ë¥¼ ì—…ë°ì´íŠ¸í•˜ëŠ” ë©”ì„œë“œ
+	public BaseAuthUser update(String name, String picture) {
+		this.name = name; // ì´ë¦„ ì—…ë°ì´íŠ¸
+		this.picture = picture; // ì‚¬ì§„ ì—…ë°ì´íŠ¸
 		
-		return this;//ÀÚ±â ÀÚ½Å¿¡°Ô ¹İÈ¯ÇÏ¶ó°í ÇÔ.
+		return this; // ì—…ë°ì´íŠ¸ëœ ê°ì²´ ë°˜í™˜
 	}
 	
+	// ì—­í• ì˜ í‚¤ ê°’ì„ ë°˜í™˜í•˜ëŠ” ë©”ì„œë“œ
 	public String getRoleKey() {
-		return this.role.getKey();//roleÀÇ key°ª . Áï, ROLE_USER °®°í¿È.
+		return this.role.getKey(); // roleì˜ key ë°˜í™˜
 	}
 }

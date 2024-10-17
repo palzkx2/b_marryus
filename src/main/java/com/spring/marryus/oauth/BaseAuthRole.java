@@ -7,12 +7,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum BaseAuthRole {
 	
-	GUEST("ROLE_GUEST","¼Õ´Ô"),
-	USER("ROLE_USER","ÀÏ¹İ »ç¿ëÀÚ");
+	GUEST("ROLE_GUEST", "ì†ë‹˜"),
+	USER("ROLE_USER", "ì‚¬ìš©ì");
 	
-	private final String key;//ROLE_GUEST , ROLE_USER
-	private final String title;//¼Õ´Ô , ÀÏ¹İ »ç¿ëÀÚ
-	 //DB ¿¡ µé¾î°¥¶§´Â GUEST, USER °¡ µé¾î°¨.
-	
-
+	private final String key; // ROLE_GUEST, ROLE_USER
+	private final String title; // ì†ë‹˜, ì‚¬ìš©ì
+	// DBì— ì €ì¥ë  ë•ŒëŠ” GUEST, USERë¡œ ì €ì¥ë©ë‹ˆë‹¤.
 }

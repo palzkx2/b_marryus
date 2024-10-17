@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BaseAuthUserRepository extends JpaRepository<BaseAuthUser, Long> {
 	
-	Optional<BaseAuthUser> findByEmail(String email);//email·Î °Ë»öÇÏ´Â ¸Ş¼Òµå
-	
+	// ì´ë©”ì¼ë¡œ ì‚¬ìš©ì ê²€ìƒ‰
+	Optional<BaseAuthUser> findByEmail(String email);
 	
 }
