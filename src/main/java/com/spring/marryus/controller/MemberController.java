@@ -138,30 +138,5 @@ public class MemberController {
         
         return ResponseEntity.ok(response);
     }
-    
-    @PostMapping("/api/updateUser")
-    public ResponseEntity<String> updateUser(HttpServletRequest request, @RequestBody Member updatedMember) {
-    	
-        // 세션에서 현재 사용자 정보를 가져옴
-        HttpSession session = request.getSession();
-        Member currentUser = (Member) session.getAttribute("user");
-
-        if (currentUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자가 로그인하지 않았습니다.");
-        }
-
-        // DB에서 사용자 정보를 수정
-        // 예: memberService.updateMember(updatedMember);
-        boolean isUpdated = memberService.updateMember(updatedMember); // 업데이트 메소드 호출
-
-        if (isUpdated) {
-            // 수정 후 세션 정보 업데이트
-            session.setAttribute("user", updatedMember);
-            return ResponseEntity.ok("정보가 수정되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정에 실패했습니다.");
-        }
-        
-    }
 
 }

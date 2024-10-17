@@ -6,11 +6,13 @@ import { BsBookmarkHeart, BsBookmarkHeartFill, BsCartPlus, BsCartPlusFill } from
 
 const WeddingHallItem = ({item}) => {
 
-    const {name,addr,tag,menu,price} = item
+    const {imgPath,name,addr,tag,menu,price} = item
+
+    const filename = imgPath.split('\\').pop();
 
     return (
         <>      
-                <img className='wdImage' src={image} alt='이미지'/>
+                <img className='wdImage' src={`/api/images/${filename}`} alt='이미지'/>
                 <div className='wdSub title'>{name}</div>
                 <div className='wdSub'>평점: 5.5 </div>
                 <div className='wdSub'>{addr}</div>
