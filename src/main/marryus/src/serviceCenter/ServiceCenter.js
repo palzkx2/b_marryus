@@ -81,11 +81,16 @@ const ServiceCenter = () => {
         try {
             const endpoint = sortType === 'date' ? '/api/help/sort/date' : '/api/help/sort/hitCount';
             const response = await axios.get(endpoint);
+            
             setHelp(response.data);
             } catch (error) {
                 console.error(error);
             }
         };
+
+    useEffect(() => {
+        fetchHelpData(sortType); //고객센터에 처음들어오면 무작위로 나와서 최신순으로 정렬
+    },[]);
 
     useEffect(() => {
             fetchHelpData(sortType); // sortType에 따라 데이터 가져오기
@@ -114,7 +119,7 @@ const ServiceCenter = () => {
             </div>
             {/* ========================================고객센터=============================================== */}
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
-                <div style={{background:'beige', width:'1400px', height:'900px', display:'flex', justifyContent:'center',  flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50px'}}>
+                <div style={{background:'#fff', width:'1400px', height:'900px', display:'flex', justifyContent:'center',  flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50px', border:'#C2A67E 2px solid',borderTop:'none'}}>
                     <p style={{fontSize:'18pt', fontWeight:'bold', textAlign:'center', marginTop: '20px'}}>고객센터</p>
                 <div style={{width:'1200px', margin:'50px 0'}}>
                     <p style={{fontSize:'18pt'}}>자주 묻는 질문</p>
@@ -133,7 +138,7 @@ const ServiceCenter = () => {
                 </div>
             </div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
-                <div style={{background:'beige', width:'1400px', height:'500px', display:'flex', justifyContent:'center', alignContent:'center', marginBottom:'50px'}}>
+                <div style={{background:'#fff', width:'1400px', height:'500px', display:'flex', justifyContent:'center', alignContent:'center', marginBottom:'50px', border:'#C2A67E 2px solid'}}>
                     <div style={{width:'1200px', height:'400px', margin:'50px 0'}}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
                             <td style={{fontSize:'18pt'}}>1:1 문의</td>
@@ -184,7 +189,7 @@ const ServiceCenter = () => {
                                 <button
                                     key={index}
                                     onClick={() => handlePageChange(index + 1)}
-                                    style={{ margin: '0 5px', padding: '5px 10px', border:'0', backgroundColor: currentPage === index + 1 ? '#C2A67E' : 'beige' }}
+                                    style={{ margin: '0 5px', padding: '5px 10px', border:'0', backgroundColor: currentPage === index + 1 ? '#C2A67E' : '#fff' }}
                                 >
                                     {index + 1}
                                 </button>
