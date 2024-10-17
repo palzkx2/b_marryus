@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 
 const ServiceCenter = () => {
 
-    const [num,setNum] = useState(1)
+    const {id} = useParams()
+
     const [name,setName] = useState('관리자')
-    const [subject,setSubject] = useState('MarryUs 공지사항')
     const [content,setContent] = useState('abc')
     const [create,setCreate] = useState('2024-10-15')
+    const [subject,setSubject] = useState('')
     const [hit,setHit] = useState(0)
 
+    const [help,setHelp] = useState()
+
+    useEffect(() => {
+        const helpList = async () => {
+            try {
+                const response = await axios.get('/api/help');
+                setHelp(response.data)
+            }catch(error){
+                console.error(error)
+            }
+        };
+
+        helpList();
+    },[]);
+
     
+
 
     return (
         <div>

@@ -62,7 +62,7 @@ function App() {
         <Route path={['/cart']}><Cart/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
         <Route path={['/serviceCenterCreate']}><ServiceCenterCreate/></Route>
-        <Route path={['/serviceCenterArticle']}><ServiceCenterArticle/></Route>
+        <Route path={['/serviceCenterArticle/:id']}><ServiceCenterArticle/></Route>
         <Route path={['/travelArticle/:place']}><TravelArticle/></Route>
         <Route path={['/travelOnCat/:place']}><TravelOnCat/></Route>
         <Route path={['/insertWeddingHall']}><InsertWeddingHall/></Route>

@@ -47,6 +47,10 @@ const ServiceCenter = () => {
     const [help,setHelp] = useState([])
 
     const [sortType, setSortType] = useState('date');
+
+    //페이징
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
     
 
     useEffect(() => {
@@ -91,6 +95,15 @@ const ServiceCenter = () => {
         setExpandedIndex(expandedIndex === index ? null : index);
     };
     
+    //페이징
+    const totalPages = Math.ceil(help.length / itemsPerPage);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = help.slice(indexOfFirstItem, indexOfLastItem);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     return (
         <div>
@@ -101,7 +114,7 @@ const ServiceCenter = () => {
             </div>
             {/* ========================================고객센터=============================================== */}
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
-                <div style={{background:'beige', width:'1400px', height:'850px', display:'flex', justifyContent:'center',  flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50px'}}>
+                <div style={{background:'beige', width:'1400px', height:'900px', display:'flex', justifyContent:'center',  flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '50px'}}>
                     <p style={{fontSize:'18pt', fontWeight:'bold', textAlign:'center', marginTop: '20px'}}>고객센터</p>
                 <div style={{width:'1200px', margin:'50px 0'}}>
                     <p style={{fontSize:'18pt'}}>자주 묻는 질문</p>
@@ -140,7 +153,7 @@ const ServiceCenter = () => {
                                     <option value="hitCount">조회수순</option>
                                 </select>
 
-                        <div style={{background:'#C2A67E', width:'100%', height:'60px', display:'flex', justifyContent:'start', alignContent:'start'}}>
+                        <div style={{background:'#C2A67E', width:'100%', height:'60px', display:'flex', justifyContent:'start', alignContent:'start', marginTop:'10px'}}>
                             <p style={{marginLeft:'30px', fontSize:'12pt', padding:'20px 0', fontWeight:'bold', color:'white'}}>순번</p>
                             <p style={{margin:'0 400px', fontSize:'12pt', padding:'20px 0', fontWeight:'bold', color:'white'}}>제목</p>
                             <p style={{marginRight:'70px', fontSize:'12pt', padding:'20px 0', fontWeight:'bold', color:'white'}}>작성자</p>
@@ -148,7 +161,7 @@ const ServiceCenter = () => {
                             <p style={{fontSize:'12pt', padding:'20px 0', fontWeight:'bold', color:'white'}}>조회수</p>
                         </div>
                         {/* ==================================================== */}
-                        {help.map((help,index) => (
+                        {currentItems.map((help,index) => (
                         <div style={{width:'100%', height:'50px', display:'flex', justifyContent:'start', alignContent:'start', borderBottom:'1px solid rgba(0,0,0,0.2)'}} key={help.id}>
                             <p style={{ marginLeft: '25px', fontSize: '12pt', padding: '20px 0' }}>{index + 1}</p> {/* 순번 출력 */}
                             <div style={{marginLeft:'50px', margin:'auto'}}>
@@ -165,7 +178,18 @@ const ServiceCenter = () => {
                             <p style={{fontSize:'12pt', padding:'20px 0', marginRight:'40px'}}>{help.hitCount}</p>
                         </div>
                         ))}
-                        {/* ==================================================== */}
+                        {/* =================페이징============================== */}
+                        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center'}}>
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handlePageChange(index + 1)}
+                                    style={{ margin: '0 5px', padding: '5px 10px', border:'0', backgroundColor: currentPage === index + 1 ? '#C2A67E' : 'beige' }}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

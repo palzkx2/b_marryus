@@ -36,7 +36,6 @@ public class WebSecuirtyConfig {
             .logoutSuccessUrl("/") //�α׾ƿ� ������ ���ư��� ������ URL
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
-            .httpBasic().disable()	// 기본 HTTP 인증 비활성화
             ;
 
 		return http.build();
