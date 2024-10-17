@@ -25,7 +25,7 @@ public class WeddingHallService {
     private final String upload = "C:\\marryus\\weddingHall"; // 이미지 업로드 경로
     
     // 웨딩홀 정보 삽입 메서드
-    public WeddingHall insert(String imageName, MultipartFile imageFile, String name, String addr, Integer price, String buffet, String tag) throws Exception {
+    public WeddingHall insert(String imageName, MultipartFile imageFile, String name, String addr, Integer price, String buffet, String tag,String wido,String gyungdo,String imgType) throws Exception {
         
         // 이미지 업로드 경로 확인 및 생성
         File uploadPath = new File(upload);
@@ -60,6 +60,9 @@ public class WeddingHallService {
         wdh.setBuffet(buffet);
         wdh.setTag(tag);
         wdh.setImgPath(filePath.toString());
+        wdh.setWido(wido);
+        wdh.setGyungdo(gyungdo);
+        wdh.setImgType(imgType);
         
         weddingHallRepository.save(wdh); // 웨딩홀 정보 저장
         
