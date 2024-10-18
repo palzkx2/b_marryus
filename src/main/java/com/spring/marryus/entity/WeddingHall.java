@@ -29,13 +29,14 @@ public class WeddingHall {
 	@Column(length = 100)
 	private Integer price;
 	
-	private String buffet; // 뷔페 종류 (뷔페, 한정식, 석식, 조식)
+	private String buffet; // 뷔페 종류
 	
 	private String tag;
 	
 	private String imgPath;
 	
-	private String wido; // 시도
+	private String wido; // 위도
+	
 	private String gyungdo; // 경도
 	
 	private String imgType;
