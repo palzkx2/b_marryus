@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { GiLockedHeart } from "react-icons/gi";
 import loginImg from '../s_images/loginImage.jpg'
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import { SiKakao, SiNaver } from 'react-icons/si';
@@ -12,6 +12,11 @@ const Login = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const history = useHistory()
+
+    const location = useLocation();
+
+    
+    
 
     const handleLogin = async () => {
 
@@ -84,9 +89,9 @@ const Login = () => {
                 alert('로그인 성공!');
                 window.location.reload()
             }else if (event.data === 'signup'){
+                alert('로그인 성공! 추가정보를 입력해주세요');
                 history.push('/oauthSignup')
                 window.location.reload();
-                alert('로그인 성공! 추가정보를 입력해주세요');
             }
 
 

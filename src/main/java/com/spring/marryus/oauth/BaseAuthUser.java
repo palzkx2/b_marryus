@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class BaseAuthUser {
@@ -35,6 +37,11 @@ public class BaseAuthUser {
 	private BaseAuthRole role;
 	
 	private String addr;
+	
+	private String phone;
+	private String hopeArea;
+	private String weddingDate;
+	private String emailAgree;
 	
 	@Builder
 	public BaseAuthUser(String name, String email, String picture, BaseAuthRole role) {

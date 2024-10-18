@@ -32,10 +32,8 @@ const NavBar = () => {
     }, []);
 
     const logout = async () => {
-
         try{
             const response = await axios.get('/api/logout');
-            setData(null)
             console.log('세션 정보 : ', response.data)
             console.log('로그아웃 성공')
             history.push('/')
@@ -43,22 +41,16 @@ const NavBar = () => {
         }catch(error) {
             console.error('로그아웃 실패: ', error);
         }
-
     }
 
     const oauthLogout = async () => {
-
-        alert(data.name)
-
         try{
             const response = await axios.post('/api/oauthLogout');
             history.push('/')
             window.location.reload();
-            //setData(null)
         }catch(error) {
             console.error('로그아웃 실패: ', error);
         }
-
     }
 
     const [windowScroll, setWindowScroll] = useState(0);
@@ -94,6 +86,11 @@ const NavBar = () => {
         .then(res=>setData(res.data))
         .catch(error=>console.log(error))
     },[])
+
+    const PlsLogin = () => {
+        alert('로그인 후 이용해주세요.')
+        history.push('/login')
+    };
 
     return (
         <div>
@@ -141,11 +138,29 @@ const NavBar = () => {
                 <div className='login' style={{display:'flex', flexDirection:'row'}}>
                     {
                         data.name!==undefined  ?
-                        <Link to='/'><p onClick={oauthLogout}>로그아웃</p></Link> : <Link to='/login'><p>로그인</p></Link>
+                        <Link to='/'><p onClick={oauthLogout}>로그아웃</p></Link> : 
+                        
+                        (
+                            userRole ? <Link to='/'><p onClick={logout}>로그아웃</p></Link>
+                                     : <Link to='/login'><p>로그인</p></Link>
+                        )
+                        
                     }
 
-                    <Link to='/signup'><p style={{marginLeft:'50px'}}>회원가입</p></Link>
-                    <Link to='/myPage'><p style={{marginLeft:'50px'}}>마이페이지</p></Link>
+
+                    {
+                        (data.name === undefined && !userRole) ? (
+                            <Link to='/signup'>
+                                <p style={{marginLeft: '50px'}}>회원가입</p>
+                            </Link>
+                        ) : ''
+                    }
+                                        {
+                        (data.name !== undefined || userRole) ? (
+                            <Link to='/myPage'><p style={{ marginLeft: '50px' }}>마이페이지</p></Link>
+                        ) : ''
+                    }
+                   
                     <strong style={{margin:'0 300px', fontSize:'36pt', color:'black'}}><Link to='/' style={{color:'black'}}>Marry Us</Link></strong>
                     <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/>
                 </div>
@@ -164,9 +179,19 @@ const NavBar = () => {
                     <Link to='/main' style={{color:'black'}}>
                         <p>홈으로</p>
                     </Link>
-                    <Link to='/serviceCenter' style={{color:'black'}}>
-                        <p style={{paddingLeft:'20px', marginRight:'21px'}}>고객센터</p>
-                    </Link>
+                    {
+                        (data.name === undefined && !userRole) ? (
+                            <p onClick={PlsLogin} style={{ paddingLeft: '20px', marginRight: '21px', cursor: 'pointer' }}>
+                                고객센터
+                            </p>
+                        ) : (
+                            <Link to='/serviceCenter'>
+                                <p style={{ paddingLeft: '20px', marginRight: '21px' }}>고객센터</p>
+                            </Link>
+                        )
+                    }
+
+
                 </div>
             </div>
         </div>
