@@ -42,6 +42,32 @@ const ExitSite = () => {
 
     }
 
+    const [data,setData] = useState({});
+
+    useEffect(()=>{
+        axios.get('/api/oauthUserInfo',{withCredentials: true})
+        .then(res=>setData(res.data))
+        .catch(error=>console.log(error))
+    },[])
+
+
+
+    const oauthDeleteUser = async () => {
+
+        try {
+            const response = await axios.delete('/api/oauthDeleteUser');
+            if(response.status === 200) {
+                alert('회원 탈퇴가 완료되었습니다.')
+                console.log('탈퇴완료:', response.data)
+                window.location.href = '/'
+            }
+        }catch(error) {
+            console.error('회원 탈퇴 실패:', error.response ? error.response.data : error);
+            alert('회원 탈퇴에 실패했습니다.');
+        }
+
+    }
+
     return (
         <div>
             <div className='alignGood'>
@@ -54,7 +80,16 @@ const ExitSite = () => {
                     
                     <div className='conBox'>
                         <Link to='/myPage'><p className='byeBtn'>돌아가기</p></Link>
-                        <Link to='#'><p className='byeBtn' onClick={deleteUser}>회원 탈퇴</p></Link>
+                        {
+                            userRole ?
+                            <Link to='#'><p className='byeBtn' onClick={deleteUser}>회원 탈퇴</p></Link>
+                            : ''
+                        }
+                         {
+                            data.name ?
+                            <Link to='#'><p className='byeBtn' onClick={oauthDeleteUser}>회원 탈퇴</p></Link>
+                            : ''
+                        }
                     </div>
                 </div>
             </div>

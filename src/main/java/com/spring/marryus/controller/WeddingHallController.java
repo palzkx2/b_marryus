@@ -42,10 +42,13 @@ public class WeddingHallController {
             @RequestParam("addr") String addr,
             @RequestParam("price") Integer price,
             @RequestParam("buffet") String buffet,
-            @RequestParam("tag") String tag) throws Exception {
+            @RequestParam("tag") String tag,
+            @RequestParam("wido") String wido,
+            @RequestParam("gyungdo") String gyungdo,
+            @RequestParam("imgType") String imgType) throws Exception {
 
         // 웨딩홀 정보를 DB에 추가
-        weddingHallService.insert(imageName, imageFile, name, addr, price, buffet, tag);
+        weddingHallService.insert(imageName, imageFile, name, addr, price, buffet, tag, wido, gyungdo, imgType);
         return "웨딩홀 정보가 성공적으로 등록되었습니다.";
     }
     

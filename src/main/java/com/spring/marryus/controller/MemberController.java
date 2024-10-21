@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.marryus.entity.Member;
+import com.spring.marryus.oauth.BaseAuthUser;
+import com.spring.marryus.oauth.SessionUser;
 import com.spring.marryus.service.MemberService;
 
 @RestController
@@ -138,5 +140,54 @@ public class MemberController {
         
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/api/readUser")
+	public Member updateUserInfo(HttpServletRequest httpRequest) {
+			
+    		HttpSession session = httpRequest.getSession();
+			
+			Member buser = new Member();
+			buser = memberService.readUser((String)session.getAttribute("email"));
+			
+			System.out.println("세션의 이메일이 잘 넘어오나?");
+			System.out.println((String)session.getAttribute("email"));
+			
+			
+			return buser;
+		}
+    
+    
+    
+    @PostMapping("/api/updateUser")
+    public ResponseEntity<String> updateMember(HttpServletRequest httpRequest, @RequestBody Member member) {
+    	
+    	String name = member.getName();
+		String email = member.getEmail();
+		String addr = member.getAddr();
+		String emailAgree = member.getEmailAgree();
+		String hopeArea =  member.getHopeArea();
+		String phone = member.getPhone();
+		String weddingDate = member.getWeddingDate();
+		String pwd = member.getPassword();
+		
+		System.out.println("멤버 수정");
+		System.out.println(email+"이메일이 잘 넘어왔니?");
+		System.out.println(pwd + "비밀번호 잘 넘어 왔나?");
+		
+		
+		memberService.updateUser(email, addr, emailAgree, hopeArea, phone, weddingDate,pwd,name);
+		
+		 // 인증된 사용자의 정보를 세션에 저장
+        HttpSession session = httpRequest.getSession();
+        
+        session.setAttribute("email", email);
+        session.setAttribute("addr", addr);
+        session.setAttribute("phone", phone);
+        session.setAttribute("hopeArea", hopeArea);
+        session.setAttribute("weddingDate", weddingDate);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body("회원수정 성공적으로 완료되었습니다.");
+        
+    }
+   
 
 }

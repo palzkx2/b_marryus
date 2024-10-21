@@ -9,6 +9,9 @@ const InsertWeddingHall = () => {
     const [tag, setTag] = useState('');
     const [buffet, setBuffet] = useState('');
     const [price, setPrice] = useState('');
+    const [wido,setWido] = useState('');
+    const [gyungdo,setGyungdo] = useState('');
+    const [imgType,setImgType] = useState('');
 
     const handleFileChange = (e) => {
         setImageFile(e.target.files[0]);
@@ -24,7 +27,10 @@ const InsertWeddingHall = () => {
             addr, 
             tag, 
             buffet, 
-            price 
+            price,
+            wido,
+            gyungdo,
+            imgType
         });
 
         const formData = new FormData();
@@ -35,6 +41,9 @@ const InsertWeddingHall = () => {
         formData.append('tag', tag);
         formData.append('buffet', buffet);
         formData.append('price', Number(price));
+        formData.append('wido', wido);
+        formData.append('gyungdo', gyungdo);
+        formData.append('imgType', imgType);
 
         try {
             const response = await axios.post('http://localhost:8080/api/insertWeddingHall', formData, {
@@ -52,35 +61,41 @@ const InsertWeddingHall = () => {
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                이미지:
-                <input type='file' onChange={handleFileChange} required />
+                이미지: <input type='file' onChange={handleFileChange} required />
             </label>
-            <br />
+            <br/>
             <label>
-                이름:
-                <input type='text' value={name} onChange={(e) => setName(e.target.value)} required />
+                이름: <input type='text' value={name} onChange={(e) => setName(e.target.value)} required />
             </label>
-            <br />
+            <br/>
             <label>
-                주소:
-                <input type='text' value={addr} onChange={(e) => setAddr(e.target.value)} required />
+                주소: <input type='text' value={addr} onChange={(e) => setAddr(e.target.value)} required />
             </label>
-            <br />
+            <br/>
             <label>
-                태그:
-                <input type='text' value={tag} onChange={(e) => setTag(e.target.value)} required />
+                태그: <input type='text' value={tag} onChange={(e) => setTag(e.target.value)} required />
             </label>
-            <br />
+            <br/>
             <label>
-                뷔페:
-                <input type='text' value={buffet} onChange={(e) => setBuffet(e.target.value)} required />
+                뷔페: <input type='text' value={buffet} onChange={(e) => setBuffet(e.target.value)} required />
             </label>
-            <br />
+            <br/>
             <label>
-                가격:
-                <input type='number' value={price} onChange={(e) => setPrice(e.target.value)} required />
+                가격: <input type='text' value={price} onChange={(e) => setPrice(e.target.value)} required />
             </label>
-            <br />
+            <br/>
+            <label>
+                위도: <input type='text' value={wido} onChange={(e) => setWido(e.target.value)} required />
+            </label>
+            <br/>
+            <label>
+                경도: <input type='text' value={gyungdo} onChange={(e) => setGyungdo(e.target.value)} required />
+            </label>
+            <br/>
+            <label>
+                종류: <input type='text' value={imgType} onChange={(e) => setImgType(e.target.value)} required />
+            </label>
+            <br/>
             <button type='submit'>추가하기</button>
         </form>
     );

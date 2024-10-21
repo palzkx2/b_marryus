@@ -1,16 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import loginImg from '../s_images/loginImage.jpg'
+import loginImg from '../s_images/loginImage.jpg';
 import { FaHeart } from "react-icons/fa6";
-import './signup.css'
+import './signup.css';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { format } from 'date-fns';
-import './calendar.css'
+import './calendar.css';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
-const UpdateUser = () => {
-
+const OauthUpdateUser = () => {
     const [joinHover,setJoinHover] = useState(false)
     const [emailAgree,setEmailAgree] = useState('')
     const [date, setDate] = useState(null); // 선택된 날짜 상태
@@ -25,18 +24,15 @@ const UpdateUser = () => {
     const [addr, setAddr] = useState('');
     const [hopeArea, setHopeArea] = useState('');
     const [weddingDate, setWeddingDate] = useState('');
-    const [pwd,setPwd] = useState('')
-    const [pwd1,setPwd1] = useState('')
+
     const history = useHistory()
-    const pwdRef = useRef(null);
-    const pwd1Ref = useRef(null);
 
     useEffect(() => {
 
         const fetchSessionData = async () => {
 
             try {
-                const response = await axios.get('/api/readUser', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
+                const response = await axios.get('/api/oauthReaduser', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
                 console.log('세션 정보 : ', response.data)
                 const storedEmail = response.data.email;
                 console.log('response.data.email받기-------------',response.data.email)
@@ -85,18 +81,9 @@ const UpdateUser = () => {
     const handleUpdate = async () => {
         const updatedEmail = `${emailInput}@${domainInput}`; // 이메일 조합
         const updatePhone = `${phone1}-${phone2}-${phone3}`;
-        const updatedUser = { email: updatedEmail, password:pwd, name:name, phone: updatePhone, addr, hopeArea, weddingDate };
+        const updatedUser = { email: updatedEmail, name, phone: updatePhone, addr, hopeArea, weddingDate };
 
-        const pwdC = pwdRef.current.value;
-        const pwdC1 = pwd1Ref.current.value;
-
-        if (pwd !== pwd1) {
-            alert('비밀번호 확인이 일치하지 않습니다!');
-            pwd1Ref.current.focus(); // 비밀번호 확인 입력 필드에 포커스를 맞추기
-            return
-        }
-
-        const response = await fetch('/api/updateUser', {
+        const response = await fetch('/api/oauthUpdate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,7 +94,6 @@ const UpdateUser = () => {
         if (response.ok) {
             alert('정보가 수정되었습니다.');
             history.push('/myPage')
-            window.location.reload()
         } else {
             alert('수정에 실패했습니다.');
         }
@@ -158,30 +144,16 @@ const UpdateUser = () => {
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
-                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호</p>
-                    </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'616px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
-                        <input type='text' style={{marginLeft:'20px'}}  value={pwd} onChange={(e) => setPwd(e.target.value)} ref={pwdRef}/>
-                    </div>
-
-                    <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
-                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호 확인</p>
-                    </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'667px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}} >
-                        <input type='text' style={{marginLeft:'20px'}} value={pwd1} onChange={(e) => setPwd1(e.target.value)} ref={pwd1Ref}/>
-                    </div>
-
-                    <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>성명</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'718px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
-                        <input type='text' style={{marginLeft:'20px'}} value={name} onChange={(e) => setName(e.target.value)}/>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'615px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                        <input type='text' style={{marginLeft:'20px', color:'rgba(0,0,0,0.4)'}} value={name} readOnly/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>휴대폰</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'769px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'665.9px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <select style={{marginLeft:'20px'}} value={phone1} onChange={(e) => setPhone1(e.target.value)}>
                             <option>010</option>
                             <option>011</option>
@@ -199,21 +171,21 @@ const UpdateUser = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>주소</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'718.3px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' style={{marginLeft:'20px'}} value={addr} onChange={(e) => setAddr(e.target.value)}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>예식희망지역</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'871px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'768.3px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' style={{marginLeft:'20px'}} value={hopeArea} onChange={(e) => setHopeArea(e.target.value)}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>결혼예정일</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820.1px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input
                             style={{ marginLeft: '20px', paddingLeft:'12px' }}
                             ref={inputRef}
@@ -239,7 +211,7 @@ const UpdateUser = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid gray'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 수신여부</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'973px', borderBottom:'1px solid gray', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'869.9px', borderBottom:'1px solid gray', alignContent:'center'}}>
                         <input type='radio' value={'Y'} name='emailAgree' style={{marginLeft:'20px', fontSize:'8pt'}}/>이메일 수신 동의
                         <input type='radio' value={'N'} name='emailAgree' style={{marginLeft:'20px', fontSize:'8pt'}}/>이메일 수신 거부
                     </div>
@@ -260,4 +232,4 @@ const UpdateUser = () => {
     );
 };
 
-export default UpdateUser;
+export default OauthUpdateUser;

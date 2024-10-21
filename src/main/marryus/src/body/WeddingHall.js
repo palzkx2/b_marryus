@@ -44,14 +44,25 @@ const WeddingHall = () => {
         fetchImages(nameQueryParam, Number(pageQueryParam) || 0);
     }, [location]);
 
-    const fetchImages = async () => {
+    const fetchImages = async (searchTerm, currentPage) => {
 
-        try{
-            const response = await axios.get(`/api/images?page=${page}&size=9`);
-            setImages(response.data.content);
-            setTotalPages(response.data.totalPages);
-        }catch(error){
-            console.log('이미지 가져오기 실패:',error);
+        try {
+            let response;
+    
+            if (searchTerm && searchTerm.trim() !== '') {
+                response = await axios.get(`/api/searchWeddingHall?name=${searchTerm}&page=${currentPage}&size=9`);
+            } else {
+                response = await axios.get(`/api/images?page=${currentPage}&size=9`);
+            }
+    
+            if (response.data && response.data.content) {
+                setImages(response.data.content);
+                setTotalPages(response.data.totalPages);
+            } else {
+                console.error('예상한 데이터 구조가 아닙니다:', response.data);
+            }
+        } catch (error) {
+            console.error('이미지 가져오기 실패:', error);
         }
 
     }
@@ -63,35 +74,11 @@ const WeddingHall = () => {
     // 페이지 변경 함수
     const handlePageChange = (pageNumber) => {
         history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=${pageNumber}`);
-        setPage(pageNumber);
     };
 
     const searchBtn = async () => {
-
-        try{
-
-            let response;
-
-            if (name.trim() === '') {
-                response = await axios.get(`/api/images?page=${page}&size=9`);
-                setResults([]);
-            } else {
-                response = await axios.get(`/api/searchWeddingHall?name=${name}&page=${page}&size=9`);
-            }
-
-            if (response.data && response.data.content) {
-                setImages(response.data.content);
-                setResults(response.data.content);
-                setTotalPages(response.data.totalPages);
-                setPage(0)
-            } else {
-                console.error('예상한 데이터 구조가 아닙니다:', response.data);
-            }
-
-        }catch(error){
-            console.error('웨딩홀 검색 실패',error)
-        }
-
+        setPage(0);
+        history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=0`);
     }
 
     useEffect(() => {
@@ -117,6 +104,8 @@ const WeddingHall = () => {
 
                 alert('웨딩홀이 삭제되었습니다.')
                 console.log('이미지 삭제 성공')
+
+                window.location.reload()
 
             }catch(error){
                 console.error('이미지 삭제 실패: ',error)

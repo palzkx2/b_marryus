@@ -1,4 +1,4 @@
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min"
+import { Redirect, Route, Switch } from "react-router-dom/cjs/react-router-dom.min"
 import Main from "./body/Main";
 import WeddingHall from "./body/WeddingHall";
 import NavBar from "./body/NavBar";
@@ -32,6 +32,9 @@ import TravelOnCat from "./travel/TravelOnCat";
 import ScrollToTop from "./body/ScrollToTop";
 import InsertWeddingHall from "./body/InsertWeddingHall";
 import OauthSingUp from "./login/OauthSingUp";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import OauthUpdateUser from "./login/OauthUpdateUser";
 
 function App() {
   return (
@@ -48,17 +51,18 @@ function App() {
         <Route path={['/signup']}><SignUp/></Route>
         <Route path={['/join']}><Join/></Route>
         <Route path={['/travel']}><Travel/></Route>
-        <Route path={['/myPage']}><MyPage/></Route>
         <Route path={['/exitSite']}><ExitSite/></Route>
-        <Route path={['/myAccount']}><MyAccount/></Route>
-        <Route path={['/myQna']}><MyQna/></Route>
-        <Route path={['/myReview']}><MyReivew/></Route>
-        <Route path={['/myWedding']}><MyWedding/></Route>
-        <Route path={['/myBookList']}><MyBookList/></Route>
-        <Route path={['/myOrder']}><MyOrder/></Route>
-        <Route path={['/myBookmark']}><MyBookmark/></Route>
-        <Route path={['/myCart']}><MyCart/></Route>
-        <Route path={['/updateUser']}><UpdateUser/></Route>
+        <Route path='/myPage' component={MyPage} />
+        <Route path='/myAccount' component={MyAccount} />
+        <Route path='/myQna' component={MyQna} />
+        <Route path='/myReview' component={MyReivew} />
+        <Route path='/myWedding' component={MyWedding} />
+        <Route path='/myBookList' component={MyBookList} />
+        <Route path='/myOrder' component={MyOrder} />
+        <Route path='/myBookmark' component={MyBookmark} />
+        <Route path='/myCart' component={MyCart} />
+        <Route path='/updateUser' component={UpdateUser} />
+        <Route path='/oauthUpdateUser'><OauthUpdateUser/></Route>
         <Route path={['/sdmArticle/:sdmName']}><SdmArticle/></Route>
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
         <Route path={['/cart']}><Cart/></Route>

@@ -107,7 +107,7 @@ const OauthSingUp = () => {
             const response = await axios.post('/api/oauthregister', memberData);
             if (response.status === 201) {
                 alert('회원가입이 성공적으로 완료되었습니다.');
-                history.push('/login');
+                history.push('/');
                 window.location.reload();
             }
         } catch (error) {
@@ -166,7 +166,7 @@ const OauthSingUp = () => {
         <div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
                 <div style={{width:'1400px', height:'350px', display:'flex', justifyContent:'center', alignContent:'center', backgroundImage:`url(${loginImg})`, backgroundSize:'cover', backgroundPosition:`center calc(100% - -130px)`}}>
-                    <p style={{marginTop:'140px', fontSize:'32pt', fontWeight:'bold', color:'#F8D3D3', textShadow:'2px 2px 2px rgba(0,0,0, 0.5)'}}>{data.name}♥ 회원가입 ♥</p>
+                    <p style={{marginTop:'140px', fontSize:'32pt', fontWeight:'bold', color:'#F8D3D3', textShadow:'2px 2px 2px rgba(0,0,0, 0.5)'}}>♥ 추가정보입력 ♥</p>
                 </div>
             </div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
