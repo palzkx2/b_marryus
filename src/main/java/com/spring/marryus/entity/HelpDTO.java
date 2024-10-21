@@ -1,6 +1,4 @@
-package com.spring.marryus.help;
-
-
+package com.spring.marryus.entity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
