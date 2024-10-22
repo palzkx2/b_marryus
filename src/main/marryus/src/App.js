@@ -5,6 +5,7 @@ import NavBar from "./body/NavBar";
 import Footer from "./footer/Footer";
 import SdmBoard from "./sdm/SdmBoard";
 import WeddingItem from "./weddingItem/WeddingItem";
+import WeddingItemArticle from "./weddingItem/WeddingItemArticle";
 import Login from "./login/Login";
 import SignUp from "./login/SignUp";
 import Join from "./login/Join";
@@ -24,6 +25,8 @@ import SdmArticle from "./sdmArticle/SdmArticle";
 import WeddingHallArticle from "./body/WeddingHallArticle";
 import Cart from "./cart/Cart";
 import ServiceCenter from "./serviceCenter/ServiceCenter";
+import ServiceCenterCreate from "./serviceCenter/ServiceCenterCreate";
+import ServiceCenterArticle from "./serviceCenter/ServiceCenterArticle";
 import TravelArticle from "./travel/TravelArticle";
 import TravelOnCat from "./travel/TravelOnCat";
 import ScrollToTop from "./body/ScrollToTop";
@@ -44,6 +47,7 @@ function App() {
         <Route path={['/sdm']}><SdmBoard/></Route>
         <Route path={['/weddingHall']}><WeddingHall/></Route>
         <Route path={['/weddingItem']}><WeddingItem/></Route>
+        <Route path={['/weddingItemArticle/:id']}><WeddingItemArticle/></Route>
         <Route path={['/login']}><Login/></Route>
         <Route path={['/signup']}><SignUp/></Route>
         <Route path={['/join']}><Join/></Route>
@@ -64,6 +68,8 @@ function App() {
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
         <Route path={['/cart']}><Cart/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
+        <Route path={['/serviceCenterCreate']}><ServiceCenterCreate/></Route>
+        <Route path={['/serviceCenterArticle/:id']}><ServiceCenterArticle/></Route>
         <Route path={['/travelArticle/:place']}><TravelArticle/></Route>
         <Route path={['/travelOnCat/:place']}><TravelOnCat/></Route>
         <Route path={['/insertWeddingHall']}><InsertWeddingHall/></Route>

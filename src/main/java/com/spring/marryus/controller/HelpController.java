@@ -1,4 +1,4 @@
-package com.spring.marryus.help;
+package com.spring.marryus.controller;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nimbusds.oauth2.sdk.Response;
+import com.spring.marryus.entity.HelpDTO;
+import com.spring.marryus.service.HelpService;
+
 
 @RestController
 @RequestMapping("/api/help")
