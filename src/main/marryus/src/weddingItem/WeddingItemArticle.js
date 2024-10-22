@@ -3,6 +3,8 @@ import './weddingItemArticle.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import FlowerDesc from './FlowerDesc';
+import SuitDesc from './SuitDesc';
+import RingDesc from './RingDesc';
 
 const WeddingItemArticle = () => {
     const { id } = useParams();
@@ -27,6 +29,21 @@ const WeddingItemArticle = () => {
 
     if (!item) return <div>Loading...</div>;
 
+     // 현재 아이템의 인덱스 찾기
+    const currentIndex = categoryItems.findIndex(categoryItem => categoryItem.id === item.id);
+
+    // 양옆 아이템 선택
+    const leftItems = categoryItems.slice(Math.max(0, currentIndex - 2), currentIndex); // 왼쪽 2개
+    const rightItems = categoryItems.slice(currentIndex + 1, currentIndex + 3); // 오른쪽 2개
+
+    const displayedItems = [
+        ...Array(currentIndex === 0 ? 2 : currentIndex === 1 ? 1 : 0).fill({ id: null }), // 첫 번째 아이템일 때 빈 두 개, 두 번째 아이템일 때 빈 한 개
+        ...leftItems,
+        item,
+        ...rightItems
+    ];
+
+
     return (
         <div>
             <div className="weddingItemArticle-container">
@@ -43,27 +60,36 @@ const WeddingItemArticle = () => {
                         }
                         {
                             item.category==='suit' &&
-                                <div> 수트 상세설명 </div>
+                                <SuitDesc/>
                         }
                         {
                             item.category==='ring' &&
-                            <div> 반지 상세설명 </div>
+                                <RingDesc/>
                         }
                     </p>
                     <button className="weddingItemArticle-purchase-button">구매하기</button>
                 </div> 
             </div>
-            <div className="category-list"> {/* 카테고리 리스트 컨테이너 */}
-                <h2>같은 카테고리의 아이템</h2>
-                <ul>
-                    {categoryItems.map((categoryItem) => (
-                        <li key={categoryItem.id} className="category-item">
-                            <img src={`${process.env.PUBLIC_URL}${categoryItem.imgAddr}`} alt={categoryItem.imgName} className="category-item-image" />
-                            <span>{categoryItem.imgName}</span>
-                            <span>{categoryItem.price}</span>
-                        </li>
+            <div className="weddingItemArticle-category-list"> {/* 카테고리 리스트 컨테이너 */}
+                <div className='weddingItemArticle-category-list-grid'>
+                {displayedItems.map((categoryItem) => (
+                        <a href={`/weddingItemArticle/${categoryItem.id}`} key={categoryItem.id || Math.random()}>
+                            <div className="weddingItemArticle-category-item">
+                                {categoryItem.id ? (
+                                    <>
+                                        <img src={`${process.env.PUBLIC_URL}${categoryItem.imgAddr}`} alt={categoryItem.imgName} className="weddingItemArticle-category-item-image" />
+                                        <span>{categoryItem.imgName}</span>
+                                        <span>{categoryItem.price}</span>
+                                    </>
+                                ) : (
+                                    <div className="weddingItemArticle-placeholder"> {/* 빈 요소 스타일 */}
+                                        <span>&nbsp;</span> {/* 필요에 따라 스타일 조정 가능 */}
+                                    </div>
+                                )}
+                            </div>
+                        </a>
                     ))}
-                </ul>
+                </div>
             </div>
         </div>
     );

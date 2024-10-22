@@ -10,7 +10,6 @@
 .weddingItemArticle-image-container {
     flex: 2; /* 이미지 div 비율을 2로 설정 */
     margin-right: 20px; /* 오른쪽 div와의 간격 */
-    border: 1px solid #ccc; /* 이미지 div에 border 추가 */
     padding: 10px; /* padding 추가하여 여백 설정 */
     background-color: #fff; /* 배경색 추가 */
     display: flex; /* Flexbox 사용 */
@@ -27,7 +26,7 @@
 
 .weddingItemArticle-content {
     flex: 1; /* 내용 div 비율을 1로 설정 */
-    border: 1px solid #ccc; /* 내용 div에 border 추가 */
+    border: 1px solid #e2e2e2; /* 내용 div에 border 추가 */
     padding: 10px; /* padding 추가하여 여백 설정 */
     background-color: #fff; /* 배경색 추가 */
 }
@@ -35,11 +34,12 @@
 .weddingItemArticle-title {
     font-size: 24px;
     margin-bottom: 10px;
+    color: #000080;
 }
 
 .weddingItemArticle-price {
     font-size: 20px;
-    color: #d9534f;
+    color: #16526f;
     margin-bottom: 15px;
 }
 
@@ -62,32 +62,36 @@
     background-color: #000080;
 }
 
-.category-list {
-    margin-top: 20px; /* 리스트와 위 요소 간의 간격 */
+.weddingItemArticle-category-list {
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 40px; /* 리스트와 위 요소 간의 간격 */
+    margin-bottom: 40px;
     text-align: center; /* 리스트 중앙 정렬 */
     border: 1px solid red;
 }
 
-.category-list ul {
-    list-style-type: none; /* 기본 리스트 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    display: flex; /* 리스트 항목을 가로로 나열 */
-    justify-content: center; /* 리스트 항목을 중앙 정렬 */
+.weddingItemArticle-category-list-grid {
+    display: grid; /* CSS Grid 사용 */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px; /* 각 항목 간의 간격 */
 }
 
-.category-item {
+.weddingItemArticle-category-item {
     display: flex; /* Flexbox 사용 */
     flex-direction: column; /* 세로로 나열 */
     align-items: center; /* 수평 중앙 정렬 */
-    margin: 0 10px; /* 각 아이템 간의 간격 설정 */
+    color: #000080;
+    margin: 0px;
 }
 
-.category-item-image {
+.weddingItemArticle-category-item-image {
+    margin-top: 20px;
     width: 200px; /* 이미지의 너비 200px로 설정 */
     height: auto; /* 자동으로 높이 설정 */
-    margin-bottom: 5px; /* 이미지와 텍스트 간의 간격 */
+    margin-bottom: 10px; /* 이미지와 텍스트 간의 간격 */
 }
 
-.category-item-details {
+.weddingItemArticle-category-item-details {
     text-align: center; /* 텍스트 중앙 정렬 */
 }

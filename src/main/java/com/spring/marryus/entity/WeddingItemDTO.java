@@ -32,15 +32,5 @@ public class WeddingItemDTO {
     
     @Column(name = "rate")
     private String rate;
-    
-    public WeddingItemDTO(Long id, String category, String imgAddr, String imgName, String price, String rate) {
-        this.id = id;
-        this.category = category;
-        this.imgAddr = imgAddr;
-        this.imgName = imgName;
-        this.price = price;
-        this.rate = rate;
-    }
-    
-    public WeddingItemDTO() {}
+   
 }
