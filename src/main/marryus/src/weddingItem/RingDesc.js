@@ -1,10 +1,47 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import './weddingItemArticle.css';
 
-const RingDesc = () => {
+const RingDesc = ({item}) => {
+    const [maleSize,setMaleSize] = useState();
+    const [femaleSize,setFemaleSize] = useState();
+
+
+    const postData = async () => {
+        const confirmation = window.confirm("장바구니에 담으시겠습니까?");
+
+
+        if (confirmation) {
+            const weddingItemData = {              
+                name: item.imgName,
+                price: item.price,
+                ringMaleSize: maleSize,
+                ringFemaleSize: femaleSize,
+                category: '혼수'
+            };
+
+            try {
+                const response = axios.post('/api/addCart', weddingItemData, {
+                    withCredentials: true
+                });
+                console.log('POST response data:', response.data);
+            } catch (error) {
+                console.error('Error posting data:', error);
+            }
+         } else {
+             // 취소 시 실행되는 로직
+             console.log("삭제가 취소되었습니다.");
+         }
+     };
+
     return (
         <div>
-            <select style={{width:'100%',padding:'10px',marginBottom:'10px',fontSize:'16px'}}>
-                <option>반지 사이즈(남)</option>
+            <select
+                style={{ width: '100%', padding: '10px', marginBottom: '10px', fontSize: '16px' }}
+                value={maleSize}
+                onChange={(e) => setMaleSize(e.target.value)}
+            >
+                <option value="">반지 사이즈(남)</option>
                 <option>10호</option>
                 <option>11호</option>
                 <option>12호</option>
@@ -21,9 +58,13 @@ const RingDesc = () => {
                 <option>23호</option>
                 <option>24호</option>
             </select>
-            <br/>
-            <select style={{width:'100%',padding:'10px',marginBottom:'10px',fontSize:'16px'}}>
-                <option>반지 사이즈(여)</option>
+            <br />
+            <select
+                style={{ width: '100%', padding: '10px', marginBottom: '10px', fontSize: '16px' }}
+                value={femaleSize}
+                onChange={(e) => setFemaleSize(e.target.value)}
+            >
+                <option value="">반지 사이즈(여)</option>
                 <option>1호</option>
                 <option>2호</option>
                 <option>3호</option>
@@ -43,6 +84,8 @@ const RingDesc = () => {
                 <option>17호</option>
                 <option>18호</option>
             </select>
+            <br/>
+            <button className="weddingItemArticle-purchase-button" onClick={postData}>구매하기</button>
         </div>
     );
 };

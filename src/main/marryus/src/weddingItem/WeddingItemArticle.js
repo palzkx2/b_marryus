@@ -56,18 +56,17 @@ const WeddingItemArticle = () => {
                     <p className="weddingItemArticle-description">
                         {
                             item.category==='flower' &&
-                                <FlowerDesc/>
+                                <FlowerDesc item={item}/>
                         }
                         {
                             item.category==='suit' &&
-                                <SuitDesc/>
+                                <SuitDesc item={item}/>
                         }
                         {
                             item.category==='ring' &&
-                                <RingDesc/>
+                                <RingDesc item={item}/>
                         }
                     </p>
-                    <button className="weddingItemArticle-purchase-button">구매하기</button>
                 </div> 
             </div>
             <div className="weddingItemArticle-category-list"> {/* 카테고리 리스트 컨테이너 */}

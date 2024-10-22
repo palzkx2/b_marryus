@@ -36,7 +36,11 @@ public class CartController {
 	
 	 @PostMapping("/api/addCart")
 	    public void addCart(@RequestBody Cart cart, HttpSession session) {
-	        
+		  	
+		 System.out.println("호출됨");
+		 System.out.println("호출됨");
+		 System.out.println("호출됨");
+		 
 	        // 세션에서 값을 읽어오기
 	        SessionUser oauthUser = (SessionUser) session.getAttribute("oauthUser");
 	        Member defaultUser = (Member) session.getAttribute("user");
@@ -48,6 +52,8 @@ public class CartController {
 	        String category = cart.getCategory();
 	        String productName = cart.getName();
 	        String productPrice = cart.getPrice();
+	        
+	        
 	        
 
 	        // 세션에서 읽은 값이 null이 아닌지 확인
@@ -66,6 +72,10 @@ public class CartController {
 	        } else {
 	            System.out.println("일반 사용자 정보가 세션에 없습니다.");
 	        }
+	        
+	        cart.getRingFemaleSize();
+	        cart.getRingMaleSize();
+	        
 	        
 	        cartService.addCart(userId, productCount, userType, category, productName, productPrice);
 	        

@@ -34,6 +34,22 @@ public class Cart {
 	
 	private String userrId;
 	
+	private String ringMaleSize;
+	
+	private String ringFemaleSize;
+	
+	private String suitColor;
+	
+	private String suitSize;
+	
+	private String suitPantsSize;
+	
+	private String suitVest;//선택
+	
+	private String suitJacket;//선택
+	
+	private String flowerColor;
+	
 	@ManyToOne // 여러 개의 카트가 하나의 사용자에게 속할 수 있음
 	@JoinColumn(name = "user_id") // FK 컬럼 이름 설정
 	private Member user;

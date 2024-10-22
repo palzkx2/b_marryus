@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import studioImg from '../s_images/cartBar.jpg'
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import './cart.css'
 import axios from 'axios';
 
 const Cart = () => {
 
     const [weddingHalls, setWeddingHalls] = useState([]);
+    const [householdItems, setHouseholdItems] = useState([]);
 
     useEffect(() => {
         const getCartList = async () => {
@@ -47,6 +48,14 @@ const Cart = () => {
                         price: parseInt(item.price, 10),
                         quantity: item.count,
                         userType: item.userType,
+                        ringMaleSize: item.ringMaleSize, // 남자 사이즈 추가
+                        ringFemaleSize: item.ringFemaleSize, // 여자 사이즈 추가
+                        suitColor: item.suitColor,//양복색상
+                        suitSize: item.suitSize,//양복 사이즈
+                        suitPantsSize: item.suitPantsSize,//양복 바지사이즈
+                        suitVest: item.suitVest,//조끼(선택)
+                        suitJacket: item.suitJacket,//자켓(선택)
+                        flowerColor: item.flowerColor,//부케색상
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     
@@ -74,6 +83,7 @@ const Cart = () => {
         };
     
         getCartList();
+
     }, []);
     
     
@@ -83,10 +93,7 @@ const Cart = () => {
         { id: 2, name: '스드메 패키지 2', price: 2500000, quantity: 1, checked: true },
       ]);
     
-      const [householdItems, setHouseholdItems] = useState([
-        { id: 1, name: '혼수 가전 1', price: 1000000, quantity: 1, checked: true },
-        { id: 2, name: '혼수 가구 2', price: 1500000, quantity: 1, checked: true },
-      ]);
+      
     
       const [destinations, setDestinations] = useState([
         { id: 1, name: '허니문 여행지 1', price: 5000000, quantity: 1, checked: true },
@@ -247,6 +254,32 @@ const Cart = () => {
                                                 onChange={(e) => handleCheckboxChange('householdItems', item.id, e.target.checked)}/>
                                             <span>{item.name}</span>
                                             <span>{item.price}원</span>
+                                            <>
+                                              {item.ringMaleSize && (
+                                                  <span>남자 사이즈: {item.ringMaleSize}</span>
+                                              )}
+                                              {item.ringFemaleSize && (
+                                                  <span>여자 사이즈: {item.ringFemaleSize}</span>
+                                              )}
+                                              {item.suitColor && (
+                                                  <span>{item.suitColor}</span>
+                                              )}
+                                              {item.suitSize && (
+                                                  <span>{item.suitSize}</span>
+                                              )}
+                                              {item.suitPantsSize && (
+                                                  <span>{item.suitPantsSize}</span>
+                                              )}
+                                              {item.suitVest && (
+                                                  <span>{item.suitVest}</span>
+                                              )}
+                                              {item.suitJacket && (
+                                                  <span>{item.suitJacket}</span>
+                                              )}
+                                              {item.flowerColor && (
+                                                  <span>{item.flowerColor}</span>
+                                              )}
+                                            </>
                                             <input type="number" value={item.quantity} 
                                                     onChange={(e) => handleQuantityChange('householdItems', item.id, parseInt(e.target.value))} min="1"
                                                     disabled={!item.checked} 
