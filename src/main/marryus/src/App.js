@@ -32,6 +32,7 @@ import OauthSingUp from "./login/OauthSingUp";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import OauthUpdateUser from "./login/OauthUpdateUser";
+import Payment from "./cart/Payment";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function App() {
         <Route path={['/travelOnCat/:place']}><TravelOnCat/></Route>
         <Route path={['/insertWeddingHall']}><InsertWeddingHall/></Route>
         <Route path={['/oauthSignup']}><OauthSingUp/></Route>
+        <Route path={['/payment']}><Payment/></Route>
       </Switch>
       <Footer/>
     </div>

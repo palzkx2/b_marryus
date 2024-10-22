@@ -180,6 +180,9 @@ const WeddingHall = () => {
 
     }, []);
 
+
+    
+
     return (
         <div style={{justifyContent:'center', alignContent:'center'}}>
              <div style={{margin:'auto',width:'1400px', height:'350px', display:'flex', justifyContent:'center', alignContent:'center', backgroundImage:`url(${loginImg})`, backgroundSize:'cover', backgroundPosition:`center calc(100% - -130px)`}}>

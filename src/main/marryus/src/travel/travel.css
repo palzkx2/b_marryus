@@ -1,43 +1,93 @@
+.travel-category {
+  font-family: 'Arial', sans-serif;
+}
 
-.travel-swiper-slide {
-  width: 100%; /* 슬라이드가 Swiper의 전체 크기를 차지하도록 설정 */
-  height: 100%; /* 슬라이드가 Swiper의 전체 높이를 차지하도록 설정 */
-  display: flex; /* 슬라이드 내용 중앙 정렬 */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  top: -50px;
+  width: 1400px;
+  height: 350px;
+}
+
+.background-video {
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #fff;
+  text-align: center;
 }
 
+.overlay h1 {
+  font-size: 3rem;
+  margin: 0;
+}
 
-.css-1ax683h {
-  margin-left:10px;
+.overlay p {
+  font-size: 1.5rem;
+}
+
+.category-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  height: 32px;
-  align-items:'center';
-    max-width: 212px;
-    padding: 8px 16px;
-    font-size: 0.8125rem;
-    line-height: 0.8125rem;
-    letter-spacing: 0px;
-    font-weight: 600;
-    flex: 0 0 auto;
-    cursor: pointer;
-    -webkit-box-align: center;
-    align-items: center;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-radius: 100px;
-    border-width: 1.5px;
-    --tw-bg-opacity: 1;
-    background-color: tomato;
-    color: rgb(255, 255, 255);
+  padding: 2rem;
 }
 
+.category-card {
+  margin: 1rem;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+  width: 300px; /* 카드 너비 조정 */
+}
 
-.travel-swiper-slide .ttimg {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.category-card:hover {
+  transform: scale(1.05); /* 마우스 오버 시 카드 확대 효과 */
+}
+
+.category-card img {
+  width: 100%;
+  height: auto;
+}
+
+.card-content {
+  padding: 1rem;
+  text-align: center;
+  background-color: #fff;
+}
+
+.card-content h2 {
+  font-size: 1.5rem;
+}
+
+.card-content p {
+  color: #555;
+}
+
+.card-content button {
+  padding: 10px 20px;
+  background-color: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card-content button:hover {
+  background-color: #e68a00; /* 버튼 호버 효과 */
 }

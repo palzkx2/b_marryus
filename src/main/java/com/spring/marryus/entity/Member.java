@@ -1,10 +1,13 @@
 package com.spring.marryus.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,5 +41,8 @@ public class Member {
 	private String emailAgree;
 	
 	private String userRole;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Cart> carts;
 
 }
