@@ -27,8 +27,6 @@ import Cart from "./cart/Cart";
 import ServiceCenter from "./serviceCenter/ServiceCenter";
 import ServiceCenterCreate from "./serviceCenter/ServiceCenterCreate";
 import ServiceCenterArticle from "./serviceCenter/ServiceCenterArticle";
-import TravelArticle from "./travel/TravelArticle";
-import TravelOnCat from "./travel/TravelOnCat";
 import ScrollToTop from "./body/ScrollToTop";
 import InsertWeddingHall from "./body/InsertWeddingHall";
 import OauthSingUp from "./login/OauthSingUp";
@@ -36,6 +34,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import OauthUpdateUser from "./login/OauthUpdateUser";
 import Payment from "./cart/Payment";
+import DomesticDestinations from "./travel/DomesticDestinations";
+import OverseasDestinations from "./travel/OverseasDestinations";
+import SearchComponent from "./travel/SearchComponent";
+import InsertTravle from "./travel/admin/InsertTravle";
+import ArticlePage from "./travel/ArticlePage";
+
 
 function App() {
   return (
@@ -70,11 +74,15 @@ function App() {
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
         <Route path={['/serviceCenterCreate']}><ServiceCenterCreate/></Route>
         <Route path={['/serviceCenterArticle/:id']}><ServiceCenterArticle/></Route>
-        <Route path={['/travelArticle/:place']}><TravelArticle/></Route>
-        <Route path={['/travelOnCat/:place']}><TravelOnCat/></Route>
         <Route path={['/insertWeddingHall']}><InsertWeddingHall/></Route>
+        <Route path={['/insertTravle']}><InsertTravle/></Route>
+        <Route path={['/oauthSignup']}><OauthSingUp/></Route>
         <Route path={['/oauthSignup']}><OauthSingUp/></Route>
         <Route path={['/payment']}><Payment/></Route>
+        <Route path={['/domesticDestinations']}><DomesticDestinations/></Route>
+        <Route path={['/overseasDestinations']}><OverseasDestinations/></Route>
+        <Route path={['/travelSearch']}><SearchComponent/></Route>
+        <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName']}><ArticlePage/></Route>
       </Switch>
       <Footer/>
     </div>
