@@ -29,6 +29,7 @@ import TravelOnCat from "./travel/TravelOnCat";
 import ScrollToTop from "./body/ScrollToTop";
 import InsertWeddingHall from "./body/InsertWeddingHall";
 import OauthSingUp from "./login/OauthSingUp";
+import FindId from "./login/FindId"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import OauthUpdateUser from "./login/OauthUpdateUser";
@@ -58,6 +59,7 @@ function App() {
         <Route path='/myBookmark' component={MyBookmark} />
         <Route path='/myCart' component={MyCart} />
         <Route path='/updateUser' component={UpdateUser} />
+        {/* <Route path={['/findId']}><FindId/></Route> */}
         <Route path='/oauthUpdateUser'><OauthUpdateUser/></Route>
         <Route path={['/sdmArticle/:sdmName']}><SdmArticle/></Route>
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>

@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class WeddingHallService {
     private final String upload = "C:\\marryus\\weddingHall"; // 이미지 업로드 경로
     
     // 웨딩홀 정보 삽입 메서드
-    public WeddingHall insert(String imageName, MultipartFile imageFile, String name, String addr, Integer price, String buffet, String tag,String wido,String gyungdo,String imgType) throws Exception {
+    public WeddingHall insert(String imageName, MultipartFile imageFile, String name, String addr, Integer price, String buffet, String tag,String wido,String gyungdo,String imgType,LocalDateTime created) throws Exception {
         
         // 이미지 업로드 경로 확인 및 생성
         File uploadPath = new File(upload);
@@ -63,6 +64,7 @@ public class WeddingHallService {
         wdh.setWido(wido);
         wdh.setGyungdo(gyungdo);
         wdh.setImgType(imgType);
+        wdh.setCreated(created);
         
         weddingHallRepository.save(wdh); // 웨딩홀 정보 저장
         
@@ -112,5 +114,30 @@ public class WeddingHallService {
     public WeddingHall findById(Long id) {
         return weddingHallRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("해당 ID의 웨딩홀이 존재하지 않습니다: " + id)); // ID로 웨딩홀 조회, 없으면 예외 발생
+    }
+    
+    // 최신 등록순 정렬
+    public Page<WeddingHall> getWeddingHallsSortedByNewest(Pageable pageable) {
+        return weddingHallRepository.findAllByOrderByCreatedAtDesc(pageable);
+    }
+
+    // 평점순 정렬
+    public Page<WeddingHall> getWeddingHallsSortedByRating(Pageable pageable) {
+        return weddingHallRepository.findAllByOrderByRatingDesc(pageable);
+    }
+
+    // 낮은 가격순 정렬
+    public Page<WeddingHall> getWeddingHallsSortedByLowestPrice(Pageable pageable) {
+        return weddingHallRepository.findAllByOrderByPriceAsc(pageable);
+    }
+
+    // 높은 가격순 정렬
+    public Page<WeddingHall> getWeddingHallsSortedByHighestPrice(Pageable pageable) {
+        return weddingHallRepository.findAllByOrderByPriceDesc(pageable);
+    }
+    
+    // imgType에 따른 데이터를 필터링하는 메서드
+    public Page<WeddingHall> getImagesByCategory(String imgType, Pageable pageable) {
+        return weddingHallRepository.findByImgType(imgType, pageable);
     }
 }

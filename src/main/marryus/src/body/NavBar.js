@@ -126,9 +126,15 @@ const NavBar = () => {
                         </p>
                     </Link>
                 </div>
-                <Link to='/myPage' style={{color:'white'}}>
-                    <FaUserTie className='icon'/>
-                </Link>
+                {
+                    (data.name === undefined && !userRole) ? (
+                        <FaUserTie className='icon' onClick={PlsLogin}/>
+                    ) : (
+                        <Link to='/myPage' style={{color:'white'}}>
+                            <FaUserTie className='icon'/>
+                        </Link>
+                    )
+                }
                 <Link to='/cart' style={{color:'white'}}>
                     <TbShoppingCartHeart className='icon' style={{marginLeft:'20px'}}/>
                 </Link>

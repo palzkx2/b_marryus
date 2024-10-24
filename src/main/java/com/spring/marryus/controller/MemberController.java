@@ -2,6 +2,8 @@ package com.spring.marryus.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,21 @@ public class MemberController {
         
     }
     
+    //인증코드 생성, 이메일 전송 메소드
+    @PostMapping("/api/sendEmail")
+    public ResponseEntity<String> sendEmail(@RequestParam String email) {
+    	
+    	try {
+			
+    		String certificationNumber = memberService.sendcertificationEmail(email);
+    		return ResponseEntity.ok(certificationNumber);
+    		
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 전송 실패");
+		}
+    	
+    }
+    
     // 이메일 중복 확인
     @GetMapping("/api/checkEmail")
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
@@ -78,6 +95,15 @@ public class MemberController {
         session.setAttribute("addr", authenticatedMember.getAddr());
         session.setAttribute("hopeArea", authenticatedMember.getHopeArea());
         session.setAttribute("weddingDate", authenticatedMember.getWeddingDate());
+        
+        System.out.println("세션에 저장된 사용자 정보:");
+        System.out.println("userRole: " + session.getAttribute("userRole"));
+        System.out.println("email: " + session.getAttribute("email"));
+        System.out.println("name: " + session.getAttribute("name"));
+        System.out.println("phone: " + session.getAttribute("phone"));
+        System.out.println("addr: " + session.getAttribute("addr"));
+        System.out.println("hopeArea: " + session.getAttribute("hopeArea"));
+        System.out.println("weddingDate: " + session.getAttribute("weddingDate"));
         
         return ResponseEntity.ok("로그인 성공");
         
@@ -188,6 +214,18 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body("회원수정 성공적으로 완료되었습니다.");
         
     }
-   
-
+    
+    @GetMapping("/api/findEmail")
+    public ResponseEntity<String> findEmail(@RequestParam String name, @RequestParam String phone) {
+    	
+    	String maskedEmail = memberService.findEmailByNameAndPhone(name, phone);
+    	
+        if (maskedEmail != null) {
+            return ResponseEntity.ok(maskedEmail); // 이메일이 있을 경우
+        } else {
+            return ResponseEntity.ok(null); // 일치하는 이메일이 없을 경우
+        }
+    	
+    }
+    
 }

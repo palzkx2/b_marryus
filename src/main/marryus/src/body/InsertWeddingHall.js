@@ -45,6 +45,9 @@ const InsertWeddingHall = () => {
         formData.append('gyungdo', gyungdo);
         formData.append('imgType', imgType);
 
+        const currentTime = new Date().toISOString();
+        formData.append('created',currentTime);
+
         try {
             const response = await axios.post('http://localhost:8080/api/insertWeddingHall', formData, {
                 headers: {

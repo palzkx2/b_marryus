@@ -1,5 +1,7 @@
 package com.spring.marryus.entity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,5 +42,7 @@ public class WeddingHall {
 	private String gyungdo; // 경도
 	
 	private String imgType;
+	
+	private LocalDateTime created;
 
 }

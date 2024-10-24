@@ -1,6 +1,9 @@
 package com.spring.marryus.controller;
 
 import java.io.File;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.core.io.FileSystemResource;
@@ -45,10 +48,13 @@ public class WeddingHallController {
             @RequestParam("tag") String tag,
             @RequestParam("wido") String wido,
             @RequestParam("gyungdo") String gyungdo,
-            @RequestParam("imgType") String imgType) throws Exception {
+            @RequestParam("imgType") String imgType,
+            @RequestParam("created") Instant created) throws Exception {
+    	
+    	LocalDateTime createdDateTime = LocalDateTime.ofInstant(created, ZoneId.systemDefault());
 
         // 웨딩홀 정보를 DB에 추가
-        weddingHallService.insert(imageName, imageFile, name, addr, price, buffet, tag, wido, gyungdo, imgType);
+        weddingHallService.insert(imageName, imageFile, name, addr, price, buffet, tag, wido, gyungdo, imgType, createdDateTime);
         return "웨딩홀 정보가 성공적으로 등록되었습니다.";
     }
     
@@ -120,6 +126,35 @@ public class WeddingHallController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 웨딩홀의 이름을 찾을 수 없습니다.");
         }
+        
+    }
+    
+    @GetMapping("/api/sorted")
+    public Page<WeddingHall> getSortedWeddingHalls(@RequestParam String sortType,@PageableDefault(size = 9) Pageable pageable) {
+    	
+    	System.out.println("sortType넘어왔나------------" + sortType);
+    	
+        switch (sortType) {
+            case "newest":
+                return weddingHallService.getWeddingHallsSortedByNewest(pageable);
+            case "rating":
+                return weddingHallService.getWeddingHallsSortedByRating(pageable);
+            case "lowPrice":
+                return weddingHallService.getWeddingHallsSortedByLowestPrice(pageable);
+            case "highPrice":
+                return weddingHallService.getWeddingHallsSortedByHighestPrice(pageable);
+            default:
+                throw new IllegalArgumentException("Invalid sort type: " + sortType);
+        }
+        
+    }
+    
+    // imgType에 따른 데이터를 가져오는 엔드포인트
+    @GetMapping("/api/category")
+    public ResponseEntity<Page<WeddingHall>> getImagesByCategory(@RequestParam(value = "imgType") String imgType,Pageable pageable) {
+        
+        Page<WeddingHall> images = weddingHallService.getImagesByCategory(imgType, pageable);
+        return ResponseEntity.ok(images);
         
     }
 
