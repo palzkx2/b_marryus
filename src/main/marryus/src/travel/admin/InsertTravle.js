@@ -30,8 +30,8 @@ const InsertTravle = () => {
                             <h2>추가할 자료 유형</h2>
                             <select className="search-type-select"  onChange={(e) => setSearchType(e.target.value)}>
                                 <option value="">선택하세요</option>
-                                <option value="location">지역</option>
-                                <option value="agency">여행사</option>
+                                {/* <option value="location">지역</option> */}
+                                {/* <option value="agency">여행사</option> */}
                                 <option value="sukso">숙소</option>
                             </select>
                             <div style={{margin:'10px',padding:'10px'}}>
