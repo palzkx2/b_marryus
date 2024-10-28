@@ -28,7 +28,7 @@ public class WeddingItemDTO {
     private String imgName;
     
     @Column(name = "price")
-    private String price;
+    private Integer price;
     
     @Column(name = "rate")
     private String rate;

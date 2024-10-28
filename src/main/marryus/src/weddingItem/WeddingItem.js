@@ -55,7 +55,7 @@ const WeddingItem = () => {
                         <a href={`/weddingItemArticle/${image.id}`}>
                             <p className="image-name">{image.imgName}</p>
                         </a>
-                        <p className="image-price">{image.price}</p>
+                        <p className="image-price">{image.price}원</p>
                         <p className="image-rating">⭐ {image.rate} / 5</p>
                     </div>
                 ))}

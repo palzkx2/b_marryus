@@ -10,6 +10,15 @@ const RingDesc = ({item}) => {
     const postData = async () => {
         const confirmation = window.confirm("장바구니에 담으시겠습니까?");
 
+        // 사이즈가 선택되었는지 확인
+        if (!maleSize) {
+            alert("남자 반지 사이즈를 선택해 주세요.");
+            return;
+        }
+        if (!femaleSize) {
+            alert("여자 반지 사이즈를 선택해 주세요.");
+            return;
+        }
 
         if (confirmation) {
             const weddingItemData = {              
@@ -25,6 +34,7 @@ const RingDesc = ({item}) => {
                     withCredentials: true
                 });
                 console.log('POST response data:', response.data);
+                alert("장바구니에 추가되었습니다!"); // 장바구니에 추가되었다는 메시지
             } catch (error) {
                 console.error('Error posting data:', error);
             }
@@ -41,7 +51,7 @@ const RingDesc = ({item}) => {
                 value={maleSize}
                 onChange={(e) => setMaleSize(e.target.value)}
             >
-                <option value="">반지 사이즈(남)</option>
+                <option value="" disabled selected>반지 사이즈(남)</option>
                 <option>10호</option>
                 <option>11호</option>
                 <option>12호</option>
@@ -64,7 +74,7 @@ const RingDesc = ({item}) => {
                 value={femaleSize}
                 onChange={(e) => setFemaleSize(e.target.value)}
             >
-                <option value="">반지 사이즈(여)</option>
+                <option value="" disabled selected>반지 사이즈(여)</option>
                 <option>1호</option>
                 <option>2호</option>
                 <option>3호</option>

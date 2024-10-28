@@ -9,6 +9,12 @@ const FlowerDesc = ({item}) => {
     const postData = async () => {
         const confirmation = window.confirm("장바구니에 담으시겠습니까?");
 
+        // 사이즈가 선택되었는지 확인
+        if (!flowerColor) {
+            alert("꽃 색상을 선택해 주세요.");
+            return;
+        }
+
         if (confirmation) {
             const weddingItemData = {              
                 name: item.imgName,
@@ -22,6 +28,7 @@ const FlowerDesc = ({item}) => {
                     withCredentials: true
                 });
                 console.log('POST response data:', response.data);
+                alert("장바구니에 추가되었습니다!"); // 장바구니에 추가되었다는 메시지
             } catch (error) {
                 console.error('Error posting data:', error);
             }
@@ -34,7 +41,7 @@ const FlowerDesc = ({item}) => {
     return (
         <div>
             <select style={{width:'100%',padding:'10px',marginBottom:'10px',fontSize:'16px'}} value={flowerColor} onChange={(e) => setFlowerColor(e.target.value)}>
-                <option>꽃 색상</option>
+                <option disabled selected>꽃 색상</option>
                 <option>레드</option>
                 <option>바이올렛</option>
                 <option>블루</option>
