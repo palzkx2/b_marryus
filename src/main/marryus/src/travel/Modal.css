@@ -11,7 +11,7 @@
     align-items: center;
 }
 
-.modal-content {
+.modal-content1 {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -20,7 +20,7 @@
     width: 300px;
 }
 
-.modal-content button {
+.modal-content1 .button1 {
     margin-top: 10px;
     padding: 5px 10px;
     background-color: #ff6347; /* Tomato color */
@@ -30,7 +30,7 @@
     cursor: pointer;
 }
 
-.modal-content button:hover {
+.modal-content1 button1:hover {
     background-color: #ff4500; /* OrangeRed color */
 }
 .addToCarrt{

@@ -1,18 +1,44 @@
 package com.spring.marryus.service;
 
 import java.util.Optional;
+
 import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+
 import com.spring.marryus.dao.MemberRepository;
 import com.spring.marryus.entity.Member;
-import com.spring.marryus.oauth.BaseAuthUser;
+import com.spring.marryus.provider.EmailProvider;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository; // 멤버 리포지토리 주입
+    private final MemberRepository memberRepository; // 멤버 리포지토리 주입
+    
+    private final EmailProvider emailProvider;
+    
+    private final SmsService smsService;
+    
+    // 인증코드 생성 후 이메일 전송 메소드
+    public String sendcertificationEmail(String email) {
+    	
+    	// 인증 코드 생성 (6자리 랜덤 숫자 예시)
+        String certificationNumber = String.format("%06d", (int)(Math.random() * 1000000));
+
+        // 이메일 전송
+        boolean isEmailSent = emailProvider.sendCertificationMail(email, certificationNumber);
+        
+        if (!isEmailSent) {
+            throw new RuntimeException("이메일 전송 실패");
+        }
+
+        // 인증 코드를 반환하여 React에서 처리할 수 있도록
+        return certificationNumber;
+    	
+    }
 
     // 회원 저장 메서드
     public Member saveMember(Member member) {
@@ -26,6 +52,7 @@ public class MemberService {
 
     // 로그인 인증 메서드
     public Member authenticate(String email, String password) {
+    	
         Optional<Member> memberOptional = memberRepository.findByEmail(email); // 이메일로 회원 조회
 
         if (memberOptional.isPresent()) {
@@ -57,12 +84,9 @@ public class MemberService {
     @Transactional
     public void updateUser(String email, String addr, String emailAgree, String hopeArea, String phone, String weddingDate,String pwd,String name) {
     	
-    	
-        // 1. 엔티티 조회
         Member user = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. eamil=" + email));
         
-        // 2. 엔티티 값 수정
         user.setPassword(pwd);
         user.setAddr(addr);
         user.setEmailAgree(emailAgree);
@@ -70,16 +94,42 @@ public class MemberService {
         user.setPhone(phone);
         user.setWeddingDate(weddingDate);
         user.setName(name);
-
-        // 3. 변경 감지
-        // @Transactional 안에서 자동으로 변경된 부분을 감지하여 업데이트가 수행됨
+        
     }
     
-    
     public Member readUser(String email) {
+    	
     	Member user = new Member();
     	user = memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("조회 실패"));;
     	
     	return user;
+    	
     }
+    
+    public String findEmailByNameAndPhone(String name, String phone) {
+    	
+    	Optional<Member> memberOpt = memberRepository.findByNameAndPhone(name, phone);
+    	
+        if (memberOpt.isPresent()) {
+            String email = memberOpt.get().getEmail();
+            return maskEmail(email); // 마스킹된 이메일 반환
+        }
+        
+        return null; // 일치하는 회원이 없을 경우
+        
+    }
+    
+	private String maskEmail(String email) {
+    	
+    	int atIndex = email.indexOf('@');
+    	
+        if (atIndex > 1) {
+            String maskedPart = email.substring(0, atIndex - 4) + "****" + email.substring(atIndex);
+            return maskedPart;
+        }
+        
+        return email;
+        
+    }
+	
 }

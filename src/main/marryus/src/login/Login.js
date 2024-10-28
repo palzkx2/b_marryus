@@ -6,17 +6,32 @@ import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import { SiKakao, SiNaver } from 'react-icons/si';
 import './login.css'
+import FindIdModal from './FindIdModal';
+import FindPwdModal from './FindPwdModal';
 
 const Login = () => {
 
     const emailRef = useRef()
     const passwordRef = useRef()
     const history = useHistory()
+    const [findIdModalOpen,setFindIdModalOpen] = useState(false)
+    const [findPwdModalOpen,setFindPwdModalOpen] = useState(false)
 
-    const location = useLocation();
+    const openFindIdModal = () => {
+        setFindIdModalOpen(true)
+    }
 
-    
-    
+    const closeFindIdModal = () => {
+        setFindIdModalOpen(false)
+    }
+
+    const openFindPwdModal = () => {
+        setFindPwdModalOpen(true)
+    }
+
+    const closeFindPwdModal = () => {
+        setFindPwdModalOpen(false)
+    }
 
     const handleLogin = async () => {
 
@@ -111,19 +126,20 @@ const Login = () => {
                         <div style={{marginTop:'50px', position:'relative'}}>
                             <GiLockedHeart style={{width:'60px', height:'60px', color:'silver'}}/>
                         </div>
-                        <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold'}}>
+                        <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold', marginRight:'50px'}}>
                             이메일 <input type='text' ref={emailRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'20px'}} onKeyDown={enterKeyPress}/>
                         </div>
-                        <div style={{marginTop:'190px', position:'absolute', fontWeight:'bold'}}>
+                        <div style={{marginTop:'190px', position:'absolute', fontWeight:'bold', marginRight:'49px'}}>
                             비밀번호 <input type='password' ref={passwordRef} style={{width:'250px', height:'30px', borderRadius:'5px', border:'none', marginLeft:'6px', fontFamily: 'Arial, sans-serif'}} onKeyDown={enterKeyPress}/>
                         </div>
                         <div style={{marginTop:'150px', position:'absolute', fontWeight:'bold', marginLeft:'400px'}}>
-                            <button style={{width:'70px', height:'70px', borderRadius:'5px', background:'#5DC060', border:'none', cursor:'pointer', fontWeight:'bold'}} onClick={handleLogin}>로그인</button>
+                            <button style={{width:'70px', height:'70px', borderRadius:'5px', background:'#5DC060', border:'none', cursor:'pointer', fontWeight:'bold', marginRight:'40px'}} onClick={handleLogin}>로그인</button>
                         </div>
                         <div style={{marginTop:'250px', position:'absolute', fontWeight:'bold'}}>
-                            <Link to='/findId'>
-                                <button style={{background:'none', border:'1px solid gray', cursor:'pointer', fontWeight:'bold', padding:'5px'}}>아이디/비밀번호 찾기</button>
-                            </Link>
+                            <button onClick={openFindIdModal} style={{background:'none', border:'1px solid gray', cursor:'pointer', fontWeight:'bold', padding:'5px', marginLeft:'12px'}}>아이디 찾기</button>
+                            <FindIdModal isOpen={findIdModalOpen} closeModal={closeFindIdModal}/>
+                            <button onClick={openFindPwdModal} style={{background:'none', border:'1px solid gray', cursor:'pointer', fontWeight:'bold', padding:'5px',marginLeft:'7px'}}>비밀번호 찾기</button>
+                            <FindPwdModal isOpen={findPwdModalOpen} closeModal={closeFindPwdModal}/>
                             <Link to='/signup'>
                                 <button style={{background:'none', border:'1px solid gray', cursor:'pointer', marginLeft:'7px', fontWeight:'bold', padding:'5px'}}>회원가입</button>
                             </Link>

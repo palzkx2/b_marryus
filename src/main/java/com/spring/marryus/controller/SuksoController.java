@@ -38,7 +38,7 @@ public class SuksoController {
     	System.out.println("호출 되냐?");
 
         // 파일 저장 경로 설정 (원하는 경로로 수정 가능)
-        String uploadDir = "C:\\final\\b_marryus\\src\\main\\marryus\\public\\p_images\\travel\\sukso\\";
+        String uploadDir = "C:\\sts-bundle\\work\\MarryUs\\src\\main\\marryus\\public\\p_images\\travel\\sukso\\";
         
         System.out.println("호출 되냐?11");
 

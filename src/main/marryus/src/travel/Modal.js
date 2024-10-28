@@ -35,7 +35,7 @@ const Modal = ({ agency, accommodation, onClose }) => {
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-content1" onClick={e => e.stopPropagation()}>
                 {agency ? ( // 여행사 정보가 있을 경우
                     <>
                         <h2>{agency.name}</h2>
@@ -61,7 +61,7 @@ const Modal = ({ agency, accommodation, onClose }) => {
                     장바구니 담기
                 </div>
                 <div>
-                    <button onClick={onClose}>닫기</button>
+                    <button className='button1' onClick={onClose}>닫기</button>
                 </div>
             </div>
         </div>

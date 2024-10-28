@@ -17,75 +17,94 @@ import regions from './regionsData'
 
 const WeddingHall = () => {
 
-    const [page,setPage] = useState(0);
-    const [totalPages,setTotalPages] = useState(0);
     const [name,setName] = useState('')
     const [images,setImages] = useState([]);
     const [results,setResults] = useState([])
+    const [category, setCategory] = useState('');
+    const [imgType, setImgType] = useState('');
+    const [sortType, setSortType] = useState('');
     const history = useHistory()
     const location = useLocation()
 
-    const pageNumbers = [];
-
-    for(let i=1;i<=totalPages;i++){
-        pageNumbers.push(i);
-    }
-
-    // 페이지 로드시 쿼리 파라미터로 전달된 페이지 번호 확인
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
-        const pageQueryParam = queryParams.get('page');
-        const nameQueryParam = queryParams.get('name');
-
-        setPage(Number(pageQueryParam) || 0); // 쿼리 파라미터가 없으면 0 페이지로 설정
-        setName(nameQueryParam || '');
-
-        // 페이지네이션과 검색어에 따라 데이터 불러오기
-        fetchImages(nameQueryParam, Number(pageQueryParam) || 0);
+        setName(queryParams.get('name') || '');
+        setSortType(queryParams.get('sortType') || '');
+        setCategory(queryParams.get('category') || '');
+        setImgType(queryParams.get('imgType') || '');
     }, [location]);
 
-    const fetchImages = async (searchTerm, currentPage) => {
-
+    const fetchImages = async (searchTerm, selectedCategory, selectedImgType, selectedSortType) => {
         try {
-            let response;
+            const params = {
+                category: selectedCategory,
+                imgType: selectedImgType,
+                sortType: selectedSortType,
+                search: searchTerm,
+            };
     
-            if (searchTerm && searchTerm.trim() !== '') {
-                response = await axios.get(`/api/searchWeddingHall?name=${searchTerm}&page=${currentPage}&size=9`);
-            } else {
-                response = await axios.get(`/api/images?page=${currentPage}&size=9`);
-            }
+            const response = await axios.get('/api/images', { params });
     
-            if (response.data && response.data.content) {
-                setImages(response.data.content);
-                setTotalPages(response.data.totalPages);
+            // 데이터 설정
+            if (response.data) {
+                setImages(response.data);
+                setResults(response.data);
             } else {
                 console.error('예상한 데이터 구조가 아닙니다:', response.data);
             }
         } catch (error) {
             console.error('이미지 가져오기 실패:', error);
         }
+    };
 
-    }
+    // imgType에 따른 데이터를 가져오는 함수
+    const fetchImagesByCategory = async (category) => {
 
-    useEffect(() => {
-        fetchImages();
-    }, [page])
+        try {
+            const response = await axios.get('/api/category', {
+                params: {
+                    imgType: category
+                }
+            });
 
-    // 페이지 변경 함수
-    const handlePageChange = (pageNumber) => {
-        history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=${pageNumber}`);
+            if (response.data && response.data.content) {
+                setImages(response.data.content);
+            }
+        } catch (error) {
+            console.error('이미지 데이터를 가져오는 중 오류 발생:', error);
+        }
+
     };
 
     const searchBtn = async () => {
-        setPage(0);
-        history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=0`);
-    }
+        await fetchImages(); // 데이터를 가져옵니다.
+        history.push(`/weddingHall?name=${encodeURIComponent(name)}`);
+    };
 
+    // 초기 데이터 가져오기
     useEffect(() => {
-        if(name.trim() !== ''){
+        if (name.trim() !== '') {
             searchBtn();
+        } else {
+            fetchImages(name, category, imgType, sortType);
         }
-    }, [])
+    }, [name]);
+
+    // 카테고리 선택 시 이미지 가져오기
+    useEffect(() => {
+        if (category) {
+            fetchImagesByCategory(category);
+        } else {
+            fetchImages(name, category, imgType, sortType);
+        }
+    }, [category, name, imgType]);
+
+    // 카테고리 버튼 클릭 시 호출되는 함수
+    const handleCategoryClick = (selectedCategory) => {
+        setCategory(selectedCategory);
+        history.push(`/weddingHall?category=${encodeURIComponent(selectedCategory)}&sortType=${sortType}`);
+        fetchImages(name, selectedCategory, imgType, sortType);
+    };
 
     //삭제 버튼
     const deleteImage = async (imgPath) => {
@@ -131,9 +150,7 @@ const WeddingHall = () => {
         const region = event.target.value;
         setSelectedRegion(region);
         setSubRegions(regions[region] || []); // 선택된 지역에 따른 세부 행정구역 설정
-      };
-
-    const [data,setData] = useState(proData)
+    };
 
     //토글 디테입
     const [isOpen, setIsOpen] = useState(false); // 열림 상태 관리
@@ -142,8 +159,6 @@ const WeddingHall = () => {
     const toggleDetails = () => {
         setIsOpen(!isOpen);
     };
-
-    // 기존 코드 생략...
 
     const [isOpenRegion, setIsOpenRegion] = useState(false);
     const [isOpenPrice, setIsOpenPrice] = useState(false);
@@ -180,8 +195,32 @@ const WeddingHall = () => {
 
     }, []);
 
+    useEffect(() => {
+        fetchSortedWeddingHalls(sortType, category); // 정렬 기준과 페이지를 함께 전달
+    }, [sortType, category]); // sortType과 page가 변경될 때마다 호출
 
+    const fetchSortedWeddingHalls = async (sortType, selectedCategory) => {
+        try {
+            const params = {
+                category: selectedCategory || '',
+                ...(sortType && { sortType }) // sortType이 있을 때만 포함
+            };
     
+            const response = await axios.get(`/api/sorted`, { params });
+            
+            // 응답 처리
+            setImages(response.data.content || response.data);
+        } catch (error) {
+            console.error("정렬에 실패하였습니다 :", error);
+        }
+    };
+    
+    // 정렬 기준 변경 함수
+    const handleSortChange = (newSortType) => {
+        setSortType(newSortType);
+        fetchImages(name, category, imgType, newSortType); // 정렬 기준에 따른 이미지 가져오기
+        history.push(`/weddingHall?category=${encodeURIComponent(category)}&sortType=${newSortType}`);
+    };
 
     return (
         <div style={{justifyContent:'center', alignContent:'center'}}>
@@ -208,23 +247,23 @@ const WeddingHall = () => {
                         전체보기
                         <div className='gt' style={{paddingLeft:'137px'}}>&gt;</div>
                     </div>
-                    <div  className='letCategory'>
+                    <div  className='letCategory' onClick={() => handleCategoryClick('웨딩홀')}>
                         웨딩홀
                         <div className='gt' style={{paddingLeft:'149px'}}>&gt;</div>
                     </div>
-                    <div  className='letCategory'>
+                    <div  className='letCategory' onClick={() => handleCategoryClick('호텔')}>
                         호텔
                         <div className='gt' style={{paddingLeft:'161px'}}>&gt;</div>
                     </div>
-                    <div  className='letCategory'>
+                    <div  className='letCategory' onClick={() => handleCategoryClick('하우스')}>
                         하우스
                         <div className='gt' style={{paddingLeft:'149px'}}>&gt;</div>
                     </div>
-                    <div  className='letCategory'>
+                    <div  className='letCategory' onClick={() => handleCategoryClick('스몰')}>
                         스몰(100명 이하)
                         <div className='gt' style={{paddingLeft:'93px'}}>&gt;</div>
                     </div>
-                    <div  className='letCategory'>
+                    <div  className='letCategory' onClick={() => handleCategoryClick('야외웨딩홀')}>
                         야외 웨딩홀
                         <div className='gt' style={{paddingLeft:'121px'}}>&gt;</div>
                     </div>
@@ -415,29 +454,24 @@ const WeddingHall = () => {
                 }
                 <div className='header allProductHr' style={{marginTop:'40px'}}/>
                 <div style={{display:'flex'}}>
-                    <a href='#'>
-                        <div className='allProduct'>
-                            전체상품
-                        </div>
-                    </a>
-                    <a href='#'>
-                        <div className='allProduct'>
-                        가격순
-                        </div>
-                    </a>
-                    <a href='#'>
-                        <div className='allProduct'>
-                        평점순
-                        </div>
-                    </a>
-                    <a href='#'>
-                        <div className='allProduct'>
-                        거리순
-                        </div>
-                    </a> 
-                    <div className='allProduct' style={{marginLeft:'500px',fontWeight:'normal',fontSize:'13px'}}>
+                    <div className='allProduct'>
+                        전체상품
+                    </div>
+                    <div className='allProduct' style={{cursor:'pointer'}} onClick={() => handleSortChange('newest')}>
+                    최신순
+                    </div>
+                    <div className='allProduct' style={{cursor:'pointer'}} onClick={() => handleSortChange('rating')}>
+                    평점순
+                    </div>
+                    <div className='allProduct' style={{cursor:'pointer'}} onClick={() => handleSortChange('highPrice')}>
+                    높은 가격순
+                    </div>
+                    <div className='allProduct' style={{cursor:'pointer'}} onClick={() => handleSortChange('lowPrice')}>
+                    낮은 가격순
+                    </div>
+                    <div className='allProduct' style={{marginLeft:'425px',fontWeight:'normal',fontSize:'13px'}}>
                     총 {images.length}개의 상품이 검색되었습니다.&nbsp;&nbsp;&nbsp;
-                    <a href='#'><GrSort /></a>
+                    <GrSort />
                     </div>                  
                 </div>
                 <div className='header allProductHr'/>
@@ -447,7 +481,7 @@ const WeddingHall = () => {
                         images.map((item,index)=>
                             
                             <div className='itemContainer' key={index}>
-                                <Link to={`/wdArticle/${item.name}?page=${page}`} className='toArticle'>
+                                <Link to={`/wdArticle/${item.name}`} className='toArticle'>
                                     <WeddingHallItem key={index} item={item}/>
                                 </Link>
                                 {
@@ -460,24 +494,6 @@ const WeddingHall = () => {
                             </div>
                         )
                     }
-                </div>
-                <div>
-                    <button onClick={() => handlePageChange(0)} disabled={page === 0}>&lt;&lt;</button>
-                    <button onClick={() => handlePageChange(Math.max(page - 1, 0))} disabled={page === 0}>&lt;</button>
-                    
-                    {
-                        pageNumbers.map(number => (
-                            <button
-                                key={number}
-                                onClick={() => handlePageChange(number - 1)} // 0부터 시작하는 인덱스에 맞춰 조정
-                                style={{ fontWeight: page === number - 1 ? 'bold' : 'normal' }}
-                            >
-                                {number}
-                            </button>
-                        ))
-                    }
-                    <button onClick={() => handlePageChange(Math.min(page + 1, totalPages - 1))} disabled={page === totalPages - 1}>&gt;</button>
-                    <button onClick={() => handlePageChange(totalPages - 1)} disabled={page === totalPages - 1}>&gt;&gt;</button>
                 </div>
             </div>
         </div>
