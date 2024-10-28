@@ -3,6 +3,7 @@ import './Modal.css'; // 모달 스타일을 위한 CSS 파일 임포트
 import { BsCartPlus } from 'react-icons/bs';
 import axios from 'axios';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import  Numeral  from 'numeral';
 
 const Modal = ({ agency, accommodation, onClose }) => {
     
@@ -46,13 +47,13 @@ const Modal = ({ agency, accommodation, onClose }) => {
                     <>
                         <h2>{accommodation.sname}</h2>
                         <p>평점: {accommodation.pyong}</p>
-                        <p>가격: {accommodation.price}</p>
+                        <p>가격: {Numeral(accommodation.price).format('0,0')}</p>
                         <p>소재지: {accommodation.addr}</p>
                     </>
                 ) : null}
                 
-                <Link to={`/travelArticle/${accommodation.id}/${accommodation.sname}/${accommodation.pyong}/${accommodation.price}/${accommodation.addr}/${accommodation.imgName}`}>
-                    <div className='addToCarrt'>상세페이지 이동(미구현)</div>
+                <Link to={`/travelArticle/${accommodation.id}/${accommodation.sname}/${accommodation.pyong}/${accommodation.price}/${accommodation.addr}/${accommodation.imgName}/${accommodation.wido}/${accommodation.gyungdo}`}>
+                    <div className='addToCarrt'>상세페이지 이동</div>
                 </Link>
 
                 <div className='addToCarrt' onClick={postData}>

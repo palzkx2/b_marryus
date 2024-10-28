@@ -6,7 +6,7 @@ import numeral from 'numeral';
 import MapTest from './map/MapTest';
 
 const ArticlePage = () => {
-  const { id, name, rating, price, addr, imgName } = useParams();
+  const { id, name, rating, price, addr, imgName,lat,lng } = useParams();
 
   const postData = async (event) => {
     event.preventDefault();
@@ -32,9 +32,6 @@ const ArticlePage = () => {
     }
   };
 
-  // 임의의 좌표 설정 (예: 서울의 좌표)
-  const coordinates = { lat: 37.5665, lng: 126.9780 }; // 서울의 좌표
-
   return (
     <div>
       <div className="article-page">
@@ -44,6 +41,8 @@ const ArticlePage = () => {
           <p className="hotel-rating">평점: {rating}⭐</p>
           <p className="hotel-address">주소: {addr}</p>
           <p className="hotel-price">가격: {numeral(price).format('0,0')}원</p>
+          <p>위도 : {lat}</p>
+          <p>경도 : {lng}</p>
           <button className="back-button" onClick={() => window.history.back()}>
             돌아가기
           </button>
@@ -55,7 +54,7 @@ const ArticlePage = () => {
           <h2>숙소 위치</h2>
           <div className="map">
             {/* 실제 좌표를 MapTest에 전달 */}
-            <MapTest coordinates={coordinates} />
+            <MapTest coordinates={{ lat: parseFloat(lat), lng: parseFloat(lng) }} />
           </div>
         </div>
       </div>

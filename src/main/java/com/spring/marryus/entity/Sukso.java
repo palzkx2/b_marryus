@@ -25,13 +25,13 @@ public class Sukso {
 
     private String hosil;
 
-    private String price;
+    private int price;
 
     private String whereType;
 
     private String place;
 
-    private String pyong;
+    private int pyong;
 
     private String wido;
 

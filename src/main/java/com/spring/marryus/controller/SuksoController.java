@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.marryus.entity.SearchCriteria;
 import com.spring.marryus.entity.Sukso;
 import com.spring.marryus.service.SuksoService;
 
@@ -25,10 +26,10 @@ public class SuksoController {
     public ResponseEntity<String> insertSukso(
         @RequestParam("sname") String sname,
         @RequestParam("hosil") String hosil,
-        @RequestParam("price") String price,
+        @RequestParam("price") int price,
         @RequestParam("where") String whereType,
         @RequestParam("place") String place,
-        @RequestParam("pyong") String pyong,
+        @RequestParam("pyong") int pyong,
         @RequestParam("wido") String wido,
         @RequestParam("gyungdo") String gyungdo,
         @RequestParam("addr") String addr,
@@ -80,5 +81,32 @@ public class SuksoController {
     public List<Sukso> readListSukso(){
     	
     	return  suksoService.getAllSukso();
+    }
+    
+    // 숙소 삭제 메서드 추가
+    @DeleteMapping("/deleteSukso/{id}")
+    public ResponseEntity<String> deleteSukso(@PathVariable Long id) {
+    	
+    	System.out.println("숙소 삭제 메서드 실행 확인");
+    	
+        // 삭제할 숙소가 존재하는지 확인
+        if (!suksoService.existsById(id)) {
+            return ResponseEntity.status(404).body("숙소를 찾을 수 없습니다.");
+        }
+
+        // 숙소 삭제
+        suksoService.deleteSuksoById(id);
+        
+        return ResponseEntity.ok("숙소가 성공적으로 삭제되었습니다.");
+    }
+    @PostMapping("/search")
+    public List<Sukso> searchAgencies(@RequestBody SearchCriteria criteria) {
+    	
+    	System.out.println("가격 범위 : " + criteria.getPriceRange());
+    	System.out.println("평점 : " + criteria.getRating());
+    	System.out.println("지역 : " + criteria.getRegion());
+    	
+        
+    	return suksoService.searchAgencies(criteria.getRegion(), criteria.getPriceRange(), criteria.getRating());
     }
 }

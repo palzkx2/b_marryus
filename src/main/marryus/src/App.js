@@ -82,7 +82,7 @@ function App() {
         <Route path={['/domesticDestinations']}><DomesticDestinations/></Route>
         <Route path={['/overseasDestinations']}><OverseasDestinations/></Route>
         <Route path={['/travelSearch']}><SearchComponent/></Route>
-        <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName']}><ArticlePage/></Route>
+        <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName/:lat/:lng']}><ArticlePage/></Route>
       </Switch>
       <Footer/>
     </div>

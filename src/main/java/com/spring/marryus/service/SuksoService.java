@@ -36,4 +36,17 @@ public class SuksoService {
     public void deleteSukso(Long id) {
         suksoRepository.deleteById(id);
     }
+    
+    // 특정 ID로 숙소 존재 여부 확인
+    public boolean existsById(Long id) {
+        return suksoRepository.existsById(id);
+    }
+
+    // 숙소 삭제 메서드
+    public void deleteSuksoById(Long id) {
+        suksoRepository.deleteById(id);
+    }
+    public List<Sukso> searchAgencies(String region, int price, int pyong) {
+        return suksoRepository.findByPlaceAndPriceLessThanEqualAndPyongGreaterThanEqual(region, price, pyong);
+    }
 }
