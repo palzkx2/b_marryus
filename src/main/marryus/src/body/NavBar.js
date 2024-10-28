@@ -96,7 +96,7 @@ const NavBar = () => {
         <div>
 
             <nav className="topNav">
-                <Link to='/'><h1 style={{color:'white'}}>Marry Us</h1></Link>
+                <Link to='/'><h1 style={{color:'white'}}>MarryUs</h1></Link>
                 <input type='text' placeholder='검색 할 내용을 입력하세요'/>
                 <BsSearchHeart className='searchIcon' style={{ transform: isHovered ? 'translateX(-10px)' : 'translateX(0px)', transition: 'all 0.6s ease' }}/>
                 <div>   
@@ -167,7 +167,7 @@ const NavBar = () => {
                         ) : ''
                     }
                    
-                    <strong style={{margin:'0 300px', fontSize:'36pt', color:'black'}}><Link to='/' style={{color:'black'}}>Marry Us</Link></strong>
+                    <strong style={{margin:'0 300px', fontSize:'36pt', color:'black'}}><Link to='/' style={{color:'black'}}>MarryUs</Link></strong>
                     <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/>
                 </div>
             </div>
