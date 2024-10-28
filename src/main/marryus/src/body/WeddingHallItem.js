@@ -14,7 +14,7 @@ const WeddingHallItem = ({item}) => {
 
     const postData = async (event) => {
         event.preventDefault();
-        const confirmation = window.confirm("장바구니에 담으시겠습니까?");
+        const confirmation = window.confirm(`'${name}'을 장바구니에 담으시겠습니까?`);
         if (confirmation) {
             const data = {
                 name: name, 
@@ -26,13 +26,16 @@ const WeddingHallItem = ({item}) => {
                    withCredentials: true
                });
                console.log('POST response data:', response.data);
+               alert(`${name}이(가) 장바구니에 담겼습니다.`);
            } catch (error) {
                console.error('Error posting data:', error);
            }
         } else {
             // 취소 시 실행되는 로직
+            alert('취소되었습니다.');
             console.log("삭제가 취소되었습니다.");
         }
+        
     };
 
     return (

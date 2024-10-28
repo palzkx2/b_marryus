@@ -33,15 +33,64 @@ const Join = () => {
     const confirmPasswordInput = useRef(null);
     const weddingDateCheck = useRef(null);
 
+    const [certificationNumber, setCertificationNumber] = useState('');
+    const [inputCertificationNumber, setInputCertificationNumber] = useState('');
+    const [message, setMessage] = useState('');
+    const [isCertificationNumberSent, setIsCertificationNumberSent] = useState(false);
+    const [color,setColor] = useState('');
+    const [accept, setAccept] = useState(false);
+
+    const sendEmail = () => {
+
+        const email = `${emailInput.current.value}@${domainInput.current.value}`
+
+        console.log('email조합됐나----------', email)
+
+        axios.post('/api/sendEmail',null,{params: {email}})
+        .then(response => {
+            setCertificationNumber(response.data)
+            setIsCertificationNumberSent(true)
+            setColor('blue')
+            setAccept(true)
+            setMessage('인증번호가 이메일로 발송되었습니다.')
+        })
+        .catch(() => {
+            setIsCertificationNumberSent(false)
+            setColor('red')
+            setAccept(false)
+            setMessage('인증번호 전송에 실패하였습니다.')
+        });
+
+    }
+
+    const verifyCertificationNumber = () => {
+
+        const trimmedInput = inputCertificationNumber.trim();
+        const trimmedStored = String(certificationNumber).trim();
+
+        if(trimmedInput === trimmedStored){
+            setMessage('인증이 완료되었습니다.')
+            setIsCertificationNumberSent(false)
+            setAccept(true)
+            setColor('blue')
+        }else{
+            setMessage('인증번호가 일치하지 않습니다.')
+            setAccept(false)
+            setColor('red')
+        }
+
+    }
+
     // 요일 배열
     const weekdaysKorean = ['일', '월', '화', '수', '목', '금', '토'];
 
     // 선택된 날짜의 요일을 한글로 표시
-    const formattedDate = date ? `${format(date, 'yyyy년 MM월 dd일')} ${weekdaysKorean[date.getDay()]}요일` : '';
+    const formattedDate = noWeddingDate ? '미정' : (date ? `${format(date, 'yyyy년 MM월 dd일')} ${weekdaysKorean[date.getDay()]}요일` : '');
 
     // 날짜 선택 시 처리
     const onDateChange = (newDate) => {
         setDate(newDate); // 선택된 날짜 상태 업데이트
+        setNoWeddingDate(false);
         setShowCalendar(false); // 달력 닫기
     };
 
@@ -75,8 +124,15 @@ const Join = () => {
         try {
 
             const response = await axios.get(`/api/checkEmail?email=${encodeURIComponent(email)}`);
-            setIsEmailAvailable(response.data);
-            alert(response.data ? '이미 사용 중인 이메일입니다.' : '사용 가능한 이메일입니다.');
+            
+            if (response.data) {
+                // 이미 사용 중인 이메일일 경우
+                alert('이미 사용 중인 이메일입니다.');
+            } else {
+                // 사용 가능한 이메일일 경우
+                setIsEmailAvailable(true);
+                alert('사용 가능한 이메일입니다.');
+            }
 
         } catch (error) {
 
@@ -91,6 +147,11 @@ const Join = () => {
 
         if (isEmailAvailable === null) {
             alert('이메일 중복 확인이 필요합니다.');
+            return;
+        }
+
+        if(accept === false){
+            alert('인증을 완료해주세요.')
             return;
         }
 
@@ -140,7 +201,7 @@ const Join = () => {
 
         const password = passwordInput.current.value; // 비밀번호
         const name = nameInput.current.value; // 성명
-        const phone = `${phonePart1}-${phonePart2}-${phonePart3}`; // 전화번호
+        const phone = `${phonePart1}${phonePart2}${phonePart3}`; // 전화번호
         const addr = addrInput.current.value; // 주소
         const hopeArea = hopeAreaInput.current.value; // 희망지역
         const weddingDate = weddingDateInput.current.value; // 결혼예정일
@@ -258,7 +319,7 @@ const Join = () => {
                 </div>
             </div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
-                <div style={{width:'1400px', height:'700px', background:'#FFE4E1'}}>
+                <div style={{width:'1400px', height:'730px', background:'#FFE4E1'}}>
 
                     <h2 style={{padding:'50px 70px 0px 70px'}}>내 정보 입력</h2>
 
@@ -274,34 +335,46 @@ const Join = () => {
                             <option>nate.com</option>
                             <option>daum.net</option>
                         </select>
-                        <button style={{marginLeft:'5px', fontSize:'8pt', padding:'4px 7px', background:'gray', border:'1px solid gray', fontWeight:'bold', cursor:'pointer', color:'white'}} onClick={handleEmailCheck}>중복확인</button>
+                        <button style={{marginLeft:'5px', fontSize:'8pt', padding:'4px 7px', background:'gray', border:'1px solid gray', fontWeight:'bold', cursor:'pointer', color:'white', position:'relative'}} onClick={handleEmailCheck}>중복확인</button>
+                        {
+                            <button style={{marginLeft:'5px', fontSize:'8pt', padding:'4px 7px', background:'gray', border:'1px solid gray', fontWeight:'bold', cursor:'pointer', color:'white', display:isEmailAvailable === null ? 'none' : 'block', position:'absolute', top:'15px', right:'525px'}} onClick={sendEmail}>인증번호발송</button>
+                        }
+                    </div>
+
+                    <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
+                        <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>인증번호</p>
+                    </div>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'616px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                        <input type='text' style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}} disabled={isCertificationNumberSent ? false : true} value={inputCertificationNumber} onChange={(e) => setInputCertificationNumber(e.target.value)}/>
+                        <button style={{marginLeft:'5px', fontSize:'8pt', padding:'4px 7px', background:'gray', border:'1px solid gray', fontWeight:'bold', cursor:'pointer', color:'white'}} onClick={verifyCertificationNumber}>인증하기</button>
+                        <span style={{marginLeft:'10px', color:color, fontSize:'9pt'}}>{message}</span>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'616px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'667px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='password' ref={passwordInput} style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호 확인</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'667px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'718px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='password' ref={confirmPasswordInput} style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>성명</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'718px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'769px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' ref={nameInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>휴대폰</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'769px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <select style={{marginLeft:'20px'}} ref={phonePart1Ref}>
                             <option>010</option>
                             <option>011</option>
@@ -319,21 +392,21 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>주소</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'871px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' ref={addrInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>예식희망지역</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'871px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' ref={hopeAreaInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>결혼예정일</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'973px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input
                             style={{ marginLeft: '20px', paddingLeft:'12px' }}
                             ref={weddingDateInput}
@@ -360,7 +433,7 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid gray'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 수신여부</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'973px', borderBottom:'1px solid gray', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'1024px', borderBottom:'1px solid gray', alignContent:'center'}}>
                         <input type='radio' value={'이메일 수신 동의'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 동의
                         <input type='radio' value={'이메일 수신 거부'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 거부
                     </div>

@@ -9,12 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public class Member {
 	
 	@Id
@@ -36,6 +39,7 @@ public class Member {
 	
 	private String hopeArea;
 	
+	@Column(nullable = true)
 	private String weddingDate;
 	
 	private String emailAgree;
