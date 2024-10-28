@@ -43,6 +43,28 @@ const WeddingHallArticle = () => {
 
     const filename = weddingHall.imgPath.split('\\').pop();
 
+    const postData = async () => {
+        const confirmation = window.confirm("장바구니에 담으시겠습니까?");
+        if (confirmation) {
+            const data = {
+                name: weddingHall.name, 
+                price: weddingHall.price ,
+                category: '웨딩홀'
+               };    
+           try {
+               const response = axios.post('/api/addCart', data, {
+                   withCredentials: true
+               });
+               console.log('POST response data:', response.data);
+           } catch (error) {
+               console.error('Error posting data:', error);
+           }
+        } else {
+            // 취소 시 실행되는 로직
+            console.log("삭제가 취소되었습니다.");
+        }
+    };
+
     return (
         <div>
             <div className='alignGood'>
@@ -101,7 +123,7 @@ const WeddingHallArticle = () => {
                         </div>
                             <div className='byeBtnaLoc'>
                                 <Link to='/myPage'><p className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px'}}>견적내기</p></Link>
-                                <Link to='/myCart'><p className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px'}}>장바구니</p></Link>
+                                <p onClick={postData} className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
                             </div>
                     </div>
                 </div>

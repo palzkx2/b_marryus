@@ -60,10 +60,22 @@ public class WeddingHallController {
     
     // 모든 웨딩홀 목록 반환
     @GetMapping("/api/images")
-    public ResponseEntity<Page<WeddingHall>> getImages(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "9") int size){
-        Pageable pageable = PageRequest.of(page, size);
-        Page<WeddingHall> imagePage = weddingHallService.getImages(pageable);
-        return ResponseEntity.ok(imagePage);
+    public ResponseEntity<List<WeddingHall>> getImages(
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "imgType", required = false) String imgType,
+            @RequestParam(value = "sortType", required = false) String sortType,
+            @RequestParam(value = "search", required = false) String search) {
+
+        // 정렬 및 데이터 검색 로직 실행
+        List<WeddingHall> weddingHalls = weddingHallService.getImages(category, imgType, sortType, search);
+
+        return ResponseEntity.ok(weddingHalls);
+    }
+    
+    // 유효한 sortType인지 확인하는 메서드
+    @SuppressWarnings("unused")
+	private boolean isValidSortType(String sortType) {
+        return sortType.equals("POPULAR") || sortType.equals("RECENT") || sortType.equals("RATING"); // 추가할 수 있음
     }
     
     // 특정 이미지 반환
@@ -103,9 +115,9 @@ public class WeddingHallController {
     
     // 이름으로 웨딩홀 검색
     @GetMapping("/api/searchWeddingHall")
-    public ResponseEntity<Page<WeddingHall>> searchWeddingHall(@RequestParam String name, Pageable pageable){
+    public ResponseEntity<List<WeddingHall>> searchWeddingHall(@RequestParam String name){
         
-        Page<WeddingHall> results = weddingHallService.searchWeddingHall(name, pageable);
+        List<WeddingHall> results = weddingHallService.searchWeddingHall(name);
         
         if(results.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -130,30 +142,44 @@ public class WeddingHallController {
     }
     
     @GetMapping("/api/sorted")
-    public Page<WeddingHall> getSortedWeddingHalls(@RequestParam String sortType,@PageableDefault(size = 9) Pageable pageable) {
-    	
-    	System.out.println("sortType넘어왔나------------" + sortType);
-    	
-        switch (sortType) {
-            case "newest":
-                return weddingHallService.getWeddingHallsSortedByNewest(pageable);
-            case "rating":
-                return weddingHallService.getWeddingHallsSortedByRating(pageable);
-            case "lowPrice":
-                return weddingHallService.getWeddingHallsSortedByLowestPrice(pageable);
-            case "highPrice":
-                return weddingHallService.getWeddingHallsSortedByHighestPrice(pageable);
-            default:
-                throw new IllegalArgumentException("Invalid sort type: " + sortType);
+    public ResponseEntity<List<WeddingHall>> getSortedWeddingHalls(
+    		@RequestParam(required = false) String category,
+            @RequestParam(required = false) String imgType,
+            @RequestParam(required = false) String sortType) {
+        
+        List<WeddingHall> weddingHalls;
+
+        if (sortType == null || sortType.isEmpty()) {
+            // 기본 정렬 처리 로직
+            weddingHalls = weddingHallService.getImages(category, imgType, "DEFAULT_SORT", null);
+        } else {
+            switch (sortType) {
+                case "newest":
+                    weddingHalls = weddingHallService.getWeddingHallsSortedByNewest();
+                    break;
+                case "rating":
+                    weddingHalls = weddingHallService.getWeddingHallsSortedByRating();
+                    break;
+                case "lowPrice":
+                    weddingHalls = weddingHallService.getWeddingHallsSortedByLowestPrice();
+                    break;
+                case "highPrice":
+                    weddingHalls = weddingHallService.getWeddingHallsSortedByHighestPrice();
+                    break;
+                default:
+                    return ResponseEntity.badRequest().body(null); // 잘못된 요청 처리
+            }
         }
+
+        return ResponseEntity.ok(weddingHalls);
         
     }
     
     // imgType에 따른 데이터를 가져오는 엔드포인트
     @GetMapping("/api/category")
-    public ResponseEntity<Page<WeddingHall>> getImagesByCategory(@RequestParam(value = "imgType") String imgType,Pageable pageable) {
+    public ResponseEntity<List<WeddingHall>> getImagesByCategory(@RequestParam(value = "imgType") String imgType) {
         
-        Page<WeddingHall> images = weddingHallService.getImagesByCategory(imgType, pageable);
+        List<WeddingHall> images = weddingHallService.getImagesByCategory(imgType);
         return ResponseEntity.ok(images);
         
     }

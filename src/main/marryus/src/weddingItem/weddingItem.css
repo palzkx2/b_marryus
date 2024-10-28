@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f8f8f8;
 }
 
 /* 메인 이미지 스타일 */
@@ -62,12 +61,13 @@
     font-size: 20px; /* 이름 글자 크기 */
     font-weight: bold; /* 이름 굵게 */
     margin: 5px 0; /* 위 아래 간격 */
+    color: #000080;
 }
 
 /* 이미지 가격 스타일 */
 .image-price {
     font-size: 18px; /* 가격 글자 크기 */
-    color: #777; /* 가격 색상 */
+    color: #16526f; /* 가격 색상 */
     margin: 5px 0; /* 위 아래 간격 */
 }
 

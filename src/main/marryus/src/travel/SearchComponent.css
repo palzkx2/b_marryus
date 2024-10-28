@@ -1,0 +1,95 @@
+.search-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 40px auto;
+    width: 1000px;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+.search-selection {
+    margin: 10px 0;
+}
+
+.destination-select, .search-type-select, .region-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+ .price-input, .rating-input{
+    width: 96%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.search-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #2980b9;
+}
+
+.search-results {
+    margin-top: 20px;
+}
+
+.search-results ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.search-results li {
+    background-color: #ecf0f1;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.search-error-message {
+    color: red;
+    text-align: center;
+}
+
+.no-results {
+    text-align: center;
+    font-weight: bold;
+}
+
+.search-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f1;
+}
+.keyword-input-container {
+    margin: 10px 0;
+}
+
+.keyword-input {
+    width: 96%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.keyword-selection {
+    margin: 10px 0;
+}

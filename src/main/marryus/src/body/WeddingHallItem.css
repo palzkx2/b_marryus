@@ -34,9 +34,10 @@
 .addIcon{
     width: 30px;
     height: 30px;
+    padding-left: 10px;
 }
 .addIconLocation{
-    left: 171px;
+    left: 201px;
     top: 500px;
     position: absolute;
 }

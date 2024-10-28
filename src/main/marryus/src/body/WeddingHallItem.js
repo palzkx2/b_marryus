@@ -11,6 +11,33 @@ const WeddingHallItem = ({item}) => {
 
     const filename = imgPath.split('\\').pop();
 
+
+    const postData = async (event) => {
+        event.preventDefault();
+        const confirmation = window.confirm(`'${name}'을 장바구니에 담으시겠습니까?`);
+        if (confirmation) {
+            const data = {
+                name: name, 
+                price: price ,
+                category: '웨딩홀'
+               };    
+           try {
+               const response = axios.post('/api/addCart', data, {
+                   withCredentials: true
+               });
+               console.log('POST response data:', response.data);
+               alert(`${name}이(가) 장바구니에 담겼습니다.`);
+           } catch (error) {
+               console.error('Error posting data:', error);
+           }
+        } else {
+            // 취소 시 실행되는 로직
+            alert('취소되었습니다.');
+            console.log("삭제가 취소되었습니다.");
+        }
+        
+    };
+
     return (
         <>      
                 <img className='wdImage' src={`/api/images/${filename}`} alt='이미지'/>
@@ -24,10 +51,10 @@ const WeddingHallItem = ({item}) => {
                 <div className='wdSub' style={{fontWeight:'bold',fontSize:'15px',marginBottom:'5px'}}>
                     {Numeral(price).format('0,0')}
                     <div className='addIconLocation'>
-                        <BsCartPlus className='addIcon' />
-                        <BsCartPlusFill className='addIcon'/>
-                        <BsBookmarkHeart className='addIcon'/>
-                        <BsBookmarkHeartFill className='addIcon'/>
+                        <BsCartPlus onClick={postData} className='addIcon' />
+                        {/* <BsCartPlusFill onClick={postData} className='addIcon'/> */}
+                        <BsBookmarkHeart onClick={postData} className='addIcon'/>
+                        {/* <BsBookmarkHeartFill onClick={postData} className='addIcon'/> */}
                     </div>
                 </div>
         </>

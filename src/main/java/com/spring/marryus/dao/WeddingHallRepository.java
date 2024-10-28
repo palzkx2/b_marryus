@@ -12,26 +12,26 @@ import org.springframework.data.jpa.repository.Query;
 import com.spring.marryus.entity.WeddingHall;
 
 public interface WeddingHallRepository extends JpaRepository<WeddingHall, Long>{
-	Page<WeddingHall> findAllByOrderByIdDesc(Pageable pageable);
+	List<WeddingHall> findAllByOrderByIdDesc();
 	WeddingHall findByName(String name);
-	Page<WeddingHall> findByNameContaining(String name, Pageable pageable);
+	List<WeddingHall> findByNameContaining(String name);
 	Optional<WeddingHall> findByImgPath(String imgPath);
 	
 	// 최신 등록순 (등록 날짜 기준 내림차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.created DESC")
-    Page<WeddingHall> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    List<WeddingHall> findAllByOrderByCreatedAtDesc();
 
     // 평점순 (평점 기준 내림차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.rating DESC")
-    Page<WeddingHall> findAllByOrderByRatingDesc(Pageable pageable);
+    List<WeddingHall> findAllByOrderByRatingDesc();
 
     // 낮은 가격순 (가격 기준 오름차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.price ASC")
-    Page<WeddingHall> findAllByOrderByPriceAsc(Pageable pageable);
+    List<WeddingHall> findAllByOrderByPriceAsc();
 
     // 높은 가격순 (가격 기준 내림차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.price DESC")
-    Page<WeddingHall> findAllByOrderByPriceDesc(Pageable pageable);
+    List<WeddingHall> findAllByOrderByPriceDesc();
     
-    Page<WeddingHall> findByImgType(String imgType, Pageable pageable);
+    List<WeddingHall> findByImgType(String imgType);
 }

@@ -17,106 +17,58 @@ import regions from './regionsData'
 
 const WeddingHall = () => {
 
-    const [page,setPage] = useState(0);
-    const [totalPages,setTotalPages] = useState(0);
     const [name,setName] = useState('')
     const [images,setImages] = useState([]);
     const [results,setResults] = useState([])
     const [category, setCategory] = useState('');
     const [imgType, setImgType] = useState('');
+    const [sortType, setSortType] = useState('');
     const history = useHistory()
     const location = useLocation()
 
-    const pageNumbers = [];
-
-    for(let i=1;i<=totalPages;i++){
-        pageNumbers.push(i);
-    }
-
-    // 페이지 로드시 쿼리 파라미터로 전달된 페이지 번호 확인
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
-        const pageQueryParam = queryParams.get('page');
-        const nameQueryParam = queryParams.get('name') || '';
-        const sortQueryParam = queryParams.get('sortType') || '';
-        const categoryQueryParam = queryParams.get('category') || '';
-        const imgTypeQueryParam = queryParams.get('imgType') || '';
-
-        setPage(Number(pageQueryParam) || 0); // 쿼리 파라미터가 없으면 0 페이지로 설정
-        setName(nameQueryParam);
-        setSortType(sortQueryParam);
-        setCategory(categoryQueryParam);
-        setImgType(imgTypeQueryParam);
-
-        // 페이지네이션과 검색어에 따라 데이터 불러오기
-        if (categoryQueryParam) {
-            if (sortQueryParam) {
-                fetchSortedWeddingHalls(sortQueryParam, Number(pageQueryParam) || 0, categoryQueryParam); // 정렬 기준과 카테고리에 따라 데이터 불러오기
-            } else {
-                fetchImagesByCategory(categoryQueryParam, Number(pageQueryParam) || 0); // 카테고리에 따라 데이터 불러오기
-            }
-        } else if (sortQueryParam) {
-            fetchSortedWeddingHalls(sortQueryParam, Number(pageQueryParam) || 0);
-        } else {
-            fetchImages(nameQueryParam, Number(pageQueryParam) || 0);
-        }
+        setName(queryParams.get('name') || '');
+        setSortType(queryParams.get('sortType') || '');
+        setCategory(queryParams.get('category') || '');
+        setImgType(queryParams.get('imgType') || '');
     }, [location]);
 
-    const fetchImages = async (searchTerm, currentPage, selectedCategory = category, selectedImgType = imgType, selectedSortType = sortType) => {
-
+    const fetchImages = async (searchTerm, selectedCategory, selectedImgType, selectedSortType) => {
         try {
-            let response;
+            const params = {
+                category: selectedCategory,
+                imgType: selectedImgType,
+                sortType: selectedSortType,
+                search: searchTerm,
+            };
     
-            if (searchTerm && searchTerm.trim() !== '') {
-                response = await axios.get(`/api/searchWeddingHall`,{
-                    params:{
-                        name: searchTerm,
-                        page: currentPage,
-                        size: 9,
-                        category: selectedCategory,
-                        imgType: selectedImgType,
-                        sortType: selectedSortType,
-                    }
-                });
-            } else {
-                response = await axios.get(`/api/images`, {
-                    params: {
-                        page: currentPage,
-                        size: 9,
-                        category: selectedCategory,
-                        imgType: selectedImgType
-                    }
-                });
-            }
+            const response = await axios.get('/api/images', { params });
     
-            if (response.data && response.data.content) {
-                setImages(response.data.content);
-                setTotalPages(response.data.totalPages);
-                setResults(response.data.content);
+            // 데이터 설정
+            if (response.data) {
+                setImages(response.data);
+                setResults(response.data);
             } else {
                 console.error('예상한 데이터 구조가 아닙니다:', response.data);
             }
         } catch (error) {
             console.error('이미지 가져오기 실패:', error);
         }
-
-    }
+    };
 
     // imgType에 따른 데이터를 가져오는 함수
-    const fetchImagesByCategory = async (category, page) => {
+    const fetchImagesByCategory = async (category) => {
 
         try {
             const response = await axios.get('/api/category', {
                 params: {
-                    imgType: category,  // 선택된 카테고리를 전달
-                    page: page,
-                    size: 9
+                    imgType: category
                 }
             });
 
             if (response.data && response.data.content) {
                 setImages(response.data.content);
-                setTotalPages(response.data.totalPages);
             }
         } catch (error) {
             console.error('이미지 데이터를 가져오는 중 오류 발생:', error);
@@ -124,43 +76,34 @@ const WeddingHall = () => {
 
     };
 
-    useEffect(() => {
-        fetchImages(name, page, category, imgType, sortType);
-    }, [page,category,name,imgType])
-
-    // 페이지 변경 함수
-    const handlePageChange = (pageNumber) => {
-        setPage(pageNumber);
-        history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=${pageNumber}&sortType=${sortType}&category=${category}`);
+    const searchBtn = async () => {
+        await fetchImages(); // 데이터를 가져옵니다.
+        history.push(`/weddingHall?name=${encodeURIComponent(name)}`);
     };
 
-    const searchBtn = async () => {
-        setPage(0);
-        history.push(`/weddingHall?name=${encodeURIComponent(name)}&page=0`);
-    }
-
+    // 초기 데이터 가져오기
     useEffect(() => {
-        if(name.trim() !== ''){
+        if (name.trim() !== '') {
             searchBtn();
+        } else {
+            fetchImages(name, category, imgType, sortType);
         }
-    }, [])
+    }, [name]);
 
+    // 카테고리 선택 시 이미지 가져오기
     useEffect(() => {
         if (category) {
-            // 카테고리가 선택된 경우 해당 카테고리로 이미지 가져오기
-            fetchImagesByCategory(category, page);
+            fetchImagesByCategory(category);
         } else {
-            // 기본 이미지 리스트 가져오기
-            fetchImages(name, page);
+            fetchImages(name, category, imgType, sortType);
         }
-    }, [page, category, name, imgType]);
+    }, [category, name, imgType]);
 
     // 카테고리 버튼 클릭 시 호출되는 함수
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
-        setPage(0);  // 페이지를 0으로 설정
-        fetchImagesByCategory(selectedCategory, 0);
-        history.push(`/weddingHall?page=0&category=${encodeURIComponent(selectedCategory)}&sortType=${sortType}`);
+        history.push(`/weddingHall?category=${encodeURIComponent(selectedCategory)}&sortType=${sortType}`);
+        fetchImages(name, selectedCategory, imgType, sortType);
     };
 
     //삭제 버튼
@@ -207,9 +150,7 @@ const WeddingHall = () => {
         const region = event.target.value;
         setSelectedRegion(region);
         setSubRegions(regions[region] || []); // 선택된 지역에 따른 세부 행정구역 설정
-      };
-
-    const [data,setData] = useState(proData)
+    };
 
     //토글 디테입
     const [isOpen, setIsOpen] = useState(false); // 열림 상태 관리
@@ -254,31 +195,21 @@ const WeddingHall = () => {
 
     }, []);
 
-    const [sortType, setSortType] = useState('');
-
     useEffect(() => {
-        fetchSortedWeddingHalls(sortType, page); // 정렬 기준과 페이지를 함께 전달
-    }, [sortType, page]); // sortType과 page가 변경될 때마다 호출
+        fetchSortedWeddingHalls(sortType, category); // 정렬 기준과 페이지를 함께 전달
+    }, [sortType, category]); // sortType과 page가 변경될 때마다 호출
 
-    const fetchSortedWeddingHalls = async (sortType, currentPage, selectedCategory) => {
+    const fetchSortedWeddingHalls = async (sortType, selectedCategory) => {
         try {
-
-            const response = await axios.get(`/api/sorted`, {
-                params: {
-                    sortType,
-                    page: currentPage,
-                    size: 9,
-                    category: selectedCategory
-                }
-            });
+            const params = {
+                category: selectedCategory || '',
+                ...(sortType && { sortType }) // sortType이 있을 때만 포함
+            };
     
-            if (response.data && response.data.content) {
-                setImages(response.data.content); // 이미지 데이터 설정
-                setTotalPages(response.data.totalPages); // 전체 페이지 수 설정
-            } else {
-                console.error('예상한 데이터 구조가 아닙니다:', response.data);
-            }
-
+            const response = await axios.get(`/api/sorted`, { params });
+            
+            // 응답 처리
+            setImages(response.data.content || response.data);
         } catch (error) {
             console.error("정렬에 실패하였습니다 :", error);
         }
@@ -286,9 +217,9 @@ const WeddingHall = () => {
     
     // 정렬 기준 변경 함수
     const handleSortChange = (newSortType) => {
-        setSortType(newSortType); // 새로운 정렬 기준 설정
-        setPage(0); // 페이지를 0으로 초기화 (첫 페이지로 돌아가기)
-        history.push(`/weddingHall?page=0&category=${encodeURIComponent(category)}&sortType=${newSortType}`);
+        setSortType(newSortType);
+        fetchImages(name, category, imgType, newSortType); // 정렬 기준에 따른 이미지 가져오기
+        history.push(`/weddingHall?category=${encodeURIComponent(category)}&sortType=${newSortType}`);
     };
 
     return (
@@ -550,7 +481,7 @@ const WeddingHall = () => {
                         images.map((item,index)=>
                             
                             <div className='itemContainer' key={index}>
-                                <Link to={`/wdArticle/${item.name}?page=${page}`} className='toArticle'>
+                                <Link to={`/wdArticle/${item.name}`} className='toArticle'>
                                     <WeddingHallItem key={index} item={item}/>
                                 </Link>
                                 {
@@ -563,24 +494,6 @@ const WeddingHall = () => {
                             </div>
                         )
                     }
-                </div>
-                <div>
-                    <button onClick={() => handlePageChange(0)} disabled={page === 0}>&lt;&lt;</button>
-                    <button onClick={() => handlePageChange(Math.max(page - 1, 0))} disabled={page === 0}>&lt;</button>
-                    
-                    {
-                        pageNumbers.map(number => (
-                            <button
-                                key={number}
-                                onClick={() => handlePageChange(number - 1)} // 0부터 시작하는 인덱스에 맞춰 조정
-                                style={{ fontWeight: page === number - 1 ? 'bold' : 'normal' }}
-                            >
-                                {number}
-                            </button>
-                        ))
-                    }
-                    <button onClick={() => handlePageChange(Math.min(page + 1, totalPages - 1))} disabled={page === totalPages - 1}>&gt;</button>
-                    <button onClick={() => handlePageChange(totalPages - 1)} disabled={page === totalPages - 1}>&gt;&gt;</button>
                 </div>
             </div>
         </div>
