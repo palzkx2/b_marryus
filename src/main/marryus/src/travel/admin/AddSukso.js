@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import GeocodingComponent from './GeocodingComponent ';
 
 const AddSukso = () => {
     const history = useHistory();
@@ -245,6 +246,7 @@ const AddSukso = () => {
                 />
             </label>
             <br />
+            <GeocodingComponent/>
 
             <button style={{ margin: '30px 10px 10px 168px', padding: '10px' }} type="submit">
                 추가하기
