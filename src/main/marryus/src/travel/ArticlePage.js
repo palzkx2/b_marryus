@@ -54,7 +54,7 @@ const ArticlePage = () => {
           <h2>숙소 위치</h2>
           <div className="map">
             {/* 실제 좌표를 MapTest에 전달 */}
-            <MapTest coordinates={{ lat: parseFloat(lat), lng: parseFloat(lng) }} />
+            <MapTest name={name} coordinates={{ lat: parseFloat(lat), lng: parseFloat(lng) }} />
           </div>
         </div>
       </div>

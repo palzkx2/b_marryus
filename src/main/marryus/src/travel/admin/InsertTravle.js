@@ -4,6 +4,7 @@ import loginImg from '../../s_images/admin/locker.jpg'
 import AddSukso from './AddSukso';
 import AddAgency from './AddAgency';
 import AddPlace from './AddPlace';
+import GeocodingComponent from './GeocodingComponent ';
 
 const InsertTravle = () => {
 
@@ -44,6 +45,7 @@ const InsertTravle = () => {
                                 {
                                     searchType==='location' && <AddPlace/>
                                 }
+                               
                             </div>
                         </div>
                         
