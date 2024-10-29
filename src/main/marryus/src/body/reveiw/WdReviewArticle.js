@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { MdOutlineRecommend, MdRecommend } from 'react-icons/md';
 
 const WdReviewArticle = () => {
+
+    const [toggle,setToggle] = useState(false)
+
+    const onToggle = () => {
+        setToggle(!toggle)
+        const iconElement = document.querySelector('.recomIcon');
+        if (iconElement) {
+            iconElement.classList.add('recomIcon-click');
+            setTimeout(() => {
+                iconElement.classList.remove('recomIcon-click');
+            }, 150);
+        }
+    }
+
     return (
         <div>
             <div style={{display:'flex',margin:'10px',padding:'10px'}}>
@@ -12,15 +26,14 @@ const WdReviewArticle = () => {
                     </div>
                     <div style={{display:'flex',position:'absolute',margin:'9px 30px 10px 0px'}}> 
                         <div style={{marginLeft:'0px',display:'flex'}}>
-                            <a href='#'>
-                                <div style={{paddingLeft:'20px',marginTop:'5px',marginRight:'5px',fontSize:'10pt',color:'gray'}}>추천하기</div>
-                            </a>
-                            <a href='#'>
-                                <GoHeartFill className='recomIcon' />
-                            </a>
-                            <a href='#'>
-                                <GoHeart className='recomIcon' />
-                            </a>
+
+                            <div style={{paddingLeft:'20px',marginTop:'5px',marginRight:'5px',fontSize:'10pt',color:'gray'}}>추천하기</div>
+                            <span onClick={onToggle} className='recomIcon'>
+                            {
+                                toggle ?
+                                <GoHeartFill className='recomIcon'/> : <GoHeart className='recomIcon'/>
+                            }
+                            </span>
 
                         </div>
                         <a href='#'>
