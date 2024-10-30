@@ -6,6 +6,7 @@ import FlowerDesc from './FlowerDesc';
 import SuitDesc from './SuitDesc';
 import RingDesc from './RingDesc';
 import RingReviewList from './RingReviewList';
+import numeral from 'numeral';
 
 const WeddingItemArticle = () => {
     const { id } = useParams();
@@ -53,7 +54,7 @@ const WeddingItemArticle = () => {
                 </div>
                 <div className="weddingItemArticle-content"> {/* 오른쪽 내용 */}
                     <h1 className="weddingItemArticle-title">{item.imgName}</h1>
-                    <p className="weddingItemArticle-price">{item.price}</p>
+                    <p className="weddingItemArticle-price">{numeral(item.price).format('0,0')}원</p>
                     <p className="weddingItemArticle-description">
                         {
                             item.category==='flower' &&
@@ -79,7 +80,7 @@ const WeddingItemArticle = () => {
                                     <>
                                         <img src={`${process.env.PUBLIC_URL}${categoryItem.imgAddr}`} alt={categoryItem.imgName} className="weddingItemArticle-category-item-image" />
                                         <span>{categoryItem.imgName}</span>
-                                        <span>{categoryItem.price}</span>
+                                        <span>{numeral(categoryItem.price).format('0,0')}원</span>
                                     </>
                                 </div>
                             </a>

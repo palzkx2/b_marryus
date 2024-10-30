@@ -16,12 +16,14 @@ const RingReviewList = ({ item }) => {
     const [userRecommendations, setUserRecommendations] = useState({});
     const [sortOrder, setSortOrder] = useState('desc');
     const [sortBy, setSortBy] = useState('latest');
+    const [userRole, setUserRole] = useState(null); // 사용자 역할 추가
 
     const checkSessionLogin = async () => {
         try {
             const response = await axios.get('/api/session', { withCredentials: true });
             if (response.data && response.data.userRole) {
                 setIsLoggedIn(true);
+                setUserRole(response.data.userRole);
                 setCurrentUserId(response.data.id);
                 setCurrentUserEmail(response.data.email);
                 return true;
@@ -187,7 +189,11 @@ const RingReviewList = ({ item }) => {
         <div className="weddingItemReview-item-detail-page">
             <div className='weddingItemReview-review'>
                 <h2>리뷰 목록</h2>
+                <div className='reviews-length'>
+                    <span>총 리뷰{reviews.length}개</span>
+                </div>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                    
                     <div className='sort-button-container'>
                         <button onClick={() => handleSortByChange('latest')} className='sort-button'>최신순</button>
                         <button onClick={() => handleSortByChange('rating')} className='sort-button'>평점순</button>
@@ -222,12 +228,12 @@ const RingReviewList = ({ item }) => {
                                 >
                                     <div className='cover'></div>
                                 </span>
-                                {isLoggedIn && currentUserEmail === review.email && (
+                                {(isLoggedIn && currentUserEmail === review.email) || (isLoggedIn && userRole === 'ADMIN') ? (
                                     <>
                                         <button onClick={() => handleEditClick(review)}>수정</button>
                                         <button onClick={() => handleDeleteClick(review.id)}>삭제</button>
                                     </>
-                                )}
+                                ) : ''}
                             </li>
                         ))
                     )}

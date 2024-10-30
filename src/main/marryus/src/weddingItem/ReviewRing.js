@@ -68,9 +68,24 @@ const ReviewRing = ({ item, onClose, review }) => {
                 await axios.post('/api/reviews', reviewPayload);
                 alert('리뷰가 성공적으로 제출되었습니다!');
             }
+            await updateAverageRating(item.id);
             onClose();
         } catch (error) {
             console.log('리뷰 제출 실패:', error);
+        }
+    };
+
+    const updateAverageRating = async (productId) => {
+        try {
+            const response = await axios.get(`/api/reviews/averageRating`, {
+                params: { productId }
+            });
+            const averageRating = response.data.averageRating;
+
+            await axios.put(`/api/weddingItem/${productId}`, { rate: averageRating });
+            console.log('평균 별점이 업데이트되었습니다:', averageRating);
+        } catch (error) {
+            console.log('평균 별점 업데이트 실패:', error);
         }
     };
 

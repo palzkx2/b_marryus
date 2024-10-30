@@ -31,6 +31,6 @@ public class WeddingItemDTO {
     private Integer price;
     
     @Column(name = "rate")
-    private String rate;
+    private int rate;
    
 }

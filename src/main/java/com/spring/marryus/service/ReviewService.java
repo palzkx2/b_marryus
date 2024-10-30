@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.marryus.dao.ReviewRepository;
+import com.spring.marryus.dao.WeddingItemRepository;
 import com.spring.marryus.entity.ReviewDTO;
+import com.spring.marryus.entity.WeddingItemDTO;
 
 @Service
 public class ReviewService {
@@ -16,7 +18,9 @@ public class ReviewService {
 	@Autowired
 	private ReviewRepository reviewRepository;
 	
-	
+	 @Autowired
+	 private WeddingItemRepository weddingItemRepository;
+
 	
 	 // 리뷰 저장
     public ReviewDTO saveReview(ReviewDTO review) {
@@ -41,6 +45,28 @@ public class ReviewService {
     //카테고리와 상품 ID로 리뷰 가져오기
     public List<ReviewDTO> getReviewsByCategoryAndProductId(String category, Long productId) {
         return reviewRepository.findByCategoryAndProductId(category, productId);
+    }
+    
+    //별점수정
+    public int calculateAverageRating(Long productId) {
+        List<ReviewDTO> reviews = reviewRepository.findByProductId(productId);
+        if (reviews.isEmpty()) {
+            return 0; // 리뷰가 없으면 0 반환
+        }
+        double averageRating = reviews.stream().mapToInt(ReviewDTO::getRating).average().orElse(0);
+        return (int) Math.round(averageRating); // 정수로 반올림
+    }
+
+    public void updateAverageRating(Long productId) {
+        int averageRating = calculateAverageRating(productId);
+        WeddingItemDTO item = weddingItemRepository.findById(productId).orElseThrow(null);
+        item.setRate(averageRating);
+        weddingItemRepository.save(item);
+    }
+    
+    // 이메일로 리뷰 가져오기
+    public List<ReviewDTO> getReviewsByEmail(String email) {
+        return reviewRepository.findByEmail(email); // Repository에서 해당 메서드 호출
     }
     
 }

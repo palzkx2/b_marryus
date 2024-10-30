@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.marryus.dao.ReviewRepository;
 import com.spring.marryus.entity.ReviewDTO;
 import com.spring.marryus.service.ReviewService;
 
@@ -26,8 +27,11 @@ public class ReviewController {
 	@Autowired
     private ReviewService reviewService;
 	
+	@Autowired
+    private ReviewRepository reviewRepository;
+	
 	// 리뷰 추가
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ReviewDTO> createReview(@RequestBody ReviewDTO review) {
         ReviewDTO savedReview = reviewService.saveReview(review);
         return ResponseEntity.ok(savedReview);
@@ -126,6 +130,37 @@ public class ReviewController {
 
         public void setRecommended(boolean recommended) {
             this.recommended = recommended;
+        }
+    }
+    
+    @PostMapping
+    public ResponseEntity<ReviewDTO> addReview(@RequestBody ReviewDTO review) {
+        ReviewDTO savedReview = reviewRepository.save(review);
+        reviewService.updateAverageRating(review.getProductId()); // 평균 별점 업데이트
+        return ResponseEntity.ok(savedReview);
+    }
+
+    // 특정 상품의 평균 별점 조회
+    @GetMapping("/averageRating")
+    public ResponseEntity<Integer> getAverageRating(@RequestParam Long productId) {
+        int averageRating = reviewService.calculateAverageRating(productId);
+        return ResponseEntity.ok(averageRating);
+    }
+    
+    // 내 리뷰 조회
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<ReviewDTO>> getReviewsByEmail(@PathVariable String email) {
+    	try {
+            List<ReviewDTO> reviews = reviewRepository.findByEmail(email);
+            
+            if (reviews.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(reviews);
+            }
+            
+            return ResponseEntity.ok(reviews);
+        } catch (Exception e) {
+            e.printStackTrace(); // 에러 출력
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
