@@ -432,8 +432,8 @@ const Join = () => {
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 수신여부</p>
                     </div>
                     <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'1024px', borderBottom:'1px solid gray', alignContent:'center'}}>
-                        <input type='radio' value={'이메일 수신 동의'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 동의
-                        <input type='radio' value={'이메일 수신 거부'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 거부
+                        <input type='radio' name='agree' value={'이메일 수신 동의'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 동의
+                        <input type='radio' name='agree' value={'이메일 수신 거부'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 거부
                     </div>
 
                     <div style={{display:'flex', justifyContent:'center', alignContent:'center', marginTop:'30px'}}>
