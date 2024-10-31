@@ -39,6 +39,8 @@ public class ReviewController {
 		
 		reviewService.create(review);
 		
+		System.out.println(review.getContent());
+		
 		return "리뷰추가완료";
 		
 	}
