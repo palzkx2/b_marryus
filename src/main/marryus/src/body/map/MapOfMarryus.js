@@ -1,11 +1,16 @@
 import React from 'react';
+import MapTest from '../../travel/map/MapTest';
 
 const MapOfMarryus = () => {
+
+    const lng = '128.8784972'
+    const lat = '37.74913611'
+
     return (
         <div>
-           <h2>
-             지도 API / 맵
-            </h2>
+            <div className='map'>
+                
+            </div>
         </div>
     );
 };

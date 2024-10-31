@@ -20,7 +20,7 @@ const ReviewRing = ({ item, onClose, review }) => {
             }
         };
 
-        const fetchOauthData = async () => { // 추가된 부분: OAuth 데이터 가져오기
+        const fetchOauthData = async () => { //OAuth 데이터 가져오기
             try {
                 const response = await axios.get('/api/oauthUserInfo');
                 if (response.data && response.data.name) {

@@ -1,10 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './payment.css';
 import cartdata from './cartData';
 import Numeral from 'numeral';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from 'axios';
 
 const Payment = () => {
-    const [cartData] = useState(cartdata);
+
+    const location = useLocation(); // useLocation 사용
+    const [cartData] = useState(location.state?.items || []); // 전달받은 데이터 사용
+    const [userName,setUserName] = useState('');//이름 불러오기
+    const [phone,setPhone] = useState('');//전화번호 불러오기
+    const [email, setEmail] = useState(''); //이메일 불러오기
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        const fetchSessionData = async () => {
+            try {
+                const response = await axios.get('/api/session');
+                setUserName(response.data.name);
+                setPhone(response.data.phone);
+                setEmail(response.data.email); 
+            } catch (error) {
+                console.log('세션 데이터 가져오기 실패:', error);
+            }
+        };
+
+        const fetchOauthData = async () => { //OAuth 데이터 가져오기
+            try {
+                const response = await axios.get('/api/oauthReaduser');          
+                    setUserName(response.data.name);
+                    setPhone(response.data.phone);
+                    setEmail(response.data.email);              
+            } catch (error) {
+                console.log('OAuth 데이터 가져오기 실패:', error);
+            }
+        };
+
+        fetchSessionData();
+        fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
+    }, []);
+    
+    useEffect(() => {
+        const calculateTotalPrice = () => {
+            const total = cartData.reduce((acc, item) => acc + item.price, 0);
+            setTotalPrice(total);
+        };
+
+        calculateTotalPrice();
+    }, [cartData]);
 
     return (
         <div className='shopContent'>
@@ -23,11 +67,13 @@ const Payment = () => {
                                 {cartData.length > 0 && (
                                     <div style={{ display: 'flex', flexDirection: 'column',  margin: '30px' }}>
                                     <p>장소      /    가격</p>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <img src={cartData[0].img} alt={cartData[0].itemname} style={{ width: '60px', height: '60px', marginRight: '10px' }} />
-                                        <p style={{ marginRight: '10px' ,marginTop: '10px' }}>{cartData[0].itemname}</p>
-                                        <p style={{ marginRight: '10px' ,marginTop: '9px' }}>{Numeral(cartData[0].price.replace('won', '')).format('0,0')} 원</p>
-                                    </div>
+                                    {cartData.map((item) => (
+                                            <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
+                                                <img src={item.img} alt={item.name} style={{ width: '60px', height: '60px', marginRight: '10px' }} />
+                                                <p style={{ marginRight: '10px', marginTop: '10px' }}>{item.name}</p>
+                                                <p style={{ marginRight: '10px', marginTop: '9px' }}>{Numeral(item.price).format('0,0')} 원</p>
+                                            </div>
+                                        ))}
                             
                             </div>
                                 )}
@@ -37,9 +83,9 @@ const Payment = () => {
                                 <div className='myOrderInformation'> 
                                     <h3 style={{borderBottom:'3px solid #999'}}>주문자 정보</h3>
                                     <div className='columnNameBox'>
-                                        <div className='jumuntextLine'>{cartData[0].name}</div>
-                                        <div className='jumuntextLine'>{cartData[0].tel}</div>
-                                        <div className='jumuntextLine'>{cartData[0].email}</div>
+                                        <div className='jumuntextLine'>{userName}</div>
+                                        <div className='jumuntextLine'>{phone}</div>
+                                        <div className='jumuntextLine'>{email}</div>
                                     </div>
                                 </div>
                                 )}
@@ -96,7 +142,7 @@ const Payment = () => {
 
                                     <div className='yoyakblack'>
                                         <p className='textblack'>
-                                        {Numeral(cartData[0].price.replace('won', '')).format('0,0')} 원   
+                                        {Numeral(totalPrice).format('0,0')} 원
                                         </p>
                                         <p>{cartData[0].resdate}</p>
                                     </div>

@@ -14,8 +14,9 @@ import com.spring.marryus.entity.WeddingHall;
 public interface WeddingHallRepository extends JpaRepository<WeddingHall, Long>{
 	List<WeddingHall> findAllByOrderByIdDesc();
 	WeddingHall findByName(String name);
-	List<WeddingHall> findByNameContaining(String name);
+	List<WeddingHall> findByNameContainingIgnoreCase(String name);
 	Optional<WeddingHall> findByImgPath(String imgPath);
+    List<WeddingHall> findByImgType(String imgType);
 	
 	// 최신 등록순 (등록 날짜 기준 내림차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.created DESC")
@@ -32,6 +33,4 @@ public interface WeddingHallRepository extends JpaRepository<WeddingHall, Long>{
     // 높은 가격순 (가격 기준 내림차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.price DESC")
     List<WeddingHall> findAllByOrderByPriceDesc();
-    
-    List<WeddingHall> findByImgType(String imgType);
 }

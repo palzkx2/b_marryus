@@ -230,7 +230,7 @@
 }
 
 .listOrderCOn-Name:hover {
-    background-color: #8d28284d;
+    background-color: #0e06064d;
 }
 
 .cpListHeader {
@@ -335,4 +335,25 @@
     display: flex;
     position: absolute;
     margin: 14px 2px 4px 1281px;
+}
+.sortContaBtn{
+    border-bottom: 1px solid gainsboro;
+    padding: 5px;
+    cursor: pointer;
+    color: #333;
+    z-index: 99999;
+    font-size: 13pt;
+}
+.sortContaBtn1{
+    border-bottom: 1px solid gainsboro;
+    padding: 3px;
+    cursor: pointer;
+    color: #333;
+    background-color: white;
+    z-index: 10;
+}
+.sortContaBtn:hover{
+    border-bottom: 1px solid gray;
+    color: black;
+    background-color: #0e06064d;
 }

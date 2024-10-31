@@ -11,38 +11,31 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class WeddingHall {
+public class Review {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String imageName;
+	private String weddingHallName;
+	
+	private String SdmName;
+	
+	private String HonsuName;
+	
+	private String travelName;
+	
+	private String email;
 	
 	private String name;
 	
-	private String addr;
+	private String created;
 	
-	private String rating;
+	private String content;
 	
-	@Column(length = 100)
-	private Integer price;
-	
-	private String buffet; // 뷔페 종류
-	
-	private String tag;
-	
-	private String imgPath;
-	
-	private String wido; // 위도
-	
-	private String gyungdo; // 경도
-	
-	private String imgType;
-	
-	private LocalDateTime created;
+	private double rating;
 
 }

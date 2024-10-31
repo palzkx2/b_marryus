@@ -173,9 +173,39 @@ const Cart = () => {
     }
   };
 
+    // 체크된 아이템을 수집하는 함수 추가
+    const getCheckedItems = () => {
+    const getItems = (items) => {
+        return items.filter(item => item.checked).map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            userType: item.userType,
+            // 필요한 경우 추가 속성을 여기에 추가
+        }));
+    };
+
+    return [
+        ...getItems(weddingHalls),
+        ...getItems(studios),
+        ...getItems(householdItems),
+        ...getItems(destinations),
+    ];
+};
+
   // 주문하기 버튼 클릭 시
   const handleOrder = () => {
-    history.push('/payment');
+    const checkedItems = getCheckedItems();
+    // 체크된 항목을 어떻게 처리할지 여기에서 결정
+    console.log("체크된 아이템:", checkedItems); // 디버깅용
+
+    // 예를 들어, 결제 페이지로 아이템을 넘길 수 있습니다:
+    history.push({
+        pathname: '/payment',
+        state: { items: checkedItems }, // 체크된 아이템을 결제 페이지로 전달
+    });
+    
   };
 
     return (

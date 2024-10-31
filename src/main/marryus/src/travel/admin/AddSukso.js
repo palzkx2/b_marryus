@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import GeocodingComponent from './GeocodingComponent ';
 
 const AddSukso = () => {
     const history = useHistory();
@@ -127,129 +128,132 @@ const AddSukso = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h3 style={{ textAlign: 'center', color: 'blue' }}> 숙소 추가 </h3>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <h3 style={{ textAlign: 'center', color: 'blue' }}> 숙소 추가 </h3>
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>이미지:</p>
-                <input type="file" onChange={handleFileChange} required />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>이미지:</p>
+                    <input type="file" onChange={handleFileChange} required />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>숙소 이름:</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={sname}
-                    onChange={(e) => setSname(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>숙소 이름:</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={sname}
+                        onChange={(e) => setSname(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>호실:</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={hosil}
-                    onChange={(e) => setHosil(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>호실:</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={hosil}
+                        onChange={(e) => setHosil(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>가격:</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>가격:</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>국내 or 해외:</p>
-                <select
-                    style={{ margin: '4px', padding: '10px', width: '94%' }}
-                    value={where}
-                    onChange={(e) => setWhere(e.target.value)}
-                >
-                    <option value="국내">국내</option>
-                    <option value="해외">해외</option>
-                </select>
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>국내 or 해외:</p>
+                    <select
+                        style={{ margin: '4px', padding: '10px', width: '94%' }}
+                        value={where}
+                        onChange={(e) => setWhere(e.target.value)}
+                    >
+                        <option value="국내">국내</option>
+                        <option value="해외">해외</option>
+                    </select>
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>지역 선택:</p>
-                <select
-                    style={{ margin: '4px', padding: '10px', width: '94%' }}
-                    value={place}
-                    onChange={(e) => setPlace(e.target.value)}
-                >
-                    <option value="">선택하세요</option>
-                    {getRegions()}
-                </select>
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>지역 선택:</p>
+                    <select
+                        style={{ margin: '4px', padding: '10px', width: '94%' }}
+                        value={place}
+                        onChange={(e) => setPlace(e.target.value)}
+                    >
+                        <option value="">선택하세요</option>
+                        {getRegions()}
+                    </select>
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>평점:</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={pyong}
-                    onChange={(e) => setPyong(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>평점:</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={pyong}
+                        onChange={(e) => setPyong(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>숙소 위치(위도):</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={wido}
-                    onChange={(e) => setWido(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>숙소 위치(위도):</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={wido}
+                        onChange={(e) => setWido(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>숙소 위치(경도):</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={gyungdo}
-                    onChange={(e) => setGyungdo(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>숙소 위치(경도):</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={gyungdo}
+                        onChange={(e) => setGyungdo(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <label style={{ margin: '10px', padding: '10px' }}>
-                <p>주소:</p>
-                <input
-                    style={{ margin: '4px', padding: '10px', width: '300px' }}
-                    type="text"
-                    value={addr}
-                    onChange={(e) => setAddr(e.target.value)}
-                    required
-                />
-            </label>
-            <br />
+                <label style={{ margin: '10px', padding: '10px' }}>
+                    <p>주소:</p>
+                    <input
+                        style={{ margin: '4px', padding: '10px', width: '300px' }}
+                        type="text"
+                        value={addr}
+                        onChange={(e) => setAddr(e.target.value)}
+                        required
+                    />
+                </label>
+                <br />
 
-            <button style={{ margin: '30px 10px 10px 168px', padding: '10px' }} type="submit">
-                추가하기
-            </button>
-        </form>
+                <button style={{ margin: '30px 10px 10px 168px', padding: '10px' }} type="submit">
+                    추가하기
+                </button>
+            </form>
+            <GeocodingComponent/>
+        </div>
     );
 };
 

@@ -1,5 +1,6 @@
 package com.spring.marryus.service;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,4 +70,23 @@ public class ReviewService {
         return reviewRepository.findByEmail(email); // Repository에서 해당 메서드 호출
     }
     
+=======
+import org.springframework.stereotype.Service;
+
+import com.spring.marryus.dao.ReviewRepository;
+import com.spring.marryus.entity.Review;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ReviewService {
+
+	private final ReviewRepository reviewRepository;
+	
+	public void create(Review review) {
+		reviewRepository.save(review);
+	}
+	
+>>>>>>> branch 'master' of https://github.com/palzkx2/b_marryus.git
 }

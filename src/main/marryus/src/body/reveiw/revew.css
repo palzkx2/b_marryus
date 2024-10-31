@@ -37,7 +37,7 @@
 }
 
 .articleInfo:hover .articleInfoHead{
-    font-size: 20pt;
+    font-size: 12pt;
 }
 .articleInfoSub{
     padding: 3px 10px 0px 10px;
@@ -48,7 +48,14 @@
     width: 25px;
     height: 25px;
     color: rgba(182, 54, 165, 0.774);
+    cursor: pointer;
+    transition: transform 0.4s ease;
 }
+
+.recomIcon-click{
+    transform: scale(1.4);
+}
+
 .a1t2{
     transition: all 0.3s ease;
 }

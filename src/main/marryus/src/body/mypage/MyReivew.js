@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Bar from './Bar'; 
 import axios from 'axios'; 
 import ReviewRing from '../../weddingItem/ReviewRing';
+import '../../weddingItem/weddingItemReview.css'
 
 const MyReivew = () => {
     const [reviews, setReviews] = useState([]); 
@@ -135,11 +136,11 @@ const MyReivew = () => {
                         ) : (
                             <ul>
                                 {reviews.map(review => (
-                                    <li key={review.id}>
-                                        <h3>{review.productName}</h3> 
-                                        <p>{review.reviewContent}</p> 
-                                        <p>평점: {review.rating}★</p> 
-                                        <p>작성일: {new Date(review.createdAt).toLocaleDateString()}</p>
+                                    <li key={review.id}  className="weddingItemReview-card">
+                                        <h3 className="product-name">{review.productName}</h3> 
+                                        <p className="weddingItemReview-content">{review.reviewContent}</p> 
+                                        <p className="rating">평점: {review.rating}★</p> 
+                                        <p className="date">작성일: {new Date(review.createdAt).toLocaleDateString()}</p>
                                         <button onClick={() => handleEditClick(review)}>수정</button>
                                         <button onClick={() => handleDeleteClick(review.id)}>삭제</button>
                                     </li>
