@@ -13,6 +13,7 @@ const Payment = () => {
     const [phone,setPhone] = useState('');//전화번호 불러오기
     const [email, setEmail] = useState(''); //이메일 불러오기
     const [totalPrice, setTotalPrice] = useState(0);
+    const [paymentMethod, setPaymentMethod] = useState(null);
 
     useEffect(() => {
         const fetchSessionData = async () => {
@@ -26,19 +27,19 @@ const Payment = () => {
             }
         };
 
-        const fetchOauthData = async () => { //OAuth 데이터 가져오기
-            try {
-                const response = await axios.get('/api/oauthReaduser');          
-                    setUserName(response.data.name);
-                    setPhone(response.data.phone);
-                    setEmail(response.data.email);              
-            } catch (error) {
-                console.log('OAuth 데이터 가져오기 실패:', error);
-            }
-        };
+        // const fetchOauthData = async () => { //OAuth 데이터 가져오기
+        //     try {
+        //         const response = await axios.get('/api/oauthReaduser');          
+        //             setUserName(response.data.name);
+        //             setPhone(response.data.phone);
+        //             setEmail(response.data.email);              
+        //     } catch (error) {
+        //         console.log('OAuth 데이터 가져오기 실패:', error);
+        //     }
+        // };
 
         fetchSessionData();
-        fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
+       // fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
     }, []);
     
     useEffect(() => {
@@ -155,8 +156,7 @@ const Payment = () => {
                                         <input type='radio' name='payment' id='creditCard' />
                                         <label htmlFor='creditCard' style={{fontSize: '18px' ,marginBottom:'10px'}}>신용카드</label>
                                         <br />
-                                        <input type='radio' name='payment' id='naverPay' />
-                                        <label htmlFor='naverPay'style={{fontSize: '18px'}}>네이버페이</label>
+                                        
                                     </div>
                             </div>
                             

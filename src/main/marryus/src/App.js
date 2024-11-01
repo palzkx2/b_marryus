@@ -43,6 +43,7 @@ import InsertTravle from "./travel/admin/InsertTravle";
 import ArticlePage from "./travel/ArticlePage";
 import AddWeddingItem from "./weddingItem/AddWeddingItem";
 import RingReviewList from "./weddingItem/RingReviewList";
+import AddSdm from "./sdm/AddSdm";
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
       <Switch>
         <Route path={['/','/main']} exact><Main/></Route>
         <Route path={['/sdm']}><SdmBoard/></Route>
+        <Route path={['/sdmRegister']}><AddSdm/></Route> 
         <Route path={['/weddingHall']}><WeddingHall/></Route>
         <Route path={['/weddingItem']}><WeddingItem/></Route>
         <Route path={['/weddingItemArticle/:id']}><WeddingItemArticle/></Route>
@@ -76,7 +78,7 @@ function App() {
         <Route path='/updateUser' component={UpdateUser} />
         {/* <Route path={['/findId']}><FindId/></Route> */}
         <Route path='/oauthUpdateUser'><OauthUpdateUser/></Route>
-        <Route path={['/sdmArticle/:sdmName']}><SdmArticle/></Route>
+        <Route path={['/sdmArticle/:itemNm']}><SdmArticle/></Route>
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
         <Route path={['/cart']}><Cart/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>

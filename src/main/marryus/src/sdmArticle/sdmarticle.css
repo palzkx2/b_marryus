@@ -1,0 +1,23 @@
+
+
+.sdmarticle-item{
+    cursor: pointer;
+}
+
+.sdmarticle-item img{
+    width: 120px; /* 기본 이미지 크기 */
+    transition: filter 0.3s; 
+}
+.sdmarticle-item:hover img  {
+    filter: brightness(0.8);
+}
+
+.sdmarticle-item con-box { width: 1000px; margin: 0 auto; display: flex}
+.sdmarticle-item con-box article:nth-child(1){ width: 600px; }
+.sdmarticle-item con-box article:nth-child(1) > img { width: 600px; }
+.sdmarticle-item con-box article:nth-child(1) ul { display: flex; flex-wrap: wrap; }
+.sdmarticle-item con-box article:nth-child(1) ul li { cursor: pointer;}
+.sdmarticle-item con-box article:nth-child(1) ul li img { width: 120px;}
+.sdmarticle-item con-box article:nth-child(2){ width: 400px; background: beige; padding: 30px;}
+.sdmarticle-item con-box article:nth-child(2) h3 { font-size: 25px; margin-bottom: 15px; }
+.sdmarticle-item con-box article:nth-child(2) p { font-size: 18px;}
