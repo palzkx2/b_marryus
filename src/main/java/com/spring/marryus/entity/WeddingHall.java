@@ -26,7 +26,7 @@ public class WeddingHall {
 	
 	private String addr;
 	
-	private Integer rating;
+	private String rating;
 	
 	@Column(length = 100)
 	private Integer price;

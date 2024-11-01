@@ -3,9 +3,13 @@ import './payment.css';
 import Numeral from 'numeral';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
+<<<<<<< HEAD
 import * as PortOne from "@portone/browser-sdk/v2";
+=======
+>>>>>>> refs/remotes/origin/master
 
 const Payment = () => {
+<<<<<<< HEAD
     const location = useLocation(); // useLocation 사용
     const [cartData] = useState(location.state?.items || []); // 전달받은 데이터 사용
     const [userName,setUserName] = useState('');//이름 불러오기
@@ -13,6 +17,51 @@ const Payment = () => {
     const [email, setEmail] = useState(''); //이메일 불러오기
     const [totalPrice,setTotalPrice]= useState(0);
     const [paymentMethod, setPaymentMethod] = useState(null);
+=======
+
+    const location = useLocation(); // useLocation 사용
+    const [cartData] = useState(location.state?.items || []); // 전달받은 데이터 사용
+    const [userName,setUserName] = useState('');//이름 불러오기
+    const [phone,setPhone] = useState('');//전화번호 불러오기
+    const [email, setEmail] = useState(''); //이메일 불러오기
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        const fetchSessionData = async () => {
+            try {
+                const response = await axios.get('/api/session');
+                setUserName(response.data.name);
+                setPhone(response.data.phone);
+                setEmail(response.data.email); 
+            } catch (error) {
+                console.log('세션 데이터 가져오기 실패:', error);
+            }
+        };
+
+        const fetchOauthData = async () => { //OAuth 데이터 가져오기
+            try {
+                const response = await axios.get('/api/oauthReaduser');          
+                    setUserName(response.data.name);
+                    setPhone(response.data.phone);
+                    setEmail(response.data.email);              
+            } catch (error) {
+                console.log('OAuth 데이터 가져오기 실패:', error);
+            }
+        };
+
+        fetchSessionData();
+        fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
+    }, []);
+    
+    useEffect(() => {
+        const calculateTotalPrice = () => {
+            const total = cartData.reduce((acc, item) => acc + item.price, 0);
+            setTotalPrice(total);
+        };
+
+        calculateTotalPrice();
+    }, [cartData]);
+>>>>>>> refs/remotes/origin/master
 
     useEffect(() => {
         const fetchSessionData = async () => {
@@ -79,9 +128,16 @@ return (
                                             <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
                                                 <img src={item.img} alt={item.name} style={{ width: '60px', height: '60px', marginRight: '10px' }} />
                                                 <p style={{ marginRight: '10px', marginTop: '10px' }}>{item.name}</p>
+<<<<<<< HEAD
                                                 <p style={{ marginRight: '10px', marginTop: '9px' }}>{Numeral(totalPrice).format('0,0')} 원</p>
                                             </div>
                                         ))}
+=======
+                                                <p style={{ marginRight: '10px', marginTop: '9px' }}>{Numeral(item.price).format('0,0')} 원</p>
+                                            </div>
+                                        ))}
+                            
+>>>>>>> refs/remotes/origin/master
                             </div>
                                 )}
                         </div>
@@ -149,7 +205,11 @@ return (
 
                                     <div className='yoyakblack'>
                                         <p className='textblack'>
+<<<<<<< HEAD
                                         {Numeral(totalPrice).format('0,0')} 원   
+=======
+                                        {Numeral(totalPrice).format('0,0')} 원
+>>>>>>> refs/remotes/origin/master
                                         </p>
                                         <p>{cartData[0].resdate}</p>
                                     </div>

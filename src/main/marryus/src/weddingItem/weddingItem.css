@@ -75,5 +75,9 @@
 .image-rating {
     font-size: 14px; /* 별점 글자 크기 */
     margin: 5px 0; /* 위 아래 간격 */
-    margin-bottom: 50px;
+    margin-bottom: 5px;
+}
+
+.delete-button {
+    margin: 0;
 }

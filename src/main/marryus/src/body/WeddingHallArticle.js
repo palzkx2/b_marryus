@@ -8,11 +8,12 @@ import Numeral from 'numeral';
 import loginImg from '../s_images/weddingHall/wdArticleBar.jpg'
 import MapOfMarryus from './map/MapOfMarryus';
 import axios from 'axios';
+import MapTest from '../travel/map/MapTest';
 
 
 const WeddingHallArticle = () => {
 
-    const {itemName} = useParams()
+    const {itemName,lat,lng} = useParams()
     const location = useLocation()
     const [weddingHall,setWeddingHall] = useState(null);
 
@@ -69,7 +70,7 @@ const WeddingHallArticle = () => {
         <div>
             <div className='alignGood'>
                 
-                <div className='mainContainere'>
+                <div className='mainContainere' style={{height:'1127px'}}>
                     <div style={{width:'1400px', height:'200px', display:'flex', justifyContent:'center', alignContent:'center', backgroundImage:`url(${loginImg})`, backgroundSize:'cover', backgroundPosition:`center calc(100% - -130px)`}}>
                     </div>
 
@@ -113,16 +114,15 @@ const WeddingHallArticle = () => {
                     </div>
                         
                         {/* 작은 이미지 */}
-                        <div style={{display:'flex',paddingLeft:'23px',justifyContent:'space-between',width:'600px',marginTop:'15px'}}>
+                        {/* <div style={{display:'flex',paddingLeft:'23px',justifyContent:'space-between',width:'600px',marginTop:'15px'}}>
                             <img className='artiImage' src={img1}/>
                             <img className='artiImage' src={img1}/>
                             <img className='artiImage' src={img1}/>
                             <img className='artiImage' src={img1}/>
                             <img className='artiImage' src={img1}/>
-                            {/* 버튼 */}
-                        </div>
+                            버튼
+                        </div> */}
                             <div className='byeBtnaLoc'>
-                                <Link to='/myPage'><p className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px'}}>견적내기</p></Link>
                                 <p onClick={postData} className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
                             </div>
                     </div>
@@ -134,14 +134,16 @@ const WeddingHallArticle = () => {
             
             <div className='alignGood' style={{marginTop:'30px'}}>
                 {/* 지도 API */}
-                <MapOfMarryus/>
+                <div style={{width:'1400px'}}>
+                    <MapTest coordinates={{ lat: parseFloat(weddingHall.wido), lng: parseFloat(weddingHall.gyungdo) }}/>
+                </div>
                 {/* 지도 API END*/}
             </div>
 
-            <div className='alignGood' style={{marginTop:'30px'}}>
+            {/* <div className='alignGood' style={{marginTop:'30px'}}>
                 <div className='mainContainere'>
                     <div style={{fontSize:'50pt',margin:'10px 10px 10px 100px',padding:'20px'}}>
-                        {/* 웨딩홀 정보 */}
+                        웨딩홀 정보
                         여기는 좀 싸고 멋있어요
                         한번 직접 봐바요
                     </div>
@@ -149,11 +151,11 @@ const WeddingHallArticle = () => {
                         <img className='artiImage' src={img1} style={{width:'1000px',height:'1000px'}}/>
                     </div>
                     <div style={{fontSize:'50pt',margin:'10px 10px 10px 500px',padding:'20px'}}>
-                        {/* 웨딩홀 정보 */}
+                        웨딩홀 정보
                         그럴듯 하쥬?
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className='alignGood'>
                 <div className='header' style={{width:'1400px',marginBottom:'-10px'}}/>
@@ -169,7 +171,7 @@ const WeddingHallArticle = () => {
             {/* 리뷰 */}
 
             <div className='alignGood' style={{margin:'30px 30px'}}>
-                <WeddingHallReview/>
+                <WeddingHallReview weddingHall={weddingHall.name}/>
             </div>
             {/* 리뷰 END*/}
         </div>

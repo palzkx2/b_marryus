@@ -285,6 +285,9 @@ const DomesticDestinations = () => {
         };
         fetchData();
     }, []); 
+
+    
+
     const [currentSlide, setCurrentSlide] = useState(0); // 현재 슬라이드 인덱스 관리
     const slidesPerPage = 4; // 한 페이지에 보여줄 여행지 개수 설정
     // 슬라이드 이동 함수
@@ -354,7 +357,62 @@ const DomesticDestinations = () => {
                 console.log("장바구니 담기가 취소되었습니다.");
             }
     };
-    
+
+    const onSort = (by) => {
+
+        let sortedAccommodations
+
+        if (selectedDestination && selectedDestination.accommodations) {
+
+            if(by==='ascPyong'){
+                // 정렬 수행
+                sortedAccommodations = [...selectedDestination.accommodations].sort((a, b) => a.pyong - b.pyong);
+            }else if(by==='descPyong'){
+                sortedAccommodations = [...selectedDestination.accommodations].sort((a, b) => b.pyong - a.pyong);
+            }else if(by==='ascPrice'){
+                sortedAccommodations = [...selectedDestination.accommodations].sort((a, b) => a.price - b.price);
+            }else if(by==='descPrice'){
+                sortedAccommodations = [...selectedDestination.accommodations].sort((a, b) => b.price - a.price);
+            }else if(by==='ascName'){
+                sortedAccommodations = [...selectedDestination.accommodations].sort((a, b) => a.sname.localeCompare(b.sname));
+            }else if(by==='descName'){
+                sortedAccommodations = [...selectedDestination.accommodations].sort((a, b) => b.sname.localeCompare(a.sname));
+            }
+            
+            // 정렬된 accommodations 배열을 새로운 객체로 업데이트하여 UI 반영
+            setSelectedDestination({
+                ...selectedDestination,
+                accommodations: sortedAccommodations
+            });
+        }
+
+        if(isDropdownOpen){
+            setIsDropdownOpen(!isDropdownOpen);
+        }
+        if(isPriceDropdownOpen){
+            setisPriceDropdownOpenIsDropdownOpen(!isPriceDropdownOpen);
+        }
+        if(isNameDropdownOpen){
+            setisNameDropdownOpenIsDropdownOpen(!isNameDropdownOpen);
+        }
+        
+
+    };
+       
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isPriceDropdownOpen, setisPriceDropdownOpenIsDropdownOpen] = useState(false);
+    const [isNameDropdownOpen, setisNameDropdownOpenIsDropdownOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+    const togglePriceDropdown = () => {
+        setisPriceDropdownOpenIsDropdownOpen(!isPriceDropdownOpen);
+    };
+    const toggleNameDropdown = () => {
+        setisNameDropdownOpenIsDropdownOpen(!isNameDropdownOpen);
+    };
+
     return (
         <div>
             <Sidebar />
@@ -413,9 +471,29 @@ const DomesticDestinations = () => {
                             <div className="agency-list">
                                 <div className='listHeader'>{selectedDestination.name}의 {selectedTab === 'agencies' ? '여행사' : '숙소'} 목록</div>
                                 <div className='listOrderCOn'>
-                                    <div  className='listOrderCOn-Name' style={{ marginRight: '874px' }}>이름</div>
-                                    <div className='listOrderCOn-Name'>가격</div>
-                                    <div  className='listOrderCOn-Name'>평점</div>
+                                    <div  className='listOrderCOn-Name' style={{ marginRight: '874px' }} onClick={toggleNameDropdown}>이름</div>
+                                    {isNameDropdownOpen && (
+                                        <div style={{border: '1px solid gainsboro', padding: '5px', position: 'absolute',margin:'35px 1141px  0px 60px',borderTop:'none',backgroundColor:'white',zIndex:'99999'}}>
+                                            <div className='sortContaBtn' onClick={()=>onSort('ascName')}>가나다순</div>
+                                            <div className='sortContaBtn' onClick={()=>onSort('descName')}>가나다 역순</div>
+                                        </div>
+                                    )}
+                                    <div className='listOrderCOn-Name' onClick={togglePriceDropdown}>가격</div>
+                                    {isPriceDropdownOpen && (
+                                        <div style={{border: '1px solid gainsboro', padding: '5px', position: 'absolute',margin:'35px 128px 0px 60px',borderTop:'none',backgroundColor:'white',zIndex:'99999'}}>
+                                            <div className='sortContaBtn' onClick={()=>onSort('ascPrice')}>가격 낮은 순</div>
+                                            <div className='sortContaBtn' onClick={()=>onSort('descPrice')}>가격 높은 순</div>
+                                        </div>
+                                    )}
+                                    
+                                    <div  className='listOrderCOn-Name' onClick={toggleDropdown} style={{cursor: 'pointer'}}>평점</div>
+                                    {isDropdownOpen && (
+                                        <div style={{border: '1px solid gainsboro', padding: '5px', position: 'absolute',margin:'35px 0px 0px 0px',borderTop:'none',backgroundColor:'white',zIndex:'99999'}}>
+                                            <div className='sortContaBtn' onClick={()=>onSort('ascPyong')}>평점 낮은 순</div>
+                                            <div className='sortContaBtn' onClick={()=>onSort('descPyong')}>평점 높은 순</div>
+                                        </div>
+                                    )}
+
                                 </div>
                                 <ul>
                                     {(selectedTab === 'agencies' ? selectedDestination.agencies : selectedDestination.accommodations).map((item, index) => (

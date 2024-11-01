@@ -1,5 +1,6 @@
 package com.spring.marryus.dao;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>{
 	 List<Payment> findByStatus(String status);
 	
 	
+
 }

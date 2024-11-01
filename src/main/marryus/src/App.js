@@ -6,6 +6,7 @@ import Footer from "./footer/Footer";
 import SdmBoard from "./sdm/SdmBoard";
 import WeddingItem from "./weddingItem/WeddingItem";
 import WeddingItemArticle from "./weddingItem/WeddingItemArticle";
+import ReviewRing from "./weddingItem/ReviewRing";
 import Login from "./login/Login";
 import SignUp from "./login/SignUp";
 import Join from "./login/Join";
@@ -40,9 +41,15 @@ import OverseasDestinations from "./travel/OverseasDestinations";
 import SearchComponent from "./travel/SearchComponent";
 import InsertTravle from "./travel/admin/InsertTravle";
 import ArticlePage from "./travel/ArticlePage";
+<<<<<<< HEAD
 import AddSdm from "./sdm/AddSdm";
 import Payment2 from "./sdmArticle/Payment2";
 import PaymentButton from "./cart/PaymentButton";
+=======
+import AddWeddingItem from "./weddingItem/AddWeddingItem";
+import RingReviewList from "./weddingItem/RingReviewList";
+
+>>>>>>> refs/remotes/origin/master
 
 function App() {
   return (
@@ -57,6 +64,9 @@ function App() {
         <Route path={['/weddingHall']}><WeddingHall/></Route>
         <Route path={['/weddingItem']}><WeddingItem/></Route>
         <Route path={['/weddingItemArticle/:id']}><WeddingItemArticle/></Route>
+        <Route path={['/addWeddingItem']}><AddWeddingItem/></Route>
+        <Route path={['/ReviewRing/:id']}><ReviewRing/></Route>
+        <Route path={['/RingReviewList']}><RingReviewList/></Route>
         <Route path={['/login']}><Login/></Route>
         <Route path={['/signup']}><SignUp/></Route>
         <Route path={['/join']}><Join/></Route>

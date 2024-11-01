@@ -66,10 +66,18 @@ public class WeddingHallController {
             @RequestParam(value = "sortType", required = false) String sortType,
             @RequestParam(value = "search", required = false) String search) {
 
-        // 정렬 및 데이터 검색 로직 실행
-        List<WeddingHall> weddingHalls = weddingHallService.getImages(category, imgType, sortType, search);
+    	List<WeddingHall> weddingHalls;
+
+        if (search != null && !search.trim().isEmpty()) {
+            // 검색어가 있을 경우 카테고리와 정렬 기준 무시하고 검색
+            weddingHalls = weddingHallService.searchWeddingHall(search);
+        } else {
+            // 카테고리와 정렬 기준에 따라 이미지 반환
+            weddingHalls = weddingHallService.getImages(category, imgType, sortType);
+        }
 
         return ResponseEntity.ok(weddingHalls);
+        
     }
     
     // 유효한 sortType인지 확인하는 메서드
@@ -143,7 +151,7 @@ public class WeddingHallController {
     
     @GetMapping("/api/sorted")
     public ResponseEntity<List<WeddingHall>> getSortedWeddingHalls(
-    		@RequestParam(required = false) String category,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) String imgType,
             @RequestParam(required = false) String sortType) {
         
@@ -151,7 +159,7 @@ public class WeddingHallController {
 
         if (sortType == null || sortType.isEmpty()) {
             // 기본 정렬 처리 로직
-            weddingHalls = weddingHallService.getImages(category, imgType, "DEFAULT_SORT", null);
+            weddingHalls = weddingHallService.getImages(category, imgType, null);
         } else {
             switch (sortType) {
                 case "newest":
@@ -172,7 +180,6 @@ public class WeddingHallController {
         }
 
         return ResponseEntity.ok(weddingHalls);
-        
     }
     
     // imgType에 따른 데이터를 가져오는 엔드포인트

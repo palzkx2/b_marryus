@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import FlowerDesc from './FlowerDesc';
 import SuitDesc from './SuitDesc';
 import RingDesc from './RingDesc';
+import RingReviewList from './RingReviewList';
+import numeral from 'numeral';
 
 const WeddingItemArticle = () => {
     const { id } = useParams();
@@ -52,7 +54,7 @@ const WeddingItemArticle = () => {
                 </div>
                 <div className="weddingItemArticle-content"> {/* 오른쪽 내용 */}
                     <h1 className="weddingItemArticle-title">{item.imgName}</h1>
-                    <p className="weddingItemArticle-price">{item.price}</p>
+                    <p className="weddingItemArticle-price">{numeral(item.price).format('0,0')}원</p>
                     <p className="weddingItemArticle-description">
                         {
                             item.category==='flower' &&
@@ -71,25 +73,26 @@ const WeddingItemArticle = () => {
             </div>
             <div className="weddingItemArticle-category-list"> {/* 카테고리 리스트 컨테이너 */}
                 <div className='weddingItemArticle-category-list-grid'>
-                {displayedItems.map((categoryItem) => (
-                        <a href={`/weddingItemArticle/${categoryItem.id}`} key={categoryItem.id || Math.random()}>
-                            <div className="weddingItemArticle-category-item">
-                                {categoryItem.id ? (
+                    {displayedItems.map((categoryItem) => (
+                        categoryItem.id ? ( // id가 있을 때만 링크를 생성
+                            <a href={`/weddingItemArticle/${categoryItem.id}`} key={categoryItem.id}>
+                                <div className="weddingItemArticle-category-item">
                                     <>
                                         <img src={`${process.env.PUBLIC_URL}${categoryItem.imgAddr}`} alt={categoryItem.imgName} className="weddingItemArticle-category-item-image" />
                                         <span>{categoryItem.imgName}</span>
-                                        <span>{categoryItem.price}</span>
+                                        <span>{numeral(categoryItem.price).format('0,0')}원</span>
                                     </>
-                                ) : (
-                                    <div className="weddingItemArticle-placeholder"> {/* 빈 요소 스타일 */}
-                                        <span>&nbsp;</span> {/* 필요에 따라 스타일 조정 가능 */}
-                                    </div>
-                                )}
+                                </div>
+                            </a>
+                        ) : (
+                            <div key={Math.random()} className="weddingItemArticle-category-item">
+                                <span>&nbsp;</span>
                             </div>
-                        </a>
+                        )
                     ))}
                 </div>
             </div>
+            <RingReviewList item={item}/>
         </div>
     );
 };

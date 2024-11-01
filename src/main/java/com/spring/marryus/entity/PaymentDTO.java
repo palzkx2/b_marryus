@@ -1,5 +1,6 @@
 package com.spring.marryus.entity;
 
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -16,4 +17,6 @@ public class PaymentDTO {
 	    private LocalDateTime paidAt;
 	    private String receiptUrl;
 	
+
+
 }

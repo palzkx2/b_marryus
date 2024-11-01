@@ -68,7 +68,6 @@
     margin-top: 40px; /* 리스트와 위 요소 간의 간격 */
     margin-bottom: 40px;
     text-align: center; /* 리스트 중앙 정렬 */
-    border: 1px solid red;
 }
 
 .weddingItemArticle-category-list-grid {

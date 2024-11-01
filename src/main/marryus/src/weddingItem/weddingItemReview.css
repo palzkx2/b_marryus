@@ -1,0 +1,221 @@
+.weddingItemReview-item-detail-page {
+    padding: 100px;
+}
+
+.weddingItemReview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3; /* 높은 z-index 값 설정 */
+}
+
+.weddingItemReview-modal-content {
+    background-color: white;
+    padding: 20px;
+
+    width: 500px; /* 모달 너비 */
+    position: relative;
+}
+
+/* 닫기 버튼 스타일 */
+.weddingItemReview-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 추가적인 스타일 */
+.weddingItemReview-product-image {
+    max-width: 60%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 리뷰 폼 스타일 */
+.weddingItemReview-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.weddingItemReview-form textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.weddingItemReview-form button {
+    padding: 10px;
+    background-color: #99cdff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.weddingItemReview-form button:hover {
+    background-color: #000080;
+}
+
+/* 별점 스타일 */
+.weddingItemReview-rating {
+    font-size: 1.5rem; /* 별점 크기 */
+    color: #FFD700; /* 별색 */
+    cursor: pointer; /* 포인터 커서 */
+}
+
+.weddingItemReview-rating .empty {
+    color: #e2e2e2; /* 비어있는 별 색상 */
+}
+
+.weddingItemReview-rating span:hover,
+.weddingItemReview-rating span:hover ~ span {
+    color: #e2e2e2; /* 호버 시 별색 */
+}
+
+.weddingItemReview-review-button {
+    margin-right: 200px;
+    margin-top: 25px;
+    padding: 10px;
+    background-color: #99cdff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.weddingItemReview-review-button:hover {
+    background-color: #000080;
+}
+
+.weddingItemReview-review {
+    font-size: 30px;
+    color: #0c1c38;
+    border-bottom: solid 2px #1e0f75;
+    padding: 20px 20px;
+}
+
+.weddingItemReview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* 카드 간의 간격 */
+}
+
+.weddingItemReview-card {
+    background-color: #cbd8e8;
+    width: 1350px;
+    padding: 15px;
+    margin: 10px auto; /* 카드 간의 간격 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.weddingItemReview-card:hover {
+    transform: translateY(-5px); /* 카드에 마우스를 올리면 살짝 위로 이동 */
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between; /* 각 요소 간의 간격 유지 */
+    margin-bottom: 10px; /* 헤더와 내용 간의 간격 */
+}
+
+.product-name, .author, .date, .rating {
+    margin-right: 10px; /* 요소 간의 간격 */
+    color: #1e0f75;
+}
+
+.weddingItemReview-content {
+    margin: 10px 0; /* 내용 간격 */
+    color: #3785d8;
+}
+
+.recommended {
+    display: inline-block;
+    position: absolute; /* 절대 위치 설정 */
+    bottom: 15px; /* 카드의 아래쪽 여백 */
+    right: 15px; /* 카드의 오른쪽 여백 */
+    width: 20px; /* 크기 설정 */
+    height: 20px; /* 크기 설정 */
+    background-color: #adc6e5; /* 꺼져 있는 상태 */
+    margin-top: 10px; /* 위쪽 여백 */
+    transition: background-color 0.3s; /* 부드러운 전환 효과 */
+    transform: rotate(45deg);
+    z-index: 1; /* 덮는 요소보다 위에 위치 */
+}
+
+.recommended.active {
+    background-color: red;
+}
+
+.cover {
+    position: absolute; /* 절대 위치 설정 */
+    top: 4px;
+    left: -1px;
+    width: 10.5px;
+    height: 11px;
+    background-color: #cbd8e8;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+/* 여백 추가를 위한 스타일 */
+.review-header .product-name,
+.review-header .author,
+.review-header .date,
+.review-header .rating {
+    margin-right: 5px; /* 각 요소 간의 기본 여백 */
+}
+
+.review-header .rating {
+    margin-left: auto; /* 별점을 오른쪽으로 이동 */
+    margin-right: 0; /* 오른쪽 여백 제거 */
+    color: #0791b1;
+}
+
+.review-header .author, .review-header .date {
+    margin-left: 15px; /* 제품명과 작성자, 날짜 간의 여백 */
+}
+
+.no-reviews {
+    text-align: center; /* 가운데 정렬 */
+    font-size: 100px; /* 글씨 크기 조정 */
+    margin-top: 50px; /* 위쪽 간격 추가 */
+    color: #000; /* 색상 조정 */
+}
+
+.reviews-length {
+    margin-left: 190px;
+}
+
+/* 정렬 버튼 스타일 */
+.sort-button-container {
+    display: flex;
+    gap: 1px; /* 버튼 간의 간격 */
+    margin-right: 1000px;
+}
+
+.sort-button {
+    margin-right: 200px;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #99cdff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px; /* 버튼 간의 간격 */
+}
+
+.sort-button:hover {
+    background-color: #000080;
+}

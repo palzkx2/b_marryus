@@ -44,8 +44,6 @@ const Join = () => {
 
         const email = `${emailInput.current.value}@${domainInput.current.value}`
 
-        console.log('email조합됐나----------', email)
-
         axios.post('/api/sendEmail',null,{params: {email}})
         .then(response => {
             setCertificationNumber(response.data)

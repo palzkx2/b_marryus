@@ -45,8 +45,12 @@ public class CartController {
         
         // 카트 추가
         cart.setUserrId(userId);
+
         cartService.addCart(userId, 1, userType, cart.getCategory(),cart.getName(), cart.getPrice(), cart);
         System.out.println("cart 나오나"+cart);
+
+        cartService.addCart(userId, 1, userType, cart.getCategory(), cart.getName(), cart.getPrice(), cart);
+
     }
 
     @GetMapping("/api/readCart")
