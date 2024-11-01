@@ -116,8 +116,6 @@ const WeddingHallArticle = () => {
 
     const filename = weddingHall.imgPath.split('\\').pop();
 
-   
-
     return (
         <div>
             <div className='alignGood'>

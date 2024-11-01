@@ -7,13 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.marryus.dao.ReviewRepository;
+import com.spring.marryus.dao.UserRecommendationRepository;
 import com.spring.marryus.dao.WeddingHallRepository;
 import com.spring.marryus.entity.Review;
 import com.spring.marryus.entity.ReviewDTO;
+import com.spring.marryus.entity.UserRecommendation;
 import com.spring.marryus.entity.WeddingHall;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,32 @@ public class ReviewService {
 
 	private final ReviewRepository reviewRepository;
 	private final WeddingHallRepository weddingHallRepository;
+	private final UserRecommendationRepository userRecommendationRepository;
+	
+	@Transactional
+    public boolean toggleRecommendation(String email, Long reviewId) {
+        boolean exists = userRecommendationRepository.existsByEmailAndReviewId(email, reviewId);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("Invalid review ID"));
+
+        if (exists) {
+            userRecommendationRepository.deleteByEmailAndReviewId(email, reviewId);
+            review.setRecommendCount(review.getRecommendCount() - 1); // 추천 수 감소
+        } else {
+            UserRecommendation recommendation = new UserRecommendation();
+            recommendation.setEmail(email);
+            recommendation.setReviewId(reviewId);
+            userRecommendationRepository.save(recommendation);
+            review.setRecommendCount(review.getRecommendCount() + 1); // 추천 수 증가
+        }
+
+        reviewRepository.save(review); // 변경된 추천 수 저장
+        return !exists; // 추천 상태 반환
+    }
+	
+
+    public boolean isRecommended(String email, Long reviewId) {
+        return userRecommendationRepository.existsByEmailAndReviewId(email, reviewId);
+    }
 	
 	public Review create(Review review) {
 		return reviewRepository.save(review);
@@ -71,5 +100,10 @@ public class ReviewService {
         }
         
 	}
+
+	public Review getReviewById(Long reviewId) {
+        return reviewRepository.findById(reviewId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid review ID"));
+    }
 	
 }

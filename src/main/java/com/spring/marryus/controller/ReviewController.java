@@ -4,7 +4,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -71,6 +74,27 @@ public class ReviewController {
 	@GetMapping("/api/average")
 	public void getAverageReview(@RequestParam String weddingHallName) {
 		reviewService.averageReview(weddingHallName);
+	}
+    
+	@PostMapping("/api/toggleRecommendation")
+	public ResponseEntity<Map<String, Object>> toggleRecommendation(@RequestParam String email, @RequestParam Long reviewId) {
+	    boolean isRecommended = reviewService.toggleRecommendation(email, reviewId);
+	    Review review = reviewService.getReviewById(reviewId); // 리뷰 정보 가져오기
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("isRecommended", isRecommended);
+	    response.put("recommendCount", review.getRecommendCount());
+	    
+	    return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/api/checkRecommendation")
+	public ResponseEntity<Map<String, Boolean>> checkRecommendation(
+	    @RequestParam String email,
+	    @RequestParam Long reviewId) {
+	    
+	    boolean isRecommended = reviewService.isRecommended(email, reviewId);
+	    return ResponseEntity.ok(Collections.singletonMap("isRecommended", isRecommended));
 	}
 
 }

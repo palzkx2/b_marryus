@@ -12,12 +12,12 @@
         padding: 10px;
         font-size: 13pt;
         color: rgb(88, 87, 87);
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
     .bySubCon:hover{
         background-color: white;
-        transition: all 0.3s ease;
         color: black;
-        font-size:15pt;
     }
 }
 
@@ -50,9 +50,6 @@
     cursor: pointer;
 }
 
-.a1t2{
-    transition: all 0.3s ease;
-}
 .a1t2:hover{
     color: rgb(0, 0, 0);
     text-decoration: underline;

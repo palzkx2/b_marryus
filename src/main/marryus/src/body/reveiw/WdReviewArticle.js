@@ -7,11 +7,12 @@ import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => {
+const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
 
-    const {id,name,content,created,rating} = review
+    const {name,content,created,rating} = review
 
     const [toggle,setToggle] = useState(false)
+    const [recommendCount, setRecommendCount] = useState(review.recommendCount);
     const [userEmail, setUserEmail] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [newContent, setNewContent] = useState(content);
@@ -58,10 +59,6 @@ const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => 
         setIsEditing(false); // 수정 모드 비활성화
     };
 
-    const onToggle = () => {
-        setToggle(!toggle)
-    }
-
     useEffect(() => {
         const fetchSessionData = async () => {
             try {
@@ -75,6 +72,36 @@ const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => 
 
         fetchSessionData();
     }, []);
+
+    const handleToggleRecommendation = async () => {
+        try {
+            const response = await axios.post(`/api/toggleRecommendation`, null, {
+                params: { email: userEmail, reviewId: review.id },
+            });
+            setToggle(response.data.isRecommended);
+            setRecommendCount(response.data.recommendCount);
+            window.location.reload()
+        } catch (error) {
+            console.error('추천하기 실패:', error);
+        }
+    };
+
+    useEffect(() => {
+        const checkRecommendation = async () => {
+            try {
+                const response = await axios.get(`/api/checkRecommendation`, {
+                    params: { email: userEmail, reviewId: review.id },
+                });
+                setToggle(response.data.isRecommended);
+            } catch (error) {
+                console.error('추천 상태 가져오기 실패:', error);
+            }
+        };
+
+        if (userEmail) {
+            checkRecommendation();
+        }
+    }, [userEmail, review.id]);
 
     return (
         <div>
@@ -119,12 +146,12 @@ const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => 
                         <div style={{marginLeft:'0px',display:'flex'}}>
 
                             <div style={{paddingLeft:'20px',marginTop:'5px',marginRight:'5px',fontSize:'10pt',color:'gray'}}>추천하기</div>
-                            <span onClick={onToggle}>
+                            <span onClick={handleToggleRecommendation}>
                                 {
                                     toggle ? <GoHeartFill className='recomIcon'/> : <GoHeart className='recomIcon'/>
                                 }
                             </span>
-
+                            <span style={{marginLeft:'10px', marginTop:'5px'}}>{recommendCount}</span>
                         </div>
                         {!isEditing &&
                         <>
