@@ -72,34 +72,5 @@ public class ReviewController {
 	public void getAverageReview(@RequestParam String weddingHallName) {
 		reviewService.averageReview(weddingHallName);
 	}
-	
-	@PutMapping("/api/{id}/recommend")
-    public ResponseEntity<Review> recommendReview(@PathVariable Long id, @RequestBody RecommendationRequest recommendationRequest) {
-        Review review = reviewService.getReviewById(id);
-        if (review == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // 추천 상태 업데이트
-        review.setRecommended(recommendationRequest.isRecommended());
-        review.setRecommendCount(review.getRecommendCount() + (recommendationRequest.isRecommended() ? 1 : -1)); // 추천 수 업데이트
-
-        Review updatedReview = reviewService.create(review);
-        return ResponseEntity.ok(updatedReview);
-    }
-    
-    public static class RecommendationRequest {
-    	
-        private boolean recommended;
-
-        public boolean isRecommended() {
-            return recommended;
-        }
-
-        public void setRecommended(boolean recommended) {
-            this.recommended = recommended;
-        }
-        
-    }
 
 }

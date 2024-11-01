@@ -1,14 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
-import { MdOutlineRecommend, MdRecommend } from 'react-icons/md';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import Typography from '@mui/material/Typography';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => {
 
@@ -20,8 +17,6 @@ const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => 
     const [newContent, setNewContent] = useState(content);
     const [newCreated, setNewCreated] = useState(created)
     const [newRating, setNewRating] = useState(rating);
-    const [userRecommendations, setUserRecommendations] = useState({})
-    const history = useHistory()
 
     const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
@@ -81,47 +76,6 @@ const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => 
         fetchSessionData();
     }, []);
 
-    const handleRecommendClick = async (reviewId) => {
-        if (!userEmail) {
-            alert('로그인 후 이용해주세요.');
-            history.push('/login');
-            return;
-        }
-
-        const updatedRecommendations = { ...userRecommendations };
-
-    if (!updatedRecommendations[reviewId]) {
-        updatedRecommendations[reviewId] = [];
-    }
-
-    const userIndex = updatedRecommendations[reviewId].indexOf(userEmail);
-    if (userIndex > -1) {
-        // 사용자가 이미 추천한 경우, 추천을 제거
-        updatedRecommendations[reviewId].splice(userIndex, 1);
-    } else {
-        // 사용자가 추천을 추가
-        updatedRecommendations[reviewId].push(userEmail);
-    }
-
-    // 여기서 'reviewList'와 같은 전체 리뷰 목록이 필요함
-    const updatedReviews = setReviewList(prevReviews => 
-        prevReviews.map(r => {
-            if (r.id === reviewId) {
-                return { 
-                    ...r, 
-                    recommended: updatedRecommendations[reviewId].length 
-                };
-            }
-            return r;
-        })
-    );
-
-    setUserRecommendations(updatedRecommendations);
-    localStorage.setItem('userRecommendations', JSON.stringify(updatedRecommendations));
-
-        await axios.put(`/api/${reviewId}/recommend`, { recommended: updatedRecommendations[reviewId].length > 0 });
-    };
-
     return (
         <div>
             <div style={{display:'flex',margin:'auto'}}>
@@ -165,9 +119,9 @@ const WdReviewArticle = ({review, deleteReview, weddingHall, setReviewList}) => 
                         <div style={{marginLeft:'0px',display:'flex'}}>
 
                             <div style={{paddingLeft:'20px',marginTop:'5px',marginRight:'5px',fontSize:'10pt',color:'gray'}}>추천하기</div>
-                            <span onClick={handleRecommendClick}>
+                            <span onClick={onToggle}>
                                 {
-                                    userEmail && userRecommendations[review.id]?.includes(userEmail) ? <GoHeartFill className='recomIcon'/> : <GoHeart className='recomIcon'/>
+                                    toggle ? <GoHeartFill className='recomIcon'/> : <GoHeart className='recomIcon'/>
                                 }
                             </span>
 
