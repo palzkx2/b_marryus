@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.servlet.http.HttpSession;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,5 +40,9 @@ public class Review {
 	private String content;
 	
 	private double rating;
+	
+	private boolean recommended;
+	
+	private int recommendCount;
 
 }

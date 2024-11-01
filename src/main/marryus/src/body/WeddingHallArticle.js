@@ -16,6 +16,7 @@ const WeddingHallArticle = () => {
     const {itemName,lat,lng} = useParams()
     const location = useLocation()
     const [weddingHall,setWeddingHall] = useState(null);
+    const [average,setAverage] = useState('');
 
     // URL 쿼리에서 페이지 정보를 가져옴
     const queryParams = new URLSearchParams(location.search);
@@ -87,7 +88,7 @@ const WeddingHallArticle = () => {
                                 <div className='artiSub' style={{fontSize:'40pt'}}>{weddingHall.name}</div>
                                 <div className='artiSub'>
                                     평점
-                                    <div className='artiSc'>9점</div>
+                                    <div className='artiSc'>{weddingHall.rating ? Number(weddingHall.rating).toFixed(1) : 0}점</div>
                                 </div>
                                 <div className='artiSub'>위치
                                     <div className='artiSc'>{weddingHall.addr}</div>
@@ -135,7 +136,7 @@ const WeddingHallArticle = () => {
             <div className='alignGood' style={{marginTop:'30px'}}>
                 {/* 지도 API */}
                 <div style={{width:'1400px'}}>
-                    <MapTest coordinates={{ lat: parseFloat(weddingHall.wido), lng: parseFloat(weddingHall.gyungdo) }}/>
+                    <MapTest name={weddingHall.name} coordinates={{ lat: parseFloat(weddingHall.wido), lng: parseFloat(weddingHall.gyungdo) }}/>
                 </div>
                 {/* 지도 API END*/}
             </div>

@@ -67,7 +67,7 @@ public class WeddingItemController {
         
         // 이미지 파일 처리 (저장 로직 등)
         String category = item.getCategory();
-        String uploadDir = "C:\\Users\\itwill\\git\\b_marryus\\src\\main\\marryus\\public\\s_images\\weddingItem\\" + category + "\\"; // 실제 경로로 변경
+        String uploadDir = "C:\\sts-bundle\\work\\MarryUs\\src\\main\\marryus\\public\\s_images\\weddingItem\\"+ category + "\\"; // 실제 경로로 변경
         try {
             File uploadFile = new File(uploadDir + image.getOriginalFilename());
             image.transferTo(uploadFile);
