@@ -101,3 +101,25 @@
     margin: 10px;
     padding: 10px;
 }
+.minusIcnCon{
+  position: absolute;
+  margin: -7px 0px 0px 916px;
+}
+.minusIcn{
+  width: 20px;
+  height: 30px;
+  color: rgb(180, 180, 180);
+  cursor: pointer;
+}
+.inppputCon{
+  margin-right: 50px;
+}
+.pidif{
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.pidif:hover{
+  text-decoration: underline;
+  color: #0056b3;
+  transform: scale(1.05);
+}

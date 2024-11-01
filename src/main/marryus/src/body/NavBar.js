@@ -6,17 +6,16 @@ import { FaUserTie } from "react-icons/fa";
 import { TbShoppingCartHeart } from "react-icons/tb";
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
+import mainLogo from '../s_images/main/m1.png'
+import CartBar from './CartBar';
+
 
 const NavBar = () => {
 
     const [userRole,setUserRole] = useState('')
-    const history = useHistory()
-    
-    
+    const history = useHistory()  
     useEffect(() => {
-
         const fetchSessionData1 = async () => {
-
             try {
                 const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
                 console.log('세션 정보 : ', response.data)
@@ -24,11 +23,8 @@ const NavBar = () => {
             } catch (error) {
                 console.error('세션 가져오기 실패:', error);
             }
-
         };
-
         fetchSessionData1();
-
     }, []);
 
     const logout = async () => {
@@ -167,7 +163,9 @@ const NavBar = () => {
                         ) : ''
                     }
                    
-                    <strong style={{margin:'0 300px', fontSize:'36pt', color:'black'}}><Link to='/' style={{color:'black'}}>MarryUs</Link></strong>
+                    <div style={{margin:'0 300px'}}>
+                        <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
+                    </div>
                     <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/>
                 </div>
             </div>
@@ -200,6 +198,9 @@ const NavBar = () => {
 
                 </div>
             </div>
+            <Link to='/cart'>
+                <CartBar/>
+            </Link>
         </div>
     );
 };

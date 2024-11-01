@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import img1 from '../s_images/weddingHall/1.jpg'
 import { Link, useLocation, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import Bar from './mypage/Bar';
-import data from './proData'
 import WeddingHallReview from './reveiw/WeddingHallReview';
 import Numeral from 'numeral';
 import loginImg from '../s_images/weddingHall/wdArticleBar.jpg'
-import MapOfMarryus from './map/MapOfMarryus';
 import axios from 'axios';
 import MapTest from '../travel/map/MapTest';
 
@@ -16,7 +12,82 @@ const WeddingHallArticle = () => {
     const {itemName,lat,lng} = useParams()
     const location = useLocation()
     const [weddingHall,setWeddingHall] = useState(null);
-    const [average,setAverage] = useState('');
+    const [isOnCart, setIsOnCart] = useState(null);
+    const fetchCartData = async () => {
+        try {
+            const response = await axios.get(`/api/readOneCart`, {
+                params: { name: weddingHall.name },
+                withCredentials: true, // 인증이 필요하면 이 옵션을 추가합니다.
+            });
+
+            // 응답 데이터에 따라 isOnCart 상태 업데이트
+            if (response.data) {
+                setIsOnCart(response.data); // 장바구니에 아이템이 있을 경우
+            } else {
+                setIsOnCart(null); // 아이템이 없을 경우
+            }
+
+            // 로그를 통해 데이터 확인
+            console.log("장바구니 데이터:", response.data);
+        } catch (error) {
+            console.error("Error fetching cart data:", error);
+        }
+    };
+
+    const postData = async (event) => {
+        event.preventDefault();
+        const confirmation = window.confirm(`'${weddingHall.name}'을 장바구니에 담으시겠습니까?`);
+        if (confirmation) {
+            const data = {
+                name: weddingHall.name, 
+                price: weddingHall.price ,
+                category: '웨딩홀'
+               };    
+           try {
+               const response = axios.post('/api/addCart', data, {
+                   withCredentials: true
+               });
+               console.log('POST response data:', response.data);
+               alert(`${weddingHall.name}이(가) 장바구니에 담겼습니다.`);
+               fetchCartData();
+           } catch (error) {
+               console.error('Error posting data:', error);
+           }
+        } else {
+            // 취소 시 실행되는 로직
+            alert('취소되었습니다.');
+            console.log("삭제가 취소되었습니다.");
+        }
+        
+    };
+
+   
+    useEffect(() => {
+        
+        fetchCartData();
+    }, []); // name이 변경될 때마다 호출
+
+    const onDelete = async (event, id) => {
+        event.preventDefault(); // 이벤트 기본 동작 방지
+        const confirmation = window.confirm(`${weddingHall.name}을 장바구니에서 삭제하시겠습니까?`);
+        if (confirmation) {
+            try {
+                // 백엔드 API 엔드포인트
+                const response = await axios.delete(`/api/deleteCart/${id}`);        
+                // 성공적으로 삭제된 경우
+                console.log('삭제 성공:', response.data);
+                alert('삭제되었습니다.');
+                setIsOnCart(null); // 장바구니 상태 업데이트
+            } catch (error) {
+                // 오류 처리
+                console.error('삭제 실패:', error);
+            }
+        } else {
+            // 취소 시 실행되는 로직
+            alert('취소되었습니다.');
+            console.log("삭제가 취소되었습니다.");
+        }
+    };
 
     // URL 쿼리에서 페이지 정보를 가져옴
     const queryParams = new URLSearchParams(location.search);
@@ -45,27 +116,7 @@ const WeddingHallArticle = () => {
 
     const filename = weddingHall.imgPath.split('\\').pop();
 
-    const postData = async () => {
-        const confirmation = window.confirm("장바구니에 담으시겠습니까?");
-        if (confirmation) {
-            const data = {
-                name: weddingHall.name, 
-                price: weddingHall.price ,
-                category: '웨딩홀'
-               };    
-           try {
-               const response = axios.post('/api/addCart', data, {
-                   withCredentials: true
-               });
-               console.log('POST response data:', response.data);
-           } catch (error) {
-               console.error('Error posting data:', error);
-           }
-        } else {
-            // 취소 시 실행되는 로직
-            console.log("삭제가 취소되었습니다.");
-        }
-    };
+   
 
     return (
         <div>
@@ -88,7 +139,7 @@ const WeddingHallArticle = () => {
                                 <div className='artiSub' style={{fontSize:'40pt'}}>{weddingHall.name}</div>
                                 <div className='artiSub'>
                                     평점
-                                    <div className='artiSc'>{weddingHall.rating ? Number(weddingHall.rating).toFixed(1) : 0}점</div>
+                                    <div className='artiSc'>9점</div>
                                 </div>
                                 <div className='artiSub'>위치
                                     <div className='artiSc'>{weddingHall.addr}</div>
@@ -124,7 +175,12 @@ const WeddingHallArticle = () => {
                             버튼
                         </div> */}
                             <div className='byeBtnaLoc'>
-                                <p onClick={postData} className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
+                                {
+                                    isOnCart !== null
+                                    ? <p onClick={(event) => onDelete(event, isOnCart.id)} className='byeBtna' style={{backgroundColor:'black',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
+                                    : <p onClick={postData} className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
+                                }
+                                
                             </div>
                     </div>
                 </div>
@@ -136,7 +192,7 @@ const WeddingHallArticle = () => {
             <div className='alignGood' style={{marginTop:'30px'}}>
                 {/* 지도 API */}
                 <div style={{width:'1400px'}}>
-                    <MapTest name={weddingHall.name} coordinates={{ lat: parseFloat(weddingHall.wido), lng: parseFloat(weddingHall.gyungdo) }}/>
+                    <MapTest coordinates={{ lat: parseFloat(weddingHall.wido), lng: parseFloat(weddingHall.gyungdo) }}/>
                 </div>
                 {/* 지도 API END*/}
             </div>

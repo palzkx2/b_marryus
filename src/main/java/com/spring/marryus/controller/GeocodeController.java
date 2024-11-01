@@ -62,7 +62,8 @@ public class GeocodeController {
 	        jsonMap.put("y", jspoitn.get("y").toString());
     		
     	} catch (IOException | ParseException e) {
-    		throw new RuntimeException(e);
+//    		throw new RuntimeException(e);
+    		 jsonMap.put("error", "정확한 주소를 입력해주세요");
     	}
     	
     	return jsonMap;

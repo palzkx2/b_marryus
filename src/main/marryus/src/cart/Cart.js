@@ -3,6 +3,7 @@ import studioImg from '../s_images/cartBar.jpg'
 import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import './cart.css'
 import axios from 'axios';
+import { FaCircleMinus } from "react-icons/fa6";
 
 const Cart = () => {
 
@@ -208,6 +209,54 @@ const Cart = () => {
     
   };
 
+  const onDelete = async(id) => {
+        const confirmation = window.confirm('삭제하시겠습니까?');
+        if (confirmation) {
+                try {
+                    // 백엔드 API 엔드포인트
+                    const response = await axios.delete(`/api/deleteCart/${id}`);        
+                    // 성공적으로 삭제된 경우
+                    console.log('삭제 성공:', response.data);
+                    alert('삭제되었습니다.')
+                    // 상태에서 삭제된 아이템 제거
+                setWeddingHalls(prevItems => prevItems.filter(item => item.id !== id));
+                setStudios(prevItems => prevItems.filter(item => item.id !== id));
+                setHouseholdItems(prevItems => prevItems.filter(item => item.id !== id));
+                setDestinations(prevItems => prevItems.filter(item => item.id !== id));
+                } catch (error) {
+                    // 오류 처리
+                    console.error('삭제 실패:', error);
+                }
+            }else {
+                // 취소 시 실행되는 로직
+                alert('취소되었습니다.');
+                console.log("삭제가 취소되었습니다.");
+            }
+  };
+
+  const [travel, setTravel] = useState([]);
+
+  useEffect(() => {
+      axios.get('/api/readSukso')
+          .then((response) => {
+              setTravel(response.data);
+          })
+          .catch(err => console.log("데이터 불러오기 실패:", err));
+  }, []);
+  
+  const goToArticleByName = (sname) => {
+    // travel 배열에서 sname과 일치하는 항목을 찾음
+    const foundItem = travel.find((item) => item.sname === sname);
+
+    if (foundItem) {
+        // 일치하는 항목이 있을 경우, 해당 데이터로 URL 이동
+        window.location.href = `/travelArticle/${foundItem.id}/${foundItem.sname}/${foundItem.pyong}/${foundItem.price}/${foundItem.addr}/${foundItem.imgName}/${foundItem.wido}/${foundItem.gyungdo}`;
+    } else {
+        console.error("해당 이름의 데이터를 찾을 수 없습니다.");
+    }
+};
+    
+
     return (
         <div>
             {/*  배너 이미지  */}
@@ -235,11 +284,14 @@ const Cart = () => {
                                                 onChange={(e) => handleCheckboxChange('weddingHalls', item.id, e.target.checked)}/>
                                             <span>{item.name}</span>
                                             <span>{item.price}원</span>
-                                            <input type="number" value={item.quantity} 
-                                                    onChange={(e) => handleQuantityChange('weddingHalls', item.id, parseInt(e.target.value))} min="1"
-                                                    disabled={!item.checked} 
-                                                    //   체크 되지 않으면 수정 불가
-                                                    />
+                                            <div className='inppputCon'>
+                                                <input type="number" value={item.quantity} 
+                                                        onChange={(e) => handleQuantityChange('weddingHalls', item.id, parseInt(e.target.value))} min="1"
+                                                        disabled={!item.checked} 
+                                                        //   체크 되지 않으면 수정 불가
+                                                        />
+                                            </div>
+                                            <div className='minusIcnCon'><FaCircleMinus onClick={()=>onDelete(item.id)} className='minusIcn'/></div>
                                         </div>
                                     ))}
                                 </div>
@@ -260,11 +312,14 @@ const Cart = () => {
                                                 onChange={(e) => handleCheckboxChange('studios', item.id, e.target.checked)}/>
                                             <span>{item.name}</span>
                                             <span>{item.price}원</span>
-                                            <input type="number" value={item.quantity} 
-                                                    onChange={(e) => handleQuantityChange('studios', item.id, parseInt(e.target.value))} min="1"
-                                                    disabled={!item.checked} 
-                                                    //   체크 되지 않으면 수정 불가
-                                                    />
+                                            <div className='inppputCon'>
+                                                <input type="number" value={item.quantity} 
+                                                        onChange={(e) => handleQuantityChange('studios', item.id, parseInt(e.target.value))} min="1"
+                                                        disabled={!item.checked} 
+                                                        //   체크 되지 않으면 수정 불가
+                                                        />
+                                            </div>
+                                            <div className='minusIcnCon'><FaCircleMinus onClick={()=>onDelete(item.id)} className='minusIcn'/></div>
                                         </div>
                                     ))}
                                 </div>
@@ -310,11 +365,14 @@ const Cart = () => {
                                                   <span>{item.flowerColor}</span>
                                               )}
                                             </>
-                                            <input type="number" value={item.quantity} 
-                                                    onChange={(e) => handleQuantityChange('householdItems', item.id, parseInt(e.target.value))} min="1"
-                                                    disabled={!item.checked} 
-                                                    //   체크 되지 않으면 수정 불가
-                                                    />
+                                            <div className='inppputCon'>
+                                                <input type="number" value={item.quantity} 
+                                                        onChange={(e) => handleQuantityChange('householdItems', item.id, parseInt(e.target.value))} min="1"
+                                                        disabled={!item.checked} 
+                                                        //   체크 되지 않으면 수정 불가
+                                                        />
+                                            </div>
+                                            <div className='minusIcnCon'><FaCircleMinus onClick={()=>onDelete(item.id)} className='minusIcn'/></div>
                                         </div>
                                     ))}
                                 </div>
@@ -332,13 +390,16 @@ const Cart = () => {
                                         <div key={item.id} className="cart-item">
                                             <input type="checkbox" checked={item.checked}
                                                 onChange={(e) => handleCheckboxChange('destinations', item.id, e.target.checked)}/>
-                                            <span>{item.name}</span>
+                                            <span className='pidif' onClick={() => goToArticleByName(item.name)}>{item.name}</span>
                                             <span>{item.price}원</span>
-                                            <input type="number" value={item.quantity} 
-                                                    onChange={(e) => handleQuantityChange('destinations', item.id, parseInt(e.target.value))} min="1"
-                                                    disabled={!item.checked} 
-                                                    //   체크 되지 않으면 수정 불가
-                                                    />
+                                            <div className='inppputCon'>
+                                                <input type="number" value={item.quantity} 
+                                                        onChange={(e) => handleQuantityChange('destinations', item.id, parseInt(e.target.value))} min="1"
+                                                        disabled={!item.checked} 
+                                                        //   체크 되지 않으면 수정 불가
+                                                        />
+                                            </div>
+                                            <div className='minusIcnCon'><FaCircleMinus onClick={()=>onDelete(item.id)} className='minusIcn'/></div>
                                         </div>
                                     ))}
                                 </div>

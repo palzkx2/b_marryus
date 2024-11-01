@@ -51,7 +51,7 @@
     width: 500px; /* 카드 너비 조정 */
     height: 500px;
     transition: all 0.6s ease;
-    cursor: pointer;
+    cursor: url('/public/cursors/free-icon-just-married-6837238.png'),pointer; 
   }
   
   .category-card:hover {

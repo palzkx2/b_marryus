@@ -16,6 +16,16 @@ code {
   font-family: '제주고딕 보통';
   src: url('./fonts/JejuGothic.ttf') format("truetype");
 }
+@font-face {
+  font-family: '을유 보통';
+  src: url('./fonts/Eulyoo1945-Regular.ttf') format("truetype");
+}
+@font-face {
+  font-family: '고운돋움 보통';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 * {
   font-family: '제주고딕 보통';

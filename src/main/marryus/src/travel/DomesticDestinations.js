@@ -354,7 +354,7 @@ const DomesticDestinations = () => {
             }else {
                 // 취소 시 실행되는 로직
                 alert('취소되었습니다.');
-                console.log("장바구니 담기가 취소되었습니다.");
+                console.log("삭제가 취소되었습니다.");
             }
     };
 

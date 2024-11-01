@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import GeocodingComponent from './GeocodingComponent ';
+import { BsPatchQuestion } from "react-icons/bs";
+import './admin.css';
 
 const AddSukso = () => {
     const history = useHistory();
@@ -16,6 +18,8 @@ const AddSukso = () => {
     const [wido, setWido] = useState('');
     const [gyungdo, setGyungdo] = useState('');
     const [addr, setAddr] = useState('');
+    const [msg,setMsg] = useState(false);
+    const [showGeo,setShowGeo] = useState(false);
 
     const handleFileChange = (e) => {
         setImageFile(e.target.files[0]);
@@ -127,6 +131,12 @@ const AddSukso = () => {
         }
     };
 
+    // wido, gyungdo 업데이트 함수
+    const handleGeocodeResult = (latitude, longitude) => {
+        setWido(latitude);
+        setGyungdo(longitude);
+    };
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -213,7 +223,23 @@ const AddSukso = () => {
                 <br />
 
                 <label style={{ margin: '10px', padding: '10px' }}>
-                    <p>숙소 위치(위도):</p>
+                    <p>숙소 위치(위도)<BsPatchQuestion  style={{cursor:'pointer',color:'gray',height:'15px',width:'15px'}} onMouseEnter={() => setMsg(true)} onClick={() => setMsg(!msg)} />:</p> 
+                    
+                    {
+                        msg &&     
+                        <div className='con-dontknow'>좌표(위도,경도)를 모르시나요? 
+                            <div className='yesOrNoCon'>
+                                <div className='yesOrNo'  onClick={() => {setShowGeo(true); setMsg(false);}}>네</div> <div className='yesOrNo'  onClick={() => setMsg(false)}>아니오</div>
+                            </div>
+                        </div>
+                    }
+                    {
+                        showGeo &&
+                        <div className='showGeoCon'>
+                            <div className='onClose' onClick={()=>setShowGeo(false)}>닫기</div>
+                            <GeocodingComponent onGeocode={handleGeocodeResult}/>
+                        </div>
+                    }
                     <input
                         style={{ margin: '4px', padding: '10px', width: '300px' }}
                         type="text"
@@ -252,7 +278,7 @@ const AddSukso = () => {
                     추가하기
                 </button>
             </form>
-            <GeocodingComponent/>
+           
         </div>
     );
 };

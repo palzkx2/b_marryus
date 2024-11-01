@@ -1,0 +1,22 @@
+.cccarttLoc{
+    position: fixed;
+    left: 1827px;
+    top: 363px;
+    border: 1px solid gainsboro;
+    border-radius: 50%;
+    background-color: rgba(241, 241, 241, 0.288);
+    cursor: pointer;
+    z-index: 99999;
+}
+.cccarttIcn{
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+    color: gray;
+}
+.cccarttLoc:hover{
+    background-color: rgb(252, 254, 255);
+}
+.cccarttLoc:hover .cccarttIcn{
+    color: rgb(41, 41, 41);
+}

@@ -7,39 +7,32 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import jkart from '../s_images/JKArt.jpg'
 import product from './proData'
+import { LuCalendarHeart } from "react-icons/lu";
+import { GiAmpleDress, GiLoveLetter, GiRing, GiRingBox } from 'react-icons/gi';
+import MainInfo_W from './MainInfo_W';
+import MainInfo_S from './MainInfo_S';
+import MainInfo_H from './MainInfo_H';
+import MainInfo_T from './MainInfo_T';
+import axios from 'axios';
+import numeral from 'numeral';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const Main = () => {
 
     const [hall] = useState(product)
+    
 
     const weddingHallRef = useRef('')
     const sDmRef = useRef('')
     const hSRef = useRef('')
     const wTRef = useRef('')
+    const siteIntroRef = useRef('');
 
-    const scrollToweddingHall = () => {
-        if (weddingHallRef.current) {
-            weddingHallRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
+    // 스크롤 기능
+    const scrollToSection = (ref) => {
+        if (ref.current) ref.current.scrollIntoView({ behavior: 'smooth' });
     };
-    
-    const scrollTosDm = () => {
-        if (sDmRef.current) {
-            sDmRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-    
-    const scrollTohSRef = () => {
-        if (hSRef.current) {
-            hSRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    const scrollTowTRef = () => {
-        if (wTRef.current) {
-            wTRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
+   
 
     const [windowDimensions, setWindowDimensions] = useState({
         width: window.innerWidth,
@@ -58,9 +51,56 @@ const Main = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const [backgroundPosition, setBackgroundPosition] = useState(0);
+
+    const handleScroll = () => {
+        const scrollY = window.scrollY; // 스크롤 위치
+        setBackgroundPosition(scrollY * 0.5); // 배경 위치 조정 (0.5는 속도 조절)
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', fadeinhandleScroll);
+        return () => {
+            window.removeEventListener('scroll', fadeinhandleScroll);
+        };
+    }, []);
+
+    const [fadeInClass, setFadeInClass] = useState('');
+    const fadeinhandleScroll = () => {
+        const scrollY = window.scrollY;
+        if (scrollY > 10 ) { // 예: 스크롤이 100px 이상 내려가면
+            setFadeInClass('site-intro');
+        } else {
+            setFadeInClass(''); 
+        }
+        setBackgroundPosition(scrollY * 0.5);
+    };
+
+    const [showWRecom,setShowWRecom] = useState(false)
+    const [showSRecom,setShowSRecom] = useState(false)
+    const [showHRecom,setShowHRecom] = useState(false)
+    const [showTRecom,setShowTRecom] = useState(false)
+
+    const onClose = () => {
+        setShowWRecom(false)
+        setShowSRecom(false)
+        setShowHRecom(false)
+        setShowTRecom(false)
+    }
+
+
+    const [travel,setTravel] = useState([]);
+    useEffect(()=>{
+        axios.get('/api/readSukso')
+        .then((response)=>{
+            setTravel(response.data)
+        })
+        .catch(err => console.log("데이터 불러오기 실패:",err))
+    },[])
+
     return (
         <div>
-
+            <div className="backgroundImgGod" style={{ transform: `translateY(-${backgroundPosition}px)` }} />
             {/* Header 영상 */}
             <div style={{ pointerEvents: 'none'}}>
                 <video
@@ -75,22 +115,61 @@ const Main = () => {
                 </video>
             </div>
 
-            <div style={{display: 'flex', justifyContent:'center', alignContent:'center', margin:'50px 0px', height:'450px'}}>
-                <div style={{justifyContent:'center', alignContent:'center', display:'flex', width:'67.7%', background:'gray', borderRadius:'70px 70px 20px 20px', alignItems:'center'}}>
-                    <div style={{width:200, height:300, backgroundColor: '#e2e2e2', cursor:'pointer'}} onClick={scrollToweddingHall}>
-                        <img src={jkart} alt='' width={200} height={300}/>
-                    </div>
-                    <div style={{width:200, height:300, backgroundColor: '#e2e2e2', marginLeft:'70px', cursor:'pointer'}} onClick={scrollTosDm}>
-                        <p style={{color:'#fff'}}>스드메</p>
-                    </div>
-                    <div style={{width:200, height:300, backgroundColor: '#e2e2e2', marginLeft:'70px', cursor:'pointer'}} onClick={scrollTohSRef}>
-                        <p style={{color:'#fff'}}>혼수</p>
-                    </div>
-                    <div style={{width:200, height:300, backgroundColor: '#e2e2e2', marginLeft:'70px', cursor:'pointer'}} onClick={scrollTowTRef}>
-                        <p style={{color:'#fff'}}>신혼여행</p>
-                    </div>
+             {/* 사이트 소개 섹션 */}
+
+             <div id={fadeInClass} ref={siteIntroRef}>
+                <h2>Marry Us - 당신의 특별한 순간을 완성하는 원스톱 웨딩 서비스</h2>
+                <p>
+                    웨딩홀 예약, 스드메, 신혼여행까지 한곳에서 간편하게 비교하고 예약하세요. Marry Us는 커플의 요구에 맞춘 맞춤형 서비스를 제공하여 완벽한 결혼 준비를 돕습니다.
+                </p>
+            </div>
+
+            {/* 메인 콘텐츠 버튼 그룹 */}
+            <div className='catHeader' style={{ display: 'flex', justifyContent: 'center', margin: '50px 0', height: '330px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around', width: '70%' }}>
+                    <button onMouseEnter={()=>{setShowWRecom(true);setShowSRecom(false);setShowHRecom(false);setShowTRecom(false)}} className="catBtnMain" onClick={() => scrollToSection(weddingHallRef)}>
+                        <div>
+                            <GiLoveLetter className='catIcoon'/>
+                            <div className='wdDescName'>웨딩홀</div>
+                            <div className='wdDescCat'>꿈의 웨딩홀, Marry Us에서 찾으세요!</div>
+                        </div>
+                    </button>
+                    <button onMouseEnter={()=>{setShowWRecom(false);setShowSRecom(true);setShowHRecom(false);setShowTRecom(false)}} className="catBtnMain" onClick={() => scrollToSection(sDmRef)}>
+                        <div>
+                            <GiAmpleDress className='catIcoon'/>
+                            <div className='wdDescName'>스드메</div>
+                            <div className='wdDescCat'>완벽한 스타일링과 메이크업, Marry Us에서 경험하세요!</div>
+                        </div>
+                    </button>
+                    <button onMouseEnter={()=>{setShowWRecom(false);setShowSRecom(false);setShowHRecom(true);setShowTRecom(false)}} className="catBtnMain" onClick={() => scrollToSection(hSRef)}>
+                        <div>
+                            <GiRingBox  className='catIcoon'/>
+                            <div className='wdDescName'>혼수</div>
+                            <div className='wdDescCat'>완벽한 혼수 컬렉션, MarryUs에서 준비하세요!</div>
+                        </div>
+                    </button>
+                    <button onMouseEnter={()=>{setShowWRecom(false);setShowSRecom(false);setShowHRecom(false);setShowTRecom(true)}} className="catBtnMain" onClick={() => scrollToSection(wTRef)}>
+                        <div>
+                            <LuCalendarHeart className='catIcoon'/>
+                            <div className='wdDescName'>신혼여행</div>
+                            <div className='wdDescCat'>잊지 못할 신혼여행, MarryUs와 함께 떠나세요!</div>
+                        </div>
+                    </button>
                 </div>
             </div>
+            <div className={`alignGood ${showWRecom ? 'fadeIn' : 'fadeOut'}`}>
+                {showWRecom && <MainInfo_W onClose={onClose}/>}
+            </div>
+            <div className={`alignGood ${showSRecom ? 'fadeIn' : 'fadeOut'}`}>
+                {showSRecom && <MainInfo_S onClose={onClose}/>}
+            </div>
+            <div className={`alignGood ${showHRecom ? 'fadeIn' : 'fadeOut'}`}>
+                {showHRecom && <MainInfo_H onClose={onClose}/>}
+            </div>
+            <div className={`alignGood ${showTRecom ? 'fadeIn' : 'fadeOut'}`}>
+                {showTRecom && <MainInfo_T onClose={onClose}/>}
+            </div>
+
             {/* 메인 Contents */}
             <div 
                 style={
@@ -485,17 +564,19 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {[...Array(25)].map((item, index) => (
+                        {travel.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <img src={jkart} alt='' style={{position:'relative'}}/>
-                                        <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>XX예식장</strong>
-                                            <p>서울 강남</p>
-                                            <p style={{paddingBottom:'25px'}}>000,000,000원</p>
+                                    <Link to={`/travelArticle/${item.id}/${item.sname}/${item.pyong}/${item.price}/${item.addr}/${item.imgName}/${item.wido}/${item.gyungdo}`}>
+                                        <div style={{textAlign: 'left'}}>
+                                            <img src={`/p_images/travel/sukso/${item.imgName}`} alt={item.imgName} style={{position:'relative'}}/>
+                                            <div className='imgdiv'>
+                                                <strong style={{display: 'block', fontSize: '18pt'}}>{item.sname}</strong>
+                                                <p>{item.place}</p>
+                                                <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}원</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}

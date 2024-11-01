@@ -1,0 +1,58 @@
+.con-dontknow{
+    padding: 10px;
+    height: 25px;
+    width: 200px;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    background-color: white;
+    border-radius: 10px 10px 10px 10px;
+    font-size: 9pt;
+    margin: -81px 2px 3px 71px;
+    border: 1px solid gainsboro;
+}
+.con-dontknow::after {
+    content: '';
+    position: absolute;
+    bottom: -11px; /* 꼬리 위치 */
+    left: 18px;    /* 꼬리 수평 위치 */
+    width: 20px;
+    height: 20px;
+    background-color: white;    /* 꼬리 색상 */
+    transform: rotate(45deg);     /* 회전으로 꼬리 모양 만들기 */
+    border-radius: 0 0 3px 0;     /* 꼬리도 살짝 둥글게 */
+    border-right: 1px solid gainsboro;
+    border-bottom: 1px solid gainsboro;
+  }
+  .yesOrNoCon{
+    display: flex;
+    margin: 2px 2px 3px 75px;
+    font-size: 8pt;
+    cursor: pointer;
+  }
+  .yesOrNo{
+    padding: 5px;
+    color: gray;
+  }
+  .yesOrNo:hover{
+    text-decoration: underline;
+    color: black;
+  }
+  .onClose{
+    border: 1px solid gainsboro;
+    padding: 3px;
+    margin: -142px 1px 1px 403px;
+    padding: 3px;
+  }
+  .showGeoCon{
+    border: 1px solid gainsboro;
+    position: absolute;
+    padding: 2px 20px 20px 20px;
+    justify-content: center;
+    align-content: center;
+    margin: -9px 2px 3px -65px;
+    background-color: white;
+    height: 646px;
+    width: 437px;
+    border-radius: 10px;
+  }

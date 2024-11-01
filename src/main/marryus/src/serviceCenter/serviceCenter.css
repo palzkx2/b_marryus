@@ -44,4 +44,7 @@
     margin-top: 10px; /* 상단 여백 */
     font-size: 14pt; /* 글자 크기 */
     color: #fff; /* 글자 색상 */
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
