@@ -116,8 +116,6 @@ public class BaseAuthController {
 		BaseAuthUser buser = new BaseAuthUser();
 		buser = oauth2Service.readUser(user.getEmail());
 		
-		
-		
 		System.out.println(buser.getEmail());
 		System.out.println(buser.getName());
 		

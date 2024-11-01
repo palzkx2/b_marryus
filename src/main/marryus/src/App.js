@@ -41,15 +41,12 @@ import OverseasDestinations from "./travel/OverseasDestinations";
 import SearchComponent from "./travel/SearchComponent";
 import InsertTravle from "./travel/admin/InsertTravle";
 import ArticlePage from "./travel/ArticlePage";
-<<<<<<< HEAD
 import AddSdm from "./sdm/AddSdm";
 import Payment2 from "./sdmArticle/Payment2";
 import PaymentButton from "./cart/PaymentButton";
-=======
-import AddWeddingItem from "./weddingItem/AddWeddingItem";
 import RingReviewList from "./weddingItem/RingReviewList";
+import AddWeddingItem from "./weddingItem/AddWeddingItem"; 
 
->>>>>>> refs/remotes/origin/master
 
 function App() {
   return (
