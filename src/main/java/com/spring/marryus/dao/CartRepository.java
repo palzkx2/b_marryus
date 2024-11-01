@@ -8,8 +8,12 @@ import com.spring.marryus.entity.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, Long>{
 	
-	Cart findByNameAndUserrId(String productName,String userrId);
+	Cart findByNameAndUserrId(String productName, String userrId);
 	
-	List<Cart> findByUserrIdAndUserType(String userrId,String userType);
+	List<Cart> findByUserrIdAndUserType(String userrId, String userType);
+
+	List<Cart> findByIdIn(List<Long> cartIds); 
+	
+	void deleteByUserId(Long userId);
 
 }

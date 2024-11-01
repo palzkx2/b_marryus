@@ -112,8 +112,11 @@ public class BaseAuthController {
 		
 		SessionUser user = (SessionUser)httpSession.getAttribute("oauthUser");
 		
+	
 		BaseAuthUser buser = new BaseAuthUser();
 		buser = oauth2Service.readUser(user.getEmail());
+		
+		
 		
 		System.out.println(buser.getEmail());
 		System.out.println(buser.getName());

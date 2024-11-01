@@ -40,16 +40,20 @@ import OverseasDestinations from "./travel/OverseasDestinations";
 import SearchComponent from "./travel/SearchComponent";
 import InsertTravle from "./travel/admin/InsertTravle";
 import ArticlePage from "./travel/ArticlePage";
-
+import AddSdm from "./sdm/AddSdm";
+import Payment2 from "./sdmArticle/Payment2";
+import PaymentButton from "./cart/PaymentButton";
 
 function App() {
   return (
     <div>
-      <ScrollToTop/>
+
+       <ScrollToTop/>
       <NavBar/>
       <Switch>
         <Route path={['/','/main']} exact><Main/></Route>
         <Route path={['/sdm']}><SdmBoard/></Route>
+        <Route path={['/sdmRegister']}><AddSdm/></Route> 
         <Route path={['/weddingHall']}><WeddingHall/></Route>
         <Route path={['/weddingItem']}><WeddingItem/></Route>
         <Route path={['/weddingItemArticle/:id']}><WeddingItemArticle/></Route>
@@ -68,9 +72,9 @@ function App() {
         <Route path='/myBookmark' component={MyBookmark} />
         <Route path='/myCart' component={MyCart} />
         <Route path='/updateUser' component={UpdateUser} />
-        {/* <Route path={['/findId']}><FindId/></Route> */}
+         <Route path={['/findId']}><FindId/></Route> 
         <Route path='/oauthUpdateUser'><OauthUpdateUser/></Route>
-        <Route path={['/sdmArticle/:sdmName']}><SdmArticle/></Route>
+        <Route path={['/sdmArticle/:itemNm']}><SdmArticle/></Route>
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
         <Route path={['/cart']}><Cart/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
@@ -86,7 +90,10 @@ function App() {
         <Route path={['/travelSearch']}><SearchComponent/></Route>
         <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName/:lat/:lng']}><ArticlePage/></Route>
       </Switch>
-      <Footer/>
+      <Footer/> 
+
+       {/* <PaymentButton />  */}
+
     </div>
   );
 }

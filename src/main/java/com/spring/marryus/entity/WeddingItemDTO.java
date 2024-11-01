@@ -21,6 +21,7 @@ public class WeddingItemDTO {
     @Column(name = "category")
     private String category;
     
+        
     @Column(name = "imgAddr")
     private String imgAddr;
     

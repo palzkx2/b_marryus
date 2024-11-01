@@ -1,5 +1,6 @@
 package com.spring.marryus.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -131,5 +132,10 @@ public class MemberService {
         return email;
         
     }
+// 24.10.28 이후 바꿔야함
+	public List<Member> findMemeber() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

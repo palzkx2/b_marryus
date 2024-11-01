@@ -17,6 +17,8 @@ public interface WeddingHallRepository extends JpaRepository<WeddingHall, Long>{
 	List<WeddingHall> findByNameContaining(String name);
 	Optional<WeddingHall> findByImgPath(String imgPath);
 	
+	
+	
 	// 최신 등록순 (등록 날짜 기준 내림차순)
     @Query("SELECT w FROM WeddingHall w ORDER BY w.created DESC")
     List<WeddingHall> findAllByOrderByCreatedAtDesc();
