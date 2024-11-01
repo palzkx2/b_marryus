@@ -1,6 +1,6 @@
 package com.spring.marryus.controller;
 
-<<<<<<< HEAD
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -39,8 +39,4 @@ public class PaymentController {
 //	        return ResponseEntity.ok(paymentService.cancelPayment(impUid, amount));
 //	    }
 //	    
-=======
-public class PaymentController {
-
->>>>>>> refs/remotes/origin/master
 }
