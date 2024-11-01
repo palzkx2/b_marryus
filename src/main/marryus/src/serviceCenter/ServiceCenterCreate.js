@@ -64,22 +64,11 @@ const ServiceCenterCreate = () => {
                 </div>
 
                 <div>
-                    <input className="pa"
-                        type='password'
-                        placeholder="비밀번호 (문의 내용 수정/삭제시 필요)"
-                        onChange={e => setPwd(e.target.value)}
-                        required
-                        maxLength="7"
-                    />
-                </div>
-
-                <div>
                     <textarea className="tea2"
-                        rows="12"
+                        wrap="soft"
                         placeholder="문의 내용"
                         onChange={e => setContent(e.target.value)}
                         required
-                        style={{ resize: 'none', backgroundColor: '#ffffff' }}
                     />
                 </div>
 

@@ -10,7 +10,7 @@
 }
 
 .tea1 {
-    width: 100%; /* 전체 너비 */
+    width: 600px; /* 전체 너비 */
     padding: 10px; /* 내부 여백 */
     margin: 10px 0; /* 상하 여백 */
     border: 1px solid #ccc; /* 테두리 */
@@ -20,12 +20,14 @@
 .tea2 {
     height: 500px; /* 높이 조정 */
     resize: none; /* 크기 조절 비활성화 */
-    width: 100%; /* 전체 너비 */
+    width: 600px; /* 전체 너비 */
     padding: 10px; /* 내부 여백 */
     margin: 10px 0; /* 상하 여백 */
     border: 1px solid #ccc; /* 테두리 */
     font-size: 16pt; /* 글자 크기 */
-    
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: pre-wrap; /* 공백과 줄바꿈 유지 */
 }
 
 .cbtnHover {

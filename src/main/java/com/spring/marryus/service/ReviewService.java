@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.spring.marryus.dao.ReviewRepository;
 import com.spring.marryus.dao.WeddingHallRepository;
 import com.spring.marryus.entity.Review;
+import com.spring.marryus.entity.ReviewDTO;
 import com.spring.marryus.entity.WeddingHall;
 
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final WeddingHallRepository weddingHallRepository;
 	
-	public void create(Review review) {
-		reviewRepository.save(review);
+	public Review create(Review review) {
+		return reviewRepository.save(review);
 	}
 	
 	public List<Review> findByWeddingHallName(String weddingHallName){
@@ -70,5 +71,9 @@ public class ReviewService {
         }
         
 	}
+
+	public Review getReviewById(Long id) {
+        return reviewRepository.findById(id).orElse(null);
+    }
 	
 }

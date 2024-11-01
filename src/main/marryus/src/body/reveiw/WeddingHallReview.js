@@ -131,7 +131,7 @@ const WeddingHallReview = ({weddingHall}) => {
                 {reviewList.length > 0 ? (
                     reviewList.map((review) => (
                         <div key={review.id}>
-                            <WdReviewArticle review={review} deleteReview={deleteReview} weddingHall={weddingHall}/>
+                            <WdReviewArticle review={review} deleteReview={deleteReview} weddingHall={weddingHall} setReviewList={setReviewList}/>
                         </div>
                     ))
                 ) : (

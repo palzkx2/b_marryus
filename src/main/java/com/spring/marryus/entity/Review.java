@@ -40,5 +40,9 @@ public class Review {
 	private String content;
 	
 	private double rating;
+	
+	private boolean recommended;
+	
+	private int recommendCount;
 
 }
