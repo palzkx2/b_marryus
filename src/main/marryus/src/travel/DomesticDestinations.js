@@ -414,7 +414,7 @@ const DomesticDestinations = () => {
     };
 
     return (
-        <div>
+        <div style={{cursor:`cursor: url('/public/cursors/car.png') 16 0,pointer`}}>
             <Sidebar />
             <div className='alignGood'>
                 <div className='mainContainer' style={{ height: 'auto' }}>
@@ -463,7 +463,7 @@ const DomesticDestinations = () => {
                             </div>
                             {/* 다음 슬라이드 버튼 */}
                             <div className='nextBtnLoc'>
-                                <button className="slider-button next-button" onClick={handleNextSlide}>{">"}</button>
+                                <button className="slider-button next-button btncssCionc" onClick={handleNextSlide}>{">"}</button>
                             </div>
                         </div>
                         {/* 선택된 여행지의 여행사 및 숙소 목록 */}
@@ -508,7 +508,7 @@ const DomesticDestinations = () => {
                                                 {
                                                     userRole === 'ADMIN' && (
                                                         <div className='admLocc'>
-                                                            <button 
+                                                            <button  
                                                                 onClick={(e) => {
                                                                     e.stopPropagation(); // 상위 li의 클릭 이벤트를 막음
                                                                     deleteDes(item.id);

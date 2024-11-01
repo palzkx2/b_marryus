@@ -22,7 +22,7 @@
     height: 200px;
     overflow: hidden;
     border-radius: 10px;
-    cursor: url('/public/cursors/free-icon-just-married-6837238.png'),pointer; 
+    cursor: url('/public/cursors/car.png') 16 0,pointer; 
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -95,6 +95,7 @@
     cursor: pointer;
     opacity: 0; 
     transition: opacity 0.3s;
+    cursor: url('/public/cursors/car_pointer.png') 16 0,pointer;
 }
 
 .destination-card:hover .card-overlay button {

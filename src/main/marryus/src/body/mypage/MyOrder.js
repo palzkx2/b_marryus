@@ -32,7 +32,7 @@ const MyOrder = () => {
         <div>
             <div className='alignGood'><Bar /></div>
             
-            <div className='mainContainer'>
+            <div className='myOrderMainContainer'>
                 <div className='myAccHeader'>내 주문목록</div>
                 {orders.map((order, index) => (
                     <div key={index} className='cartConbox'>
