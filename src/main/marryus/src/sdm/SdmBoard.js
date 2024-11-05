@@ -178,7 +178,7 @@ const SdmBoard = () => {
         } else {
             fetchData(selectedCategory, sortType, sortDirection); // 검색어가 없을 때는 기본 리스트
         }
-    }, [searchTerm, page, selectedCategory, sortType, sortDirection, fetchData, fetchData2]);
+    }, [page, selectedCategory, sortType, sortDirection, fetchData, fetchData2]);
 
 
     const handleSortByLatest = () => {
@@ -265,113 +265,104 @@ const SdmBoard = () => {
                 }}>
                 </div>
             </div>
-           
-            <div className='stk'>
-                <form onSubmit={handleSearchSubmit} style={{marginBottom:'20px'}}>
-                    <div className='bigCategoryInput'>
-                    메리어스
+            
+            <div style={{marginLeft:'-1265px',display:'flex', justifyContent:'center', alignContent:'center'}}>
+                <div style={{width:'436px'}}>
+                    <form onSubmit={handleSearchSubmit} style={{marginBottom:'20px', width:'436px'}}>
+                        <div className='bigCategoryInput'>
+                        메리어스
 
-                        <input type='text' value={searchTerm}  onChange={handleSearchInput}
-                    placeholder="검색어를 입력하세요" style={{ marginTop: '30px', height: '30px' }} />
-                    </div>
-                </form>
-                <div className='bigCategory'>
-                    
-                    <div className='categorys'>
-                        <button className='btnStyle'  onClick={handleShowAll}>전체상품</button>
-                        <p style={{ paddingLeft: '170px', paddingTop: '11px' }}>&gt;&gt;</p>
-                    </div>
-                    
-                    <div className='categorys'>
-                        <button className='btnStyle' onClick={() => handleStudioSearch('스튜디오')}>스튜디오</button>
-                        <p style={{ paddingLeft: '170px', paddingTop: '11px' }}>&gt;&gt;</p>
-                    </div>
+                            <input type='text' value={searchTerm}  onChange={handleSearchInput}
+                            placeholder="검색어를 입력하세요" style={{ marginTop: '30px', height: '30px' }} />
+                        </div>
+                    </form>
+                    <div className='bigCategory'>
+                        
+                        <div className='categorys' style={{marginTop:'-20px', cursor:'pointer'}} onClick={handleShowAll}>
+                            <button className='btnStyle'>전체상품</button>
+                            <p style={{ paddingLeft: '170px', paddingTop: '11px' }}>&gt;&gt;</p>
+                        </div>
+                        
+                        <div className='categorys' style={{cursor:'pointer'}} onClick={() => handleStudioSearch('스튜디오')}>
+                            <button className='btnStyle'>스튜디오</button>
+                            <p style={{ paddingLeft: '170px', paddingTop: '11px' }}>&gt;&gt;</p>
+                        </div>
 
-                    <div className='categorys'>
-                        <button className='btnStyle' onClick={() => handleStudioSearch('드레스')}>드레스</button>
-                        <p style={{ paddingLeft: '188px', paddingTop: '11px' }}>&gt;&gt;</p>
-                    </div>
+                        <div className='categorys' style={{cursor:'pointer'}} onClick={() => handleStudioSearch('드레스')}>
+                            <button className='btnStyle'>드레스</button>
+                            <p style={{ paddingLeft: '188px', paddingTop: '11px' }}>&gt;&gt;</p>
+                        </div>
 
-                    <div className='categorys'>
-                        <button className='btnStyle' onClick={() => handleStudioSearch('메이크업')}>메이크업</button>
-                        <p style={{ paddingLeft: '170px', paddingTop: '11px' }}>&gt;&gt;</p>
-                    </div>
+                        <div className='categorys' style={{cursor:'pointer'}} onClick={() => handleStudioSearch('메이크업')}>
+                            <button className='btnStyle'>메이크업</button>
+                            <p style={{ paddingLeft: '170px', paddingTop: '11px' }}>&gt;&gt;</p>
+                        </div>
 
+                    </div>
                 </div>
             </div>
             
-                <div style={{marginLeft:'100px', marginTop:'-326px'}}>
-                    <div className='smallCategory' style={{marginTop:'10px'}}>
-                        <button className='btnStyle1' onClick={handleSortByLatest}>최신순</button>
+            <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
+                <div style={{marginTop:'-326px', display:'flex', justifyContent:'center', alignContent:'center', width:'1400px', height:'65px'}}>
+                    <div className='smallCategory' style={{marginTop:'10px', marginLeft:'300px', display:'flex', justifyContent:'center', alignContent:'center', height:'20px'}}>
+                        <button className='btnStyle1' style={{marginLeft:'-200px'}} onClick={handleSortByLatest}>최신순</button>
                         <button className='btnStyle1' onClick={() => handleSortByPrice('ASC')}>낮은가격순</button>
                         <button className='btnStyle1' style={{marginRight:'600px'}} onClick={() => handleSortByPrice('DESC')}>높은가격순</button>
                     </div>
                 </div>
-               
-                <div style={{ marginLeft: '21.5%' }}>
+            </div>
+            
+            <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
+                <div style={{marginLeft: '400px'}}>
+
+                    <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
+
+                        <div style={{width:'1100px', height:'auto', marginRight:'120px', marginTop:'-270px', marginLeft:'20px'}}>
                        
                     {
                         loading ? (
                             <p>로딩 중...</p> // 로딩 상태 표시
                         ) : data.length > 0 ? (
                             // data를 4개씩 나누기 위한 배열 생성
-                            Array.from({ length: Math.ceil(data.length / 4) }).map((_, rowIndex) => (
-                                <div key={rowIndex} style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px', margin: `23px 118px` }}>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px', margin: '0px' }}>
                                     {
-                                        data.slice(rowIndex * 4, rowIndex * 4 + 4).map((item, index) => (
-                                            <div key={index} className='imgBoard' 
-                                                style={{ 
-                                                    width: '220px', 
-                                                    margin: '0 26px', 
-                                                
-                                                    
-                                                    display: 'flex', 
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'space-between' 
-                                                }}>
+                                        data.map((item, index) => (
+                                            <div key={index}>
 
-                                                <div className='imgDiv'>
-                                                    <div>
+                                                <div className='imgDiv' style={{marginLeft:'20px', marginTop:'30px', height:'370px'}}>
                                                     <Link to={`/sdmArticle/${item.itemNm}?page=${page}`} style={{ color: 'black' }}>
-                                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.uploadFileNames[0]}`} alt={item.itemNm} width={220} height={200} style={{ marginTop: '24px', padding: '9px' }} />
-                                                    </Link>
+                                                    <div>
+                                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.uploadFileNames[0]}`} alt={item.itemNm} width={220} height={200} style={{padding: '15px'}} />
                                                    
                                                     </div>
                                                     
-                                                    <Link to={`/sdmArticle/${item.itemNm}?page=${page}`} style={{ color: 'black',  whiteSpace: 'pre-wrap'  }}>
                                                         <strong>{item.itemNm}</strong>
-                                                    </Link>
-                                                    <Link to={`/sdmArticle/${item.itemNm}?page=${page}`} style={{ color: 'black', whiteSpace: 'pre-wrap'  }}>
                                                         <p>{item.addr}</p>
-                                                    </Link>
                                                     
                                                     <p style={{ padding: `7px 15px 0px`, marginTop: '-15px' }}>
                                                         <IoHeart
                                                             style={{ cursor: 'pointer', color: 'red' }}
                                                             onClick={() => toggleLike(item)}
                                                         />
-                                                        {item.totalLikes} {/* 좋아요 수 */}
+                                                        {item.totalLikes}
                                                     </p>
-                                                    <Link to={`/sdmArticle/${item.itemNm}?page=${page}`} style={{ color: 'black' }}>
                                                         <p>
                                                         <MdThumbUp  style={{color:'yellow',width:'15px',height:'20px'}}/>
                                                             평점:{item.rating}</p> 
-                                                    </Link>
                                                     
-                                                    <Link to={`/sdmArticle/${item.itemNm}?page=${page}`} style={{ color: 'black', wordWrap: 'break-word' }}>
                                                         <p style={{ marginBottom: '40px' }}>{numeral(item.price).format('0,0')}원</p>
                                                     </Link>
                                                             {
                                                                 userRole === 'ADMIN' &&
-                                                                <p
-                                                                    style={{ width:'42px', backgroundColor: 'red', marginLeft:'191px',marginBottom:'-265px', color: 'white', border: 'none', cursor: 'pointer' }}>
+                                                                <div
+                                                                    style={{ width:'42px', backgroundColor: 'red', marginLeft:'168px',marginBottom:'-265px', color: 'white', border: 'none', cursor: 'pointer', marginTop:'-60px' }}>
 
-                                                                    <RiDeleteBinLine onClick={() => onDelete(item.id)} style={{cursor: 'pointer',fontSize:'24px'}}/>
-                                                                </p>
+                                                                    <RiDeleteBinLine onClick={() => onDelete(item.id)} style={{cursor: 'pointer',fontSize:'24px', padding:'0 8px'}}/>
+                                                                </div>
                                                             }
-                                                    <p>
-                                                        <TiShoppingCart onClick={() => postData(item)} style={{ padding: `7px 15px 0px`, marginTop: '-15px',cursor: 'pointer',fontSize:'30px'}}/>
-                                                    </p>
+                                                    <div style={{marginTop: userRole !== 'ADMIN' ? '-70px' : '230px', marginLeft:'200px'}}>
+                                                        <TiShoppingCart onClick={() => postData(item)} style={{ padding: `7px 15px 0px`, cursor: 'pointer',fontSize:'30px'}}/>
+                                                    </div>
 
                                                   
                                                                 </div>
@@ -379,22 +370,31 @@ const SdmBoard = () => {
                                                         ))
                                                     }
                                                 </div>
-                                            ))
                                         ) : (
-                                            <p>데이터가 없습니다.</p> // 데이터가 없는 경우
+                                            <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
+                                                <p style={{display:'flex', justifyContent:'center', alignContent:'center'}}>데이터가 없습니다.</p>
+                                            </div> // 데이터가 없는 경우
                                         )
                                     }
+                                
+                
+                                    </div>
                                 </div>
-                                {/* 페이징 컴포넌트 추가 */}
-                                {
-                                    pageResponse && (
-                                        <Pagination
-                                            pageResponse={pageResponse} // 서버에서 받은 페이징 정보
-                                            onPageChange={handlePageChange} // 페이지 변경 핸들러
-                                        />
-                                    )
-                                }
-                    <div style={{ marginLeft: '21.5%' }}>
+
+                                </div>
+                            </div>
+                        <div>
+                            {/* 페이징 컴포넌트 추가 */}
+                            {
+                                pageResponse && (
+                                    <Pagination
+                                        pageResponse={pageResponse} // 서버에서 받은 페이징 정보
+                                        onPageChange={handlePageChange} // 페이지 변경 핸들러
+                                    />
+                                )
+                            }
+                        </div>
+                    <div style={{display:'flex', justifyContent:'center', alignContent:'center', marginLeft:'1240px'}}>
                     
                     {
                     userRole === 'ADMIN' &&
