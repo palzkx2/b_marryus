@@ -48,10 +48,10 @@
 .imgDiv{
     width: 250px;
     height: 335px;
-    background: gray;
     flex-direction: column;
     z-index: 2;
-    
+    background-color: rgba(221, 210, 220, 0.322);
+    border-radius: 20px;
 }
 
 .imgDiv img {
@@ -76,9 +76,6 @@
     justify-content: center;
     padding-top: 15px;
     width: 250px;
-    overflow-x:scroll;
-    scrollbar-width: none;
-    
 }
 
 .bigCategoryInput{
@@ -100,9 +97,7 @@
 
 .stk{
     position: sticky;
-    top: 130px;
-    margin-left: 100px;
-    width: 23%;
+    top: 80px;
 }
 
 .bigCategory{
@@ -138,6 +133,7 @@
     font-size: 14pt;
     flex-grow: 1;
     flex-shrink: 1;
+    cursor: pointer;
 }
 
 .btnStyle1 {
@@ -146,8 +142,6 @@
     font-size: 11pt;
     padding: 0 15px;
     cursor: pointer;
-    flex-grow: 1;
-    flex-shrink: 1;
 }
 
 .btnStyle1:hover {

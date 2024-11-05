@@ -472,7 +472,7 @@ const WeddingHall = () => {
                 </div>
                 <div className='header allProductHr'/>
                 {/* 게시판 헤더 */}
-                <div style={{all:'initial',display:'flex',flexWrap:'wrap',overflow:'auto',backgroundColor:'whitesmoke',alignContent:'center',marginTop:'10px',margin:'10px',padding:'10px'}}>
+                <div style={{all:'initial',display:'flex',flexWrap:'wrap',overflow:'auto',backgroundColor:'whitesmoke',alignContent:'center',marginTop:'10px',margin:'10px',padding:'10px', width:'1000px'}}>
                     {
                         images.map((item,index)=>
                             

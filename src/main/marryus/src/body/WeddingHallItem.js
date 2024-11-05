@@ -8,7 +8,7 @@ import axios from 'axios';
 const WeddingHallItem = ({item}) => {
 
       
-    const {imgPath,name,addr,tag,menu,price} = item
+    const {imgPath,name,addr,tag,menu,price,rating} = item
     const filename = imgPath.split('\\').pop();
     const fetchCartData = async () => {
         try {
@@ -91,7 +91,7 @@ const WeddingHallItem = ({item}) => {
         <>      
                 <img className='wdImage' src={`/api/images/${filename}`} alt='이미지'/>
                 <div className='wdSub title'>{name}</div>
-                <div className='wdSub'>평점: 5.5 </div>
+                <div className='wdSub'>평점: {Number(rating).toFixed(1)} </div>
                 <div className='wdSub'>{addr}</div>
                 <div className='wdSub' style={{fontSize:'14px'}}>{tag}</div>
                 <div className='wdSub' style={{fontSize:'15px'}}>{menu}</div>

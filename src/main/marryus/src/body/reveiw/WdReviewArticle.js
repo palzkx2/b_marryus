@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
 
@@ -18,6 +19,7 @@ const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
     const [newContent, setNewContent] = useState(content);
     const [newCreated, setNewCreated] = useState(created)
     const [newRating, setNewRating] = useState(rating);
+    const history = useHistory()
 
     const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
@@ -74,6 +76,13 @@ const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
     }, []);
 
     const handleToggleRecommendation = async () => {
+
+        if(!userEmail){
+            alert('로그인 후 이용해주세요.')
+            history.push('/login')
+            return
+        }
+
         try {
             const response = await axios.post(`/api/toggleRecommendation`, null, {
                 params: { email: userEmail, reviewId: review.id },
