@@ -34,7 +34,7 @@
 .weddingItemArticle-title {
     font-size: 24px;
     margin-bottom: 10px;
-    color: #000080;
+    color: #4f362a;
 }
 
 .weddingItemArticle-price {
@@ -52,14 +52,13 @@
     padding: 10px 15px;
     font-size: 16px;
     color: white;
-    background-color: #99cdff;
+    background-color: #f8bd97;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
 }
 
 .weddingItemArticle-purchase-button:hover {
-    background-color: #000080;
+    background-color: #4f362a;
 }
 
 .weddingItemArticle-category-list {
@@ -80,7 +79,7 @@
     display: flex; /* Flexbox 사용 */
     flex-direction: column; /* 세로로 나열 */
     align-items: center; /* 수평 중앙 정렬 */
-    color: #000080;
+    color: #000;
     margin: 0px;
 }
 

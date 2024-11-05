@@ -4,7 +4,7 @@ import './main.css'
 import { BsSearchHeart } from "react-icons/bs";
 import { FaUserTie } from "react-icons/fa";
 import { TbShoppingCartHeart } from "react-icons/tb";
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import mainLogo from '../s_images/main/m1.png'
 import CartBar from './CartBar';
@@ -13,7 +13,9 @@ import CartBar from './CartBar';
 const NavBar = () => {
 
     const [userRole,setUserRole] = useState('')
-    const history = useHistory()  
+    const history = useHistory() 
+    const location = useLocation()
+
     useEffect(() => {
         const fetchSessionData1 = async () => {
             try {
@@ -88,6 +90,32 @@ const NavBar = () => {
         history.push('/login')
     };
 
+    //웨딩홀
+    const isWeddingHallActive = () => {
+        return location.pathname === '/weddingHall' || location.pathname.startsWith('/wdArticle');
+    };
+
+    //스드메
+    const isSdmActive = () => {
+        return location.pathname === '/sdm' || location.pathname.startsWith('/sdmArticle');
+    };
+
+    //혼수컬랙션
+    const isWeddingItemActive = () => {
+        return location.pathname === '/weddingItem' || location.pathname.startsWith('/weddingItemArticle');
+    };
+
+    //신혼여행지
+    const isTravelActive = () => {
+        return (
+            location.pathname === '/travel' ||
+            location.pathname === '/overseasDestinations' ||
+            location.pathname === '/domesticDestinations' ||
+            location.pathname === '/travelSearch' ||
+            location.pathname === '/ArticlePage'
+        );
+    };
+
     return (
         <div>
 
@@ -101,26 +129,30 @@ const NavBar = () => {
                             전체메뉴
                         </p>
                     </Link>
-                    <Link to='/weddingHall'>
-                        <p onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                            웨딩홀
-                        </p>
-                    </Link>
-                    <Link to='/sdm'>
-                        <p onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                            스드메
-                        </p>
-                    </Link>
-                    <Link to='/weddingItem'>
-                        <p onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                            혼수컬렉션
-                        </p>
-                    </Link>
-                    <Link to='/travel'>
-                        <p onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                            신혼여행지
-                        </p>
-                    </Link>
+                    <NavLink
+                        to='/weddingHall'
+                        className={isWeddingHallActive() ? 'active' : ''}
+                    >
+                        <p>웨딩홀</p>
+                    </NavLink>
+                    <NavLink
+                        to='/sdm'
+                        className={isSdmActive() ? 'active' : ''}
+                    >
+                        <p>스드메</p>
+                    </NavLink>
+                    <NavLink
+                        to='/weddingItem'
+                        className={isWeddingItemActive() ? 'active' : ''}
+                    >
+                        <p>혼수컬렉션</p>
+                    </NavLink>
+                    <NavLink
+                        to='/travel'
+                        className={isTravelActive() ? 'active' : ''}
+                    >
+                        <p>신혼여행지</p>
+                    </NavLink>
                 </div>
                 {
                     (data.name === undefined && !userRole) ? (
@@ -140,11 +172,11 @@ const NavBar = () => {
                 <div className='login' style={{display:'flex', flexDirection:'row'}}>
                     {
                         data.name!==undefined  ?
-                        <Link to='/'><p onClick={oauthLogout}>로그아웃</p></Link> : 
+                        <Link to='/'><p onClick={oauthLogout} style={{marginTop:50}}>로그아웃</p></Link> : 
                         
                         (
-                            userRole ? <Link to='/'><p onClick={logout}>로그아웃</p></Link>
-                                     : <Link to='/login'><p>로그인</p></Link>
+                            userRole ? <Link to='/'><p onClick={logout} style={{marginTop:50}}>로그아웃</p></Link>
+                                     : <Link to='/login'><p style={{marginTop:50}}>로그인</p></Link>
                         )
                         
                     }
@@ -153,30 +185,50 @@ const NavBar = () => {
                     {
                         (data.name === undefined && !userRole) ? (
                             <Link to='/signup'>
-                                <p style={{marginLeft: '50px'}}>회원가입</p>
+                                <p style={{marginLeft: '50px',marginTop:50}}>회원가입</p>
                             </Link>
                         ) : ''
                     }
                                         {
                         (data.name !== undefined || userRole) ? (
-                            <Link to='/myPage'><p style={{ marginLeft: '50px' }}>마이페이지</p></Link>
+                            <Link to='/myPage'><p style={{ marginLeft: '50px', marginTop:50 }}>마이페이지</p></Link>
                         ) : ''
                     }
                    
                     <div style={{margin:'0 300px'}}>
                         <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
                     </div>
-                    <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/>
+                    <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt', marginTop:50}}/>
                 </div>
             </div>
             <hr style={{width:'100%'}}/>
             <div style={{justifyContent:'center', alignContent:'center', display:'flex', marginTop:'10px'}}>
                 <div className='category' style={{display:'flex', flexDirection:'row'}}>
                     <Link to='/'><p>전체메뉴</p></Link>
-                    <Link to='/weddingHall'><p>웨딩홀</p></Link>
-                    <Link to='/sdm'><p>스드메</p></Link>
-                    <Link to='/weddingItem'><p>혼수컬렉션</p></Link>
-                    <Link to='/travel'><p>신혼여행지</p></Link>
+                    <NavLink
+                        to='/weddingHall'
+                        className={isWeddingHallActive() ? 'active' : ''}
+                    >
+                        <p>웨딩홀</p>
+                    </NavLink>
+                    <NavLink
+                        to='/sdm'
+                        className={isSdmActive() ? 'active' : ''}
+                    >
+                        <p>스드메</p>
+                    </NavLink>
+                    <NavLink
+                        to='/weddingItem'
+                        className={isWeddingItemActive() ? 'active' : ''}
+                    >
+                        <p>혼수컬렉션</p>
+                    </NavLink>
+                    <NavLink
+                        to='/travel'
+                        className={isTravelActive() ? 'active' : ''}
+                    >
+                        <p>신혼여행지</p>
+                    </NavLink>
                 </div>
                 <div style={{margin:'0 440px'}}></div>
                 <div className='category' style={{display:'flex', flexDirection:'row'}}>
@@ -189,9 +241,9 @@ const NavBar = () => {
                                 고객센터
                             </p>
                         ) : (
-                            <Link to='/serviceCenter'>
+                            <NavLink to='/serviceCenter'>
                                 <p style={{ paddingLeft: '20px', marginRight: '21px' }}>고객센터</p>
-                            </Link>
+                            </NavLink>
                         )
                     }
 

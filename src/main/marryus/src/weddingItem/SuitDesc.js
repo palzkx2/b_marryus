@@ -115,7 +115,7 @@ const SuitDesc = ({item}) => {
             </select>
             <br/>
             <span>선택</span>
-            <br/>
+            <br/><br/>
             <select style={{width:'100%',padding:'10px',marginBottom:'10px',fontSize:'16px'}} value={suitVest} onChange={(e) => setSuitVest(e.target.value)}>
                 <option>조끼(선택 안함)</option>
                 <option>카라조끼M(+40,000)</option>
@@ -131,7 +131,7 @@ const SuitDesc = ({item}) => {
                 <option>더블자켓으로 변경(+3,000)</option>
             </select>
             <br/>
-            <button className="weddingItemArticle-purchase-button" onClick={postData}>구매하기</button>
+            <button className="weddingItemArticle-purchase-button" onClick={postData}>장바구니 추가</button>
         </div>
     );
 };

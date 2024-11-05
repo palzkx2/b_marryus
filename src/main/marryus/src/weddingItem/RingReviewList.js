@@ -230,8 +230,8 @@ const RingReviewList = ({ item }) => {
                                 </span>
                                 {(isLoggedIn && currentUserEmail === review.email) || (isLoggedIn && userRole === 'ADMIN') ? (
                                     <>
-                                        <button onClick={() => handleEditClick(review)}>수정</button>
-                                        <button onClick={() => handleDeleteClick(review.id)}>삭제</button>
+                                        <button className='review-button' onClick={() => handleEditClick(review)}>수정</button>
+                                        <button className='review-button' onClick={() => handleDeleteClick(review.id)}>삭제</button>
                                     </>
                                 ) : ''}
                             </li>
