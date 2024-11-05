@@ -30,14 +30,14 @@ public class SdmTest {
 
 	   SdmDTO sdmDTO = SdmDTO.builder()
 	  
-	   .itemNm("지니메이크업")
+	   .itemNm("다니메이크업")
      .addr("서울 강남구 도산대로49길 36 3층, 4층, 5층 ")
      .totalLikes(50)
      .itemDetail(
   		   "지니메이크업은 가장 아름다운 날을 그립니다.\r\n" 
   		   )
      .stockNumber(200)
-     .price(500000)
+     .price(3000)
      .rating(5)
      .tag("인물위주")
      .category("메이크업")

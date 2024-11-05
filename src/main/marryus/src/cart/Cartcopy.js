@@ -1,15 +1,17 @@
+
 import React, { useEffect, useState } from 'react';
 import studioImg from '../s_images/cartBar.jpg'
 import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import './cart.css'
 import axios from 'axios';
 import { FaCircleMinus } from "react-icons/fa6";
+import CarttoOrder from './CarttoOrder';
 
-const Cart = () => {
+const Cartcopy = () => {
 
     const [weddingHalls, setWeddingHalls] = useState([]);
     const [householdItems, setHouseholdItems] = useState([]);
-   
+    
     
     useEffect(() => {
         const getCartList = async () => {
@@ -182,13 +184,14 @@ const Cart = () => {
 
     // 체크된 아이템을 수집하는 함수 추가
     const getCheckedItems = () => {
-    const getItems = (items) => {
+    const getItems = (items,category) => {
         return items.filter(item => item.checked).map(item => ({
             id: item.id,
             name: item.name,
             price: item.price,
             quantity: item.quantity,
             userType: item.userType,
+            
             // 필요한 경우 추가 속성을 여기에 추가
         }));
     };
@@ -202,15 +205,29 @@ const Cart = () => {
 };
 
   // 주문하기 버튼 클릭 시
-  const handleOrder = () => {
+  const handleOrder = (evt) => {
     const checkedItems = getCheckedItems();
     // 체크된 항목을 어떻게 처리할지 여기에서 결정
     console.log("체크된 아이템:", checkedItems); // 디버깅용
+    const totalAmount = calculateTotal(); // 함수 결과 계산
+    
+    console.log("총 금액:", totalAmount);
 
+    // 카테고리 정보를 추가한 새로운 배열 생성 // 수정한 부분
+    const checkedItemsWithCategory = [
+        ...weddingHalls.filter(item => item.checked).map(item => ({ ...item, category: '웨딩홀' })), // 수정한 부분
+        ...studios.filter(item => item.checked).map(item => ({ ...item, category: '스튜디오' })), // 수정한 부분
+        ...householdItems.filter(item => item.checked).map(item => ({ ...item, category: '혼수' })), // 수정한 부분
+        ...destinations.filter(item => item.checked).map(item => ({ ...item, category: '여행지' })) // 수정한 부분
+    ];
     // 예를 들어, 결제 페이지로 아이템을 넘길 수 있습니다:
     history.push({
         pathname: '/payment',
-        state: { items: checkedItems }, // 체크된 아이템을 결제 페이지로 전달
+        
+        state: { 
+            items:checkedItemsWithCategory, 
+            totalAmount: totalAmount // calculateTotal 함수 자체를 전달
+        }, // 체크된 아이템을 결제 페이지로 전달
     });
     
   };
@@ -422,14 +439,11 @@ const Cart = () => {
                             {/*  총 합 end */}
                             
                             {/* 주문하기 버튼 */}
-                            <div style={{display:'flex',alignContent:'center',justifyContent:'center'}}>
-                                <button style={{width:'300px',marginRight:'20px'}} className="order-button" onClick={handleOrder}>
-                                    주문하기
-                                </button>
-                                <button style={{width:'300px'}}  className="norder-button"  onClick={handleOrder}>
-                                    네이버 페이로 주문하기
-                                </button>
-                            </div>
+                            <CarttoOrder handleOrder={handleOrder} 
+                            checkedItemsWithCategory={getCheckedItems()}
+                            totalAmount={calculateTotal()}
+                             />
+                            
                             {/* 주문하기 버튼 end*/}
                         </div>        
                     </div>
@@ -438,4 +452,7 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+
+        
+
+export default Cartcopy;
