@@ -135,7 +135,7 @@ body {
   font-weight: bold;
   color: #333;
   border: none;
-  cursor: url('/public/cursors/free-icon-couple-4342051.png'),pointer; 
+  cursor: url('/public/cursors/free-icon-couple-4342051.png') 16 0,pointer; 
 }
 
 .catBtnMain:hover {

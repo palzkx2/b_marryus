@@ -1,0 +1,2 @@
+.sdmMessage { position: absolute; left: 50%; top: -50px; transform: translateX(-50%); width: 100%; padding: 5px; background: tomato; box-sizing: border-box; text-align: center; transition: 0.5s; opacity: 0;}
+.sdmMessage.on { opacity: 1;} 

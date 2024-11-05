@@ -115,14 +115,22 @@ const NavBar = () => {
             location.pathname === '/ArticlePage'
         );
     };
+    const cartBtn = () => {
+        if(data.name === undefined && !userRole){
+            alert('로그인 후 이용해주세요.')
+            history.push('/login')
+        }else{
+            history.push('/cart')
+        }
+    }
 
     return (
         <div>
 
             <nav className="topNav">
                 <Link to='/'><h1 style={{color:'white'}}>MarryUs</h1></Link>
-                <input type='text' placeholder='검색 할 내용을 입력하세요'/>
-                <BsSearchHeart className='searchIcon' style={{ transform: isHovered ? 'translateX(-10px)' : 'translateX(0px)', transition: 'all 0.6s ease' }}/>
+                {/* <input type='text' placeholder='검색 할 내용을 입력하세요'/>
+                <BsSearchHeart className='searchIcon' style={{ transform: isHovered ? 'translateX(-10px)' : 'translateX(0px)', transition: 'all 0.6s ease' }}/> */}
                 <div>   
                     <Link to='/'>
                         <p onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
@@ -163,9 +171,9 @@ const NavBar = () => {
                         </Link>
                     )
                 }
-                <Link to='/cart' style={{color:'white'}}>
+                <div style={{margin:'1px'}} onClick={cartBtn} >
                     <TbShoppingCartHeart className='icon' style={{marginLeft:'20px'}}/>
-                </Link>
+                </div>
             </nav>
 
             <div style={{justifyContent:'center', alignContent:'center', display:'flex', margin:'30px 0'}}>
@@ -182,6 +190,23 @@ const NavBar = () => {
                     }
 
 
+                    
+                    
+                   
+                    <div style={{margin:'0 300px'}}>
+                        <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
+                    </div>
+                    {/* <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/> */}
+                    {
+                        (data.name !== undefined || userRole) ? (
+                            <Link to='/myPage'><p style={{ marginLeft: '50px' }}>마이페이지</p></Link>
+                        ) : ''
+                    }
+                    {
+                        (data.name !== undefined || userRole) ? (
+                            <Link to='/cart'><p style={{ marginLeft: '50px' }}>장바구니</p></Link>
+                        ) : ''
+                    }
                     {
                         (data.name === undefined && !userRole) ? (
                             <Link to='/signup'>
@@ -250,9 +275,10 @@ const NavBar = () => {
 
                 </div>
             </div>
-            <Link to='/cart'>
+
+            {/* <div onClick={cartBtn} style={{cursor:'pointer'}}>
                 <CartBar/>
-            </Link>
+            </div> */}
         </div>
     );
 };

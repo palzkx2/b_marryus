@@ -22,6 +22,31 @@ const WeddingHallReview = ({weddingHall}) => {
     const history = useHistory()
     const textRef = useRef()
 
+    const onSort = (by) => {
+
+        let sortedReview
+
+        if(reviewList){
+
+            if(by === 'lowRating'){
+                sortedReview = [...reviewList].sort((a, b) => a.rating - b.rating)
+            }
+            if(by === 'highRating'){
+                sortedReview = [...reviewList].sort((a, b) => b.rating - a.rating)
+            }
+            if(by === 'recommend'){
+                sortedReview = [...reviewList].sort((a, b) => b.recommendCount - a.recommendCount)
+            }
+            if(by === 'newest'){
+                sortedReview = [...reviewList].sort((a, b) => new Date(b.created) - new Date(a.created))
+            }
+
+        }
+
+        setReviewList(sortedReview)
+
+    }
+
     const deleteReview = (id) => {
 
         const deleteConfirm = window.confirm('리뷰를 삭제하시겠습니까?')
@@ -121,10 +146,10 @@ const WeddingHallReview = ({weddingHall}) => {
 
                 <div className='alignGood'>
                     <div className='reviewCon'>
-                        <a href='#'><div className='bySubCon'>최신순</div></a>
-                        <a href='#'><div className='bySubCon'>평점 높은순</div></a>
-                        <a href='#'><div className='bySubCon'>평점 낮은순</div></a>
-                        <a href='#'><div className='bySubCon'>추천순</div></a>
+                        <div className='bySubCon' onClick={() => onSort('newest')}>최신순</div>
+                        <div className='bySubCon' onClick={() => onSort('highRating')}>평점 높은순</div>
+                        <div className='bySubCon' onClick={() => onSort('lowRating')}>평점 낮은순</div>
+                        <div className='bySubCon' onClick={() => onSort('recommend')}>추천순</div>
                     </div>
                 </div>
 

@@ -4,7 +4,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.marryus.controller.ReviewDTOController.RecommendationRequest;
+import com.spring.marryus.entity.Member;
 import com.spring.marryus.entity.Review;
 import com.spring.marryus.entity.ReviewDTO;
+import com.spring.marryus.entity.Sukso;
+import com.spring.marryus.oauth.SessionUser;
+import com.spring.marryus.service.MemberService;
+import com.spring.marryus.service.Oauth2Service;
 import com.spring.marryus.service.ReviewService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +38,8 @@ import lombok.RequiredArgsConstructor;
 public class ReviewController {
 	
 	private final ReviewService reviewService;
+	private final Oauth2Service oauth2Service;
+	private final MemberService memberService;
 	
 	@PostMapping("/api/createReview")
 	public String create(@RequestBody Review review) {
@@ -72,5 +82,54 @@ public class ReviewController {
 	public void getAverageReview(@RequestParam String weddingHallName) {
 		reviewService.averageReview(weddingHallName);
 	}
+    
+	@PostMapping("/api/toggleRecommendation")
+	public ResponseEntity<Map<String, Object>> toggleRecommendation(@RequestParam String email, @RequestParam Long reviewId) {
+	    boolean isRecommended = reviewService.toggleRecommendation(email, reviewId);
+	    Review review = reviewService.getReviewById(reviewId); // 리뷰 정보 가져오기
+	    
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("isRecommended", isRecommended);
+	    response.put("recommendCount", review.getRecommendCount());
+	    
+	    return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/api/checkRecommendation")
+	public ResponseEntity<Map<String, Boolean>> checkRecommendation(
+	    @RequestParam String email,
+	    @RequestParam Long reviewId) {
+	    
+	    boolean isRecommended = reviewService.isRecommended(email, reviewId);
+	    return ResponseEntity.ok(Collections.singletonMap("isRecommended", isRecommended));
+	}
+	@GetMapping("/api/getAllMyReviews")
+	public List<Review> readListSukso(HttpSession session){
+		
+		// 세션에서 값을 읽어오기
+        SessionUser oauthUser = (SessionUser) session.getAttribute("oauthUser");
+        Member defaultUser = (Member) session.getAttribute("user");
+        
+        String userEmail="유저EMAIL";
+        String userType = "회원종류";
+        
+        if (oauthUser != null) {
+            System.out.println("OAuth 사용자 이름: " + oauthUser.getName());
+            userEmail = oauth2Service.readUser(oauthUser.getEmail()).getEmail();	  
+            userType = "oauth";
+        } else {
+            System.out.println("OAuth 사용자 정보가 세션에 없습니다.");
+        }
+
+        if (defaultUser != null) {
+            System.out.println("일반 사용자 이름: " + defaultUser.getName());
+            userEmail = memberService.readUser(defaultUser.getEmail()).getEmail();
+            userType = "default";
+        } else {
+            System.out.println("일반 사용자 정보가 세션에 없습니다.");
+        }
+    	
+    	return  reviewService.getAllMyReviews(userEmail);
+    }
 
 }

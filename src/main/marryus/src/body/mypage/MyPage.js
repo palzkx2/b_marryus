@@ -15,11 +15,8 @@ import axios from 'axios';
 const MyPage = () => {
 
     const [user,setUser] = useState('')
-
     useEffect(() => {
-
         const fetchSessionData1 = async () => {
-
             try {
                 const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
                 console.log('세션 정보 : ', response.data)
@@ -27,29 +24,18 @@ const MyPage = () => {
             } catch (error) {
                 console.error('세션 가져오기 실패:', error);
             }
-
         };
-
         fetchSessionData1();
-
     }, []);
-
     const [data,setData] = useState({});
-
     useEffect(()=>{
         axios.get('/api/oauthUserInfo',{withCredentials: true})
         .then(res=>setData(res.data))
         .catch(error=>console.log(error))
     },[])
-
-
-
     const [userRole,setUserRole] = useState('')
-
     useEffect(() => {
-
         const fetchSessionData = async () => {
-
             try {
                 const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
                 console.log('세션 정보 : ', response.data)
@@ -57,11 +43,8 @@ const MyPage = () => {
             } catch (error) {
                 console.error('세션 정보 가져오기 실패:', error);
             }
-
         };
-
         fetchSessionData();
-
     }, []);
 
     return (

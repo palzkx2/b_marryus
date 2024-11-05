@@ -1,0 +1,22 @@
+.unique-datepicker-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  
+  .unique-datepicker-input {
+    border: 2px solid #b07a8f;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 1em;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+  .unique-datepicker-input:focus {
+    outline: none;
+    border-color: #e6a1b3;
+    box-shadow: 0 0 8px rgba(176, 122, 143, 0.5);
+  }
+  

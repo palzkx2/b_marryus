@@ -16,7 +16,6 @@ import ExitSite from "./body/mypage/ExitSite";
 import MyAccount from "./body/mypage/MyAccount";
 import MyQna from "./body/mypage/MyQna";
 import MyReivew from "./body/mypage/MyReivew";
-import MyWedding from "./body/mypage/MyWedding";
 import MyBookList from "./body/mypage/MyBookList";
 import MyOrder from "./body/mypage/MyOrder";
 import MyBookmark from "./body/mypage/MyBookmark";
@@ -24,7 +23,7 @@ import MyCart from "./body/mypage/MyCart";
 import UpdateUser from "./login/UpdateUser";
 import SdmArticle from "./sdmArticle/SdmArticle";
 import WeddingHallArticle from "./body/WeddingHallArticle";
-import Cart from "./cart/Cart";
+//import Cart from "./cart/Cart";
 import ServiceCenter from "./serviceCenter/ServiceCenter";
 import ServiceCenterCreate from "./serviceCenter/ServiceCenterCreate";
 import ServiceCenterArticle from "./serviceCenter/ServiceCenterArticle";
@@ -43,6 +42,11 @@ import InsertTravle from "./travel/admin/InsertTravle";
 import ArticlePage from "./travel/ArticlePage";
 import AddWeddingItem from "./weddingItem/AddWeddingItem";
 import RingReviewList from "./weddingItem/RingReviewList";
+import AddSdm from "./sdm/AddSdm";
+import Cartcopy from "./cart/Cartcopy";
+import WeddingScheduler from "./body/mypage/WeddingScheduler";
+import { TbShoppingCartCopy } from "react-icons/tb";
+import PaymentButton from "./cart/PaymentButton";
 
 
 function App() {
@@ -53,6 +57,7 @@ function App() {
       <Switch>
         <Route path={['/','/main']} exact><Main/></Route>
         <Route path={['/sdm']}><SdmBoard/></Route>
+        <Route path={['/sdmRegister']}><AddSdm/></Route> 
         <Route path={['/weddingHall']}><WeddingHall/></Route>
         <Route path={['/weddingItem']}><WeddingItem/></Route>
         <Route path={['/weddingItemArticle/:id']}><WeddingItemArticle/></Route>
@@ -68,7 +73,7 @@ function App() {
         <Route path='/myAccount' component={MyAccount} />
         <Route path='/myQna' component={MyQna} />
         <Route path='/myReview' component={MyReivew} />
-        <Route path='/myWedding' component={MyWedding} />
+        <Route path='/myWedding' component={WeddingScheduler} />
         <Route path='/myBookList' component={MyBookList} />
         <Route path='/myOrder' component={MyOrder} />
         <Route path='/myBookmark' component={MyBookmark} />
@@ -76,9 +81,9 @@ function App() {
         <Route path='/updateUser' component={UpdateUser} />
         {/* <Route path={['/findId']}><FindId/></Route> */}
         <Route path='/oauthUpdateUser'><OauthUpdateUser/></Route>
-        <Route path={['/sdmArticle/:sdmName']}><SdmArticle/></Route>
+        <Route path={['/sdmArticle/:itemNm']}><SdmArticle/></Route>
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
-        <Route path={['/cart']}><Cart/></Route>
+        <Route path={['/cart']}><Cartcopy/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
         <Route path={['/serviceCenterCreate']}><ServiceCenterCreate/></Route>
         <Route path={['/serviceCenterArticle/:id']}><ServiceCenterArticle/></Route>
@@ -93,6 +98,8 @@ function App() {
         <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName/:lat/:lng']}><ArticlePage/></Route>
       </Switch>
       <Footer/>
+      <PaymentButton/>
+      
     </div>
   );
 }

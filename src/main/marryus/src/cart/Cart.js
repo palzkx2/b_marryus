@@ -9,7 +9,8 @@ const Cart = () => {
 
     const [weddingHalls, setWeddingHalls] = useState([]);
     const [householdItems, setHouseholdItems] = useState([]);
-
+   
+    
     useEffect(() => {
         const getCartList = async () => {
             try {
@@ -30,13 +31,18 @@ const Cart = () => {
     
                 // 스튜디오 데이터 세분화
                 const studios = response.data
-                    .filter(item => item.category === '스튜디오')
+                    .filter(item => 
+                        item.category === '스튜디오' || 
+                        item.category === '메이크업' || 
+                        item.category === '드레스'
+                    )
                     .map(item => ({
                         id: item.id,
                         name: item.name,
                         price: parseInt(item.price, 10),
                         quantity: item.count,
                         userType: item.userType,
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     

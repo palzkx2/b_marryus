@@ -112,6 +112,22 @@ const MyReivew = () => {
         }
     };
 
+    const [wdReviews,setWdReviews] = useState([]);
+    useEffect(() => {
+        const getCartList = async () => {
+            try {
+                const response = await axios.get('/api/getAllMyReviews', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
+                console.log('세션 정보 : ', response.data);
+                setWdReviews(response.data)
+            } catch (error) {
+                console.error('세션 정보 가져오기 실패:', error);
+            }
+        };
+    
+        getCartList();
+
+    }, []);
+
     return (
         <div>
             <div className='alignGood'>
@@ -135,6 +151,18 @@ const MyReivew = () => {
                             <p>리뷰가 없습니다.</p>
                         ) : (
                             <ul>
+                                <div>웨딩홀</div>
+                                {wdReviews.map(review => (
+                                    <li key={review.id}  className="weddingItemReview-card">
+                                        <h3 className="product-name">{review.weddingHallName}</h3> 
+                                        <p className="weddingItemReview-content">{review.content}</p> 
+                                        <p className="rating">평점: {review.rating}★</p> 
+                                        <p className="date">작성일: {new Date(review.created).toLocaleDateString()}</p>
+                                        {/* <button onClick={() => handleEditClick(review)}>수정</button>
+                                        <button onClick={() => handleDeleteClick(review.id)}>삭제</button> */}
+                                    </li>
+                                ))}
+                                <div>혼수</div>
                                 {reviews.map(review => (
                                     <li key={review.id}  className="weddingItemReview-card">
                                         <h3 className="product-name">{review.productName}</h3> 
@@ -145,6 +173,7 @@ const MyReivew = () => {
                                         <button onClick={() => handleDeleteClick(review.id)}>삭제</button>
                                     </li>
                                 ))}
+                                
                             </ul>
                         )}
                     </div>
