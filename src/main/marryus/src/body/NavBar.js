@@ -189,13 +189,6 @@ const NavBar = () => {
                         
                     }
 
-
-                    
-                    
-                   
-                    <div style={{margin:'0 300px'}}>
-                        <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
-                    </div>
                     {/* <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/> */}
                     {
                         (data.name !== undefined || userRole) ? (
@@ -207,6 +200,11 @@ const NavBar = () => {
                             <Link to='/cart'><p style={{ marginLeft: '50px' }}>장바구니</p></Link>
                         ) : ''
                     }
+                   
+                    <div style={{margin:'0 300px'}}>
+                        <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
+                    </div>
+                    
                     {
                         (data.name === undefined && !userRole) ? (
                             <Link to='/signup'>
@@ -219,11 +217,6 @@ const NavBar = () => {
                             <Link to='/myPage'><p style={{ marginLeft: '50px', marginTop:50 }}>마이페이지</p></Link>
                         ) : ''
                     }
-                   
-                    <div style={{margin:'0 300px'}}>
-                        <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
-                    </div>
-                    <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt', marginTop:50}}/>
                 </div>
             </div>
             <hr style={{width:'100%'}}/>
