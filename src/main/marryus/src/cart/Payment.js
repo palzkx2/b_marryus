@@ -4,6 +4,8 @@ import cartdata from './cartData';
 import Numeral from 'numeral';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
+import * as PortOne from "@portone/browser-sdk/v2";
+import PaymentInputs from './PaymentInputs';
 
 const Payment = () => {
 
@@ -12,8 +14,8 @@ const Payment = () => {
     const [userName,setUserName] = useState('');//이름 불러오기
     const [phone,setPhone] = useState('');//전화번호 불러오기
     const [email, setEmail] = useState(''); //이메일 불러오기
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [paymentMethod, setPaymentMethod] = useState(null);
+    const [totalPrice, setTotalPrice] = useState(location.state?.totalAmount || 0);
+  
 
     useEffect(() => {
         const fetchSessionData = async () => {
@@ -44,12 +46,59 @@ const Payment = () => {
     
     useEffect(() => {
         const calculateTotalPrice = () => {
-            const total = cartData.reduce((acc, item) => acc + item.price, 0);
+            const total = cartData.reduce((acc, item) => acc + item.price*item.quantity, 0);
             setTotalPrice(total);
         };
 
         calculateTotalPrice();
     }, [cartData]);
+
+    const requestPayment = () => {
+        const paymentId = `payment-${crypto.randomUUID().slice(0, 30)}`;
+        //const paymentId = 123;
+        const cartIds = cartData.map(item => item.id);
+        
+        PortOne.requestPayment({
+            storeId: "store-bbe87222-8591-4722-8181-48e02a268865",
+            channelKey: "channel-key-f80c9eee-2239-477a-a67b-f2bf4d975a13",
+            paymentId,
+            orderName: "상품이름이나와야하는데..",
+            totalAmount: totalPrice,
+            currency: "CURRENCY_KRW",
+            payMethod: "CARD",
+            customer: {
+                fullName: userName,
+                phoneNumber: phone,
+                email: email,
+            },
+        }, async (response) => {
+            if (response.success) {
+                const impUid = response.data.imp_uid;
+                console.log("imp_uid 왜 안나와",impUid)
+                try {
+                     // 1. 결제 확인 요청 - PaymentController의 /api/order/payment/{imp_uid}로 요청 전송
+                     const verifyPaymentResponse = await axios.get(`/api/order/payment/${impUid}`, { 
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true,
+                    });
+
+                    console.log("서버로부터 결제 확인 응답:", verifyPaymentResponse.data); // 수정2차
+                    if (verifyPaymentResponse.data.status === "paid") {
+                        alert("결제가 성공적으로 완료되었습니다.");
+                        // 결제가 성공한 후 추가 로직을 넣을 수 있습니다.
+                    } else {
+                        alert("결제 검증 실패: 결제가 완료되지 않았습니다."); // 수정2차
+                    }
+                } catch (error) {
+                    console.error("결제 확인 중 오류 발생:", error); // 수정2차
+                    alert("결제 확인 중 오류 발생"); // 수정2차
+                }
+            } else {
+                alert("결제 실패");
+            }
+        });
+    };
+
 
     return (
         <div className='shopContent'>
@@ -92,46 +141,8 @@ const Payment = () => {
                                 )}
 
                     {/*예약 상품정보 */}
-                            <div className='reservationInformation' style={{ width: '90%', maxWidth: '472px', height:'414px',margin: '0 auto', padding: '20px' }}>
-                                <h3 className='ritems'>
-                                    예약 정보 입력
-                                </h3>
-
-                                <div className='ritemsName' style={{ display: 'flex', justifyContent: 'space-between', margin: '15px 0' }}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', width: '48%' }}>
-                                        <label style={{ marginBottom: '5px' }}>영문 이름</label>
-                                        <input placeholder='gildong' style={{ width: '100%', height: '30px', padding: '5px' }} />
-                                    </div>
-                                        <div style={{ display: 'flex', flexDirection: 'column', width: '48%' }}>
-                                            <label style={{ marginBottom: '5px' }}>영문 성</label>
-                                            <input placeholder='hong' style={{ width: '100%', height: '30px', padding: '5px' }} />
-                                        </div>
-                                </div>
-  
-                                        <div>
-                                            <p style={{ fontSize: '10pt',marginTop:'-11px',color: '#999'}}>
-                                                띄어쓰기 없이 입력해주세요.
-                                            </p>
-                                        </div>
-
-                                        <div className='ritemsEmail' style={{ display: 'flex', flexDirection: 'column', margin: '15px 0' }}>
-                                            <label style={{ marginBottom: '5px' }}>이메일</label>
-                                                <input placeholder='email@example.com' style={{ width: '100%', height: '30px', padding: '5px' }} />
-                                        </div>
-
-                                        <div className='ritemsPhone' style={{ display: 'flex', flexDirection: 'column', margin: '15px 0' }}>
-                                            <label style={{ marginBottom: '5px' }}>번호</label>
-                                                <input placeholder='010-0000-0000' style={{ width: '100%', height: '30px', padding: '5px' }} />
-                                        </div>
-                                        <div  className='lastButton' >
-                                                    <button className='lastBtn' style={{ display: 'flex', 
-                                                        justifyContent: 'center', alignItems: 'center',  width: '103%', 
-                                                        height: '50px'  }}>입력하기
-                                                    </button>
-                                        </div>
-                            </div>
-                    </div>
-
+                            <PaymentInputs/>
+            </div>
                         <div className='rightItem' style={{ position: 'sticky', top: '20px' }}>
                             {cartData.length > 0 && (
                                 <div className='jumunyoyak' >
@@ -166,7 +177,7 @@ const Payment = () => {
                                 <label style={{marginBottom: '5px',fontSize:'18px'}}>전체 주문 동의</label>
                             </div>
                             <div className='lastButton'>
-                                <button className='lastBtn'>결제하기</button>
+                                <button className='lastBtn' onClick={requestPayment}>결제하기</button>
                             </div>
                         </div>
                     </div>

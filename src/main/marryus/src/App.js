@@ -23,7 +23,7 @@ import MyCart from "./body/mypage/MyCart";
 import UpdateUser from "./login/UpdateUser";
 import SdmArticle from "./sdmArticle/SdmArticle";
 import WeddingHallArticle from "./body/WeddingHallArticle";
-import Cart from "./cart/Cart";
+//import Cart from "./cart/Cart";
 import ServiceCenter from "./serviceCenter/ServiceCenter";
 import ServiceCenterCreate from "./serviceCenter/ServiceCenterCreate";
 import ServiceCenterArticle from "./serviceCenter/ServiceCenterArticle";
@@ -43,8 +43,14 @@ import ArticlePage from "./travel/ArticlePage";
 import AddWeddingItem from "./weddingItem/AddWeddingItem";
 import RingReviewList from "./weddingItem/RingReviewList";
 import AddSdm from "./sdm/AddSdm";
+<<<<<<< HEAD
 import Cartcopy from "./cart/Cartcopy";
 import WeddingScheduler from "./body/mypage/WeddingScheduler";
+=======
+import { TbShoppingCartCopy } from "react-icons/tb";
+import Cartcopy from "./cart/Cartcopy";
+import PaymentButton from "./cart/PaymentButton";
+>>>>>>> refs/remotes/origin/hhhh
 
 
 function App() {
@@ -96,6 +102,8 @@ function App() {
         <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName/:lat/:lng']}><ArticlePage/></Route>
       </Switch>
       <Footer/>
+      <PaymentButton/>
+      
     </div>
   );
 }

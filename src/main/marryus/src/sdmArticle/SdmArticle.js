@@ -8,7 +8,6 @@ import SdmModal from '../sdm/common/SdmModal';
 import '../sdm/common/sdmmodal.css';
 
 
-
 export const API_SERVER_HOST = 'http://localhost:8080'; // 서버 주소
 
 
@@ -60,9 +59,6 @@ const postData = async (item) => {
         console.log("삭제가 취소되었습니다.");
     }
 };
-
-
-
 
 
     useEffect(() => {

@@ -9,7 +9,7 @@ const Cart = () => {
 
     const [weddingHalls, setWeddingHalls] = useState([]);
     const [householdItems, setHouseholdItems] = useState([]);
-    const[studios,setStudios]= useState([]);
+   
     
     useEffect(() => {
         const getCartList = async () => {
@@ -30,7 +30,7 @@ const Cart = () => {
                     }));
     
                 // 스튜디오 데이터 세분화
-                const studiosData = response.data
+                const studios = response.data
                     .filter(item => 
                         item.category === '스튜디오' || 
                         item.category === '메이크업' || 
@@ -95,10 +95,10 @@ const Cart = () => {
     
     
     
-    //   const [studios, setStudios] = useState([
-    //     { id: 1, name: '스드메 패키지 1', price: 2000000, quantity: 1, checked: true },
-    //     { id: 2, name: '스드메 패키지 2', price: 2500000, quantity: 1, checked: true },
-    //   ]);
+      const [studios, setStudios] = useState([
+        { id: 1, name: '스드메 패키지 1', price: 2000000, quantity: 1, checked: true },
+        { id: 2, name: '스드메 패키지 2', price: 2500000, quantity: 1, checked: true },
+      ]);
     
       
     
