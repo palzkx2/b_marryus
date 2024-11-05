@@ -35,6 +35,7 @@ import com.spring.marryus.entity.SdmDTO;
 
 import com.spring.marryus.entity.SdmPageRequestDTO;
 import com.spring.marryus.entity.SdmPageResponseDTO;
+import com.spring.marryus.entity.Sukso;
 import com.spring.marryus.service.SdmService;
 import com.spring.marryus.service.WeddingHallService;
 import com.spring.marryus.status.SdmItemSellStatus;
@@ -216,6 +217,11 @@ public class SdmController {
     @GetMapping("/search/tag") // GET 요청 처리
     public SdmPageResponseDTO<SdmDTO> searchByTag(@RequestParam String tag, SdmPageRequestDTO pageRequestDTO) { // 태그를 RequestParam으로 받음
         return sdmService.searchByTag(tag, pageRequestDTO); // 태그로 검색 결과 반환
+    }
+    
+    @GetMapping("/readSdmList")
+    public List<Sdm> readListSukso(){
+    	return  sdmService.getAllSDMList();
     }
 }
 

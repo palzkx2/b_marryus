@@ -16,6 +16,7 @@ import com.spring.marryus.dao.UserRecommendationRepository;
 import com.spring.marryus.dao.WeddingHallRepository;
 import com.spring.marryus.entity.Review;
 import com.spring.marryus.entity.ReviewDTO;
+import com.spring.marryus.entity.Sukso;
 import com.spring.marryus.entity.UserRecommendation;
 import com.spring.marryus.entity.WeddingHall;
 
@@ -105,5 +106,10 @@ public class ReviewService {
         return reviewRepository.findById(reviewId)
             .orElseThrow(() -> new IllegalArgumentException("Invalid review ID"));
     }
+	// 모든 숙소 조회
+    public List<Review> getAllMyReviews(String Email) {
+        return reviewRepository.findByEmail(Email);
+    }
+
 	
 }

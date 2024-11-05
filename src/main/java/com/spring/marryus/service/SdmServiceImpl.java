@@ -19,6 +19,7 @@ import com.spring.marryus.entity.SdmDTO;
 import com.spring.marryus.entity.SdmImg;
 import com.spring.marryus.entity.SdmPageRequestDTO;
 import com.spring.marryus.entity.SdmPageResponseDTO;
+import com.spring.marryus.entity.Sukso;
 import com.spring.marryus.status.SortDirection;
 
 import lombok.RequiredArgsConstructor;
@@ -375,4 +376,8 @@ public class SdmServiceImpl implements SdmService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	// 모든 숙소 조회
+    public List<Sdm> getAllSDMList() {
+        return sdmRepository.findAll();
+    }
  }

@@ -16,7 +16,6 @@ import ExitSite from "./body/mypage/ExitSite";
 import MyAccount from "./body/mypage/MyAccount";
 import MyQna from "./body/mypage/MyQna";
 import MyReivew from "./body/mypage/MyReivew";
-import MyWedding from "./body/mypage/MyWedding";
 import MyBookList from "./body/mypage/MyBookList";
 import MyOrder from "./body/mypage/MyOrder";
 import MyBookmark from "./body/mypage/MyBookmark";
@@ -44,6 +43,8 @@ import ArticlePage from "./travel/ArticlePage";
 import AddWeddingItem from "./weddingItem/AddWeddingItem";
 import RingReviewList from "./weddingItem/RingReviewList";
 import AddSdm from "./sdm/AddSdm";
+import Cartcopy from "./cart/Cartcopy";
+import WeddingScheduler from "./body/mypage/WeddingScheduler";
 
 
 function App() {
@@ -70,7 +71,7 @@ function App() {
         <Route path='/myAccount' component={MyAccount} />
         <Route path='/myQna' component={MyQna} />
         <Route path='/myReview' component={MyReivew} />
-        <Route path='/myWedding' component={MyWedding} />
+        <Route path='/myWedding' component={WeddingScheduler} />
         <Route path='/myBookList' component={MyBookList} />
         <Route path='/myOrder' component={MyOrder} />
         <Route path='/myBookmark' component={MyBookmark} />
@@ -80,7 +81,7 @@ function App() {
         <Route path='/oauthUpdateUser'><OauthUpdateUser/></Route>
         <Route path={['/sdmArticle/:itemNm']}><SdmArticle/></Route>
         <Route path={['/wdArticle/:itemName']}><WeddingHallArticle/></Route>
-        <Route path={['/cart']}><Cart/></Route>
+        <Route path={['/cart']}><Cartcopy/></Route>
         <Route path={['/serviceCenter']}><ServiceCenter/></Route>
         <Route path={['/serviceCenterCreate']}><ServiceCenterCreate/></Route>
         <Route path={['/serviceCenterArticle/:id']}><ServiceCenterArticle/></Route>

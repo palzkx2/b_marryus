@@ -1,7 +1,6 @@
 // 수정 코드
 import React, { useCallback, useEffect, useState } from 'react';
 import './sdmBoard.css';
-import { Link } from 'react-router-dom';
 import studioImg from '../s_images/studioImage.jpg';
 import axios from 'axios';
 import Pagination from '../sdm/common/Pagination'; // Pagination 컴포넌트 임포트
@@ -10,6 +9,7 @@ import numeral from 'numeral';
 import { MdThumbUp } from "react-icons/md";
 import { TiShoppingCart } from "react-icons/ti";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 export const API_SERVER_HOST = 'http://localhost:8080'; // 서버 주소
 const prefix = `${API_SERVER_HOST}/api/sdm`; // API 경로 설정
@@ -351,11 +351,11 @@ const SdmBoard = () => {
 
                             <div style={{ marginBottom: '20px' }}>
                                 {/* 버튼을 추가하여 AddSdm으로 이동하도록 설정 */}
-                                <a href="/sdmRegister">
+                                <Link to="/sdmRegister">
                                     <button style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
                                         상품 추가하기
                                     </button>
-                                </a>
+                                </Link>
                             </div>
                     }
                     </div>

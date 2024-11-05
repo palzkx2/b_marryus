@@ -1,4 +1,4 @@
-import React,{useEffect, useRef, useState} from 'react';
+import React,{useCallback, useEffect, useRef, useState} from 'react';
 import './main.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules';
@@ -16,6 +16,7 @@ import MainInfo_T from './MainInfo_T';
 import axios from 'axios';
 import numeral from 'numeral';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+export const API_SERVER_HOST = 'http://localhost:8080';
 
 const Main = () => {
 
@@ -94,6 +95,64 @@ const Main = () => {
         axios.get('/api/readSukso')
         .then((response)=>{
             setTravel(response.data)
+        })
+        .catch(err => console.log("데이터 불러오기 실패:",err))
+    },[])
+
+
+    const [activeCategory, setActiveCategory] = useState('전체');
+    const [weddingItem, setWeddingItem] = useState([]);
+    useEffect(() => {
+        const weddingItemList = async () => {
+            try {
+                const response = await axios.get('/api/weddingItem', {
+                    params: { category: activeCategory === '전체' ? undefined : activeCategory }
+                });
+                setWeddingItem(response.data);
+                console.log(weddingItem)
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        weddingItemList();
+    }, [activeCategory]);
+
+    const [images, setImages] = useState([]);
+    const fetchImages = async (searchTerm, selectedCategory, selectedSortType) => {
+        try {
+            const params = {
+                category: selectedCategory,
+                sortType: selectedSortType,
+                search: searchTerm,
+            };
+
+            const response = await axios.get('/api/images', { params });
+
+            // 데이터 설정
+            if (response.data) {
+                setImages(response.data);
+            } else {
+                console.error('예상한 데이터 구조가 아닙니다:', response.data);
+            }
+        } catch (error) {
+            console.error('이미지 가져오기 실패:', error);
+        }
+    };
+
+    useEffect(() => {
+        const name = ''
+        const category = ''
+        const sortType = ''
+        fetchImages(name, category, sortType);
+    }, []);
+
+
+    const [sdmList,setSdmList] = useState([]);
+    useEffect(()=>{
+        axios.get('/api/sdm/readSdmList')
+        .then((response)=>{
+            setSdmList(response.data)
         })
         .catch(err => console.log("데이터 불러오기 실패:",err))
     },[])
@@ -219,11 +278,11 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {hall.slice(0,25).map((item, index) => (
+                        {images.slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <div style={{textAlign: 'left'}}>
-                                        <img src={jkart} alt='' style={{position:'relative'}}/>
+                                        <img src={`/api/images/${item.imgPath.split('\\').pop()}`} alt='' style={{position:'relative'}}/>
                                         <div className='imgdiv'>
                                             <strong style={{display: 'block', fontSize: '18pt'}}>{item.name}</strong>
                                             <p>{item.addr}</p>
@@ -288,15 +347,15 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {[...Array(25)].map((item, index) => (
+                        {sdmList.filter(name => name.category==='스튜디오').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <div style={{textAlign: 'left'}}>
-                                        <img src={jkart} alt='' style={{position:'relative'}}/>
+                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
                                         <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>XX예식장</strong>
-                                            <p>서울 강남</p>
-                                            <p style={{paddingBottom:'25px'}}>000,000,000원</p>
+                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                            <p>{item.addr}</p>
+                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -357,15 +416,15 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {[...Array(25)].map((item, index) => (
+                        {sdmList.filter(name => name.category==='드레스').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <div style={{textAlign: 'left'}}>
-                                        <img src={jkart} alt='' style={{position:'relative'}}/>
+                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
                                         <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>XX예식장</strong>
-                                            <p>서울 강남</p>
-                                            <p style={{paddingBottom:'25px'}}>000,000,000원</p>
+                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                            <p>{item.addr}</p>
+                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -426,15 +485,15 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {[...Array(25)].map((item, index) => (
+                        {sdmList.filter(name => name.category==='메이크업').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <div style={{textAlign: 'left'}}>
-                                        <img src={jkart} alt='' style={{position:'relative'}}/>
+                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
                                         <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>XX예식장</strong>
-                                            <p>서울 강남</p>
-                                            <p style={{paddingBottom:'25px'}}>000,000,000원</p>
+                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                            <p>{item.addr}</p>
+                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -495,15 +554,15 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {[...Array(25)].map((item, index) => (
+                        {weddingItem.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <div style={{textAlign: 'left'}}>
-                                        <img src={jkart} alt='' style={{position:'relative'}}/>
+                                        <img src={`${process.env.PUBLIC_URL}${item.imgAddr}`} alt={item.imgName} style={{position:'relative'}}/>
                                         <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>XX예식장</strong>
-                                            <p>서울 강남</p>
-                                            <p style={{paddingBottom:'25px'}}>000,000,000원</p>
+                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.IMG_ADDR}</strong>
+                                            <p>{item.imgName}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
                                 </div>

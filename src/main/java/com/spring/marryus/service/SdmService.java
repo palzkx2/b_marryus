@@ -41,4 +41,6 @@ public interface SdmService {
 	 SdmPageResponseDTO<SdmDTO> getListWithSorting(String sortType, SortDirection direction, SdmPageRequestDTO pageRequestDTO);
 
 	List<Sdm> findByNameAndUserrId();
+	
+	List<Sdm> getAllSDMList();
 }

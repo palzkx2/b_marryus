@@ -1,0 +1,32 @@
+
+.carttoorder order-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .carttoorder order-button:hover {
+    background-color: #0056b3;
+  }
+  .carttoorder norder-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #19CE60;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+  }
+  .carttoorder norder-button:hover {
+    background-color: green;
+  }
