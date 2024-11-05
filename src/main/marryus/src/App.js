@@ -43,14 +43,10 @@ import ArticlePage from "./travel/ArticlePage";
 import AddWeddingItem from "./weddingItem/AddWeddingItem";
 import RingReviewList from "./weddingItem/RingReviewList";
 import AddSdm from "./sdm/AddSdm";
-<<<<<<< HEAD
 import Cartcopy from "./cart/Cartcopy";
 import WeddingScheduler from "./body/mypage/WeddingScheduler";
-=======
 import { TbShoppingCartCopy } from "react-icons/tb";
-import Cartcopy from "./cart/Cartcopy";
 import PaymentButton from "./cart/PaymentButton";
->>>>>>> refs/remotes/origin/hhhh
 
 
 function App() {
