@@ -12,6 +12,8 @@ const WeddingItem = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userRole, setUserRole] = useState(null);
     const history = useHistory();
+    const [sortOrder, setSortOrder] = useState('desc');
+    const [sortBy, setSortBy] = useState('rating');
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -52,6 +54,23 @@ const WeddingItem = () => {
         weddingItemList();
     }, [activeCategory]);
 
+    const handleSortChange = (e) => {
+        setSortBy(e.target.value);
+    };
+
+    const sortedWeddingItems = () => {
+        return [...weddingItem].sort((a, b) => {
+            switch (sortBy) {
+                case 'price':
+                    return sortOrder === 'asc' ? a.price - b.price : b.price - a.price;
+                case 'rating':
+                    return sortOrder === 'asc' ? a.rate - b.rate : b.rate - a.rate;
+                default:
+                    return 0;
+            }
+        });
+    };
+
     const handleDeleteItem = async (id) => {
         if (window.confirm('정말로 이 아이템을 삭제하시겠습니까?')) {
             try {
@@ -84,8 +103,36 @@ const WeddingItem = () => {
                         </button>
                     )}
             </div>
+            <div className="weddingItem-sort-container">
+                <div className="weddingItem-sort-options">          
+                    <button 
+                        className={`weddingItem-sort-button ${sortBy === 'price' ? 'active' : ''}`} 
+                        onClick={() => setSortBy('price')}
+                    >
+                        가격순
+                    </button>
+                    <button 
+                        className={`weddingItem-sort-button ${sortBy === 'rating' ? 'active' : ''}`} 
+                        onClick={() => setSortBy('rating')}
+                    >
+                        평점순
+                    </button>
+                    <button 
+                        className={`weddingItem-sort-button ${sortOrder === 'asc' ? 'active' : ''}`} 
+                        onClick={() => setSortOrder('asc')}
+                    >
+                        ▲
+                    </button>
+                    <button 
+                        className={`weddingItem-sort-button ${sortOrder === 'desc' ? 'active' : ''}`} 
+                        onClick={() => setSortOrder('desc')}
+                    >
+                        ▼
+                    </button>
+                </div>
+            </div>
             <div className="image-gallery">
-                {weddingItem.map((image) => (
+                {sortedWeddingItems().map((image) => (
                     <div key={image.id} className="image-container">
                         <a href={`/weddingItemArticle/${image.id}`}>
                             <img

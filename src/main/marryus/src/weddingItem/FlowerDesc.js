@@ -48,7 +48,7 @@ const FlowerDesc = ({item}) => {
                 <option>핑크</option>
             </select>
             <br/>
-            <button className="weddingItemArticle-purchase-button" onClick={postData}>구매하기</button>
+            <button className="weddingItemArticle-purchase-button" onClick={postData}>장바구니 추가</button>
         </div>
     );
 };

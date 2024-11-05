@@ -56,14 +56,14 @@
 
 .weddingItemReview-form button {
     padding: 10px;
-    background-color: #99cdff;
+    background-color: #f8bd97;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .weddingItemReview-form button:hover {
-    background-color: #000080;
+    background-color: #4f362a;
 }
 
 /* 별점 스타일 */
@@ -86,20 +86,20 @@
     margin-right: 200px;
     margin-top: 25px;
     padding: 10px;
-    background-color: #99cdff;
+    background-color: #c0a088;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .weddingItemReview-review-button:hover {
-    background-color: #000080;
+    background-color: #4f362a;
 }
 
 .weddingItemReview-review {
     font-size: 30px;
     color: #0c1c38;
-    border-bottom: solid 2px #1e0f75;
+    border-bottom: solid 2px #745850;
     padding: 20px 20px;
 }
 
@@ -111,7 +111,7 @@
 }
 
 .weddingItemReview-card {
-    background-color: #cbd8e8;
+    background-color: #f9f2ea;
     width: 1350px;
     padding: 15px;
     margin: 10px auto; /* 카드 간의 간격 */
@@ -132,12 +132,12 @@
 
 .product-name, .author, .date, .rating {
     margin-right: 10px; /* 요소 간의 간격 */
-    color: #1e0f75;
+    color: #000101;
 }
 
 .weddingItemReview-content {
     margin: 10px 0; /* 내용 간격 */
-    color: #3785d8;
+    color: #595045;
 }
 
 .recommended {
@@ -147,7 +147,7 @@
     right: 15px; /* 카드의 오른쪽 여백 */
     width: 20px; /* 크기 설정 */
     height: 20px; /* 크기 설정 */
-    background-color: #adc6e5; /* 꺼져 있는 상태 */
+    background-color: #dac6b6; /* 꺼져 있는 상태 */
     margin-top: 10px; /* 위쪽 여백 */
     transition: background-color 0.3s; /* 부드러운 전환 효과 */
     transform: rotate(45deg);
@@ -164,7 +164,7 @@
     left: -1px;
     width: 10.5px;
     height: 11px;
-    background-color: #cbd8e8;
+    background-color: #f9f2ea;
     transform: translateY(-50%);
     z-index: 2;
 }
@@ -180,7 +180,7 @@
 .review-header .rating {
     margin-left: auto; /* 별점을 오른쪽으로 이동 */
     margin-right: 0; /* 오른쪽 여백 제거 */
-    color: #0791b1;
+    color: #000101;
 }
 
 .review-header .author, .review-header .date {
@@ -191,7 +191,7 @@
     text-align: center; /* 가운데 정렬 */
     font-size: 100px; /* 글씨 크기 조정 */
     margin-top: 50px; /* 위쪽 간격 추가 */
-    color: #000; /* 색상 조정 */
+    color: #000000b0; /* 색상 조정 */
 }
 
 .reviews-length {
@@ -209,7 +209,7 @@
     margin-right: 200px;
     margin-top: 10px;
     padding: 10px;
-    background-color: #99cdff;
+    background-color: #c0a088;
     color: white;
     border: none;
     cursor: pointer;
@@ -217,5 +217,11 @@
 }
 
 .sort-button:hover {
-    background-color: #000080;
+    background-color: #4f362a;
+}
+
+.review-button {
+    border: none;
+    background-color: #f9f2ea;
+    margin-right: 5px;
 }
