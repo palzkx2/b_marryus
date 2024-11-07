@@ -49,6 +49,7 @@ import { TbShoppingCartCopy } from "react-icons/tb";
 import PaymentButton from "./cart/PaymentButton";
 import DWPayment from "./cart/DWPayment";
 import PaymentComplete from "./cart/PaymentComplete";
+import OrderList from "./cart/OrderList";
 
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
         <Route path='/myReview' component={MyReivew} />
         <Route path='/myWedding' component={WeddingScheduler} />
         <Route path='/myBookList' component={MyBookList} />
-        <Route path='/myOrder' component={MyOrder} />
+        <Route path='/myOrder' component={OrderList} />
         <Route path='/myBookmark' component={MyBookmark} />
         <Route path='/myCart' component={MyCart} />
         <Route path='/updateUser' component={UpdateUser} />
@@ -102,7 +103,6 @@ function App() {
         <Route path={['/paymentComplete']}><PaymentComplete/></Route>
       </Switch>
       <Footer/>
-      <PaymentButton/>
       
     </div>
   );

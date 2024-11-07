@@ -36,6 +36,8 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")
     private Long orderId; // PK
+	
+	private String poducts;
  
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)

@@ -1,7 +1,12 @@
 package com.spring.marryus.payment;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -181,46 +186,44 @@ public class PaymentController {
 	}
 	
 	private void saveHistory(HttpSession session,String orderId,String txId,Orders order) {
-		System.out.println("DB 저장 메소드 호출됨");
+
 		 Customer c1 = new Customer();
          c1 = getMemeber(session);
-         System.out.println("DB 저장 메소드 호출됨1");
-         
-         System.out.println(c1.getAddr() + " 주소 호출됨 ");
-         System.out.println(c1.getUserEmail() + " 이메일 호출됨 ");
-         System.out.println(c1.getUserId() + " 아이디 호출됨 ");
-         System.out.println(c1.getUserType() + " 타입 호출됨 ");
-         
+
          PaymentHistoryEntity pHistory = new PaymentHistoryEntity();
          
          pHistory.setOrderId(orderId);
-         System.out.println("DB 저장 메소드 호출됨2");
          pHistory.setTransactionId(txId);
-         System.out.println("DB 저장 메소드 호출됨3");
-         pHistory.setOrderDate(Calendar.getInstance().getTime());
-         System.out.println("DB 저장 메소드 호출됨4");
-         pHistory.setCustomerContact(order.getPhone());
-         System.out.println("DB 저장 메소드 호출됨5");
-         pHistory.setTotalPrice(order.getTotalPrice().toString());
-         System.out.println("DB 저장 메소드 호출됨6");
-         pHistory.setPaymentMethod(order.getPayMethod().toString());
-         System.out.println("DB 저장 메소드 호출됨7");
-         pHistory.setStatus(order.getStatus().toString());
-         System.out.println("DB 저장 메소드 호출됨8");
          
+         LocalDateTime localDateTime = order.getOrderDate(); // LocalDateTime 객체
+         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()); // LocalDateTime을 Date로 변환
+
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         String formattedDate = sdf.format(date); // 포맷된 문자열 반환
+         
+         pHistory.setOrderDate(formattedDate);
+         pHistory.setCustomerContact(order.getPhone());
+         pHistory.setTotalPrice(order.getTotalPrice().toString());
+         pHistory.setPaymentMethod(order.getPayMethod().toString());
+         pHistory.setStatus(order.getStatus().toString());
          pHistory.setCustomerEmail(c1.getUserEmail());
-         System.out.println("DB 저장 메소드 호출됨10");
          pHistory.setCustomerId(c1.getUserId());
-         System.out.println("DB 저장 메소드 호출됨11");
          pHistory.setCustomerType(c1.getUserType());
-         System.out.println("DB 저장 메소드 호출됨12");
          pHistory.setShippingAddress(c1.getAddr());
-         System.out.println("DB 저장 메소드 호출됨13");
+         pHistory.setProducts(order.getPoducts());
          
          paymentHistoryService.saveHistory(pHistory);
-         System.out.println("DB 저장 메소드 호출됨14");
-         
-         System.out.println("주문내역 저장됨");
+	}
+	
+	@GetMapping("/orders")
+	public List<PaymentHistoryDTO> getMyList(HttpSession session){
+		
+		Customer c1 = new Customer();
+		c1 = getMemeber(session);
+		
+
+		
+		return paymentHistoryService.getMyList(c1.getUserId());
 	}
 	
 	

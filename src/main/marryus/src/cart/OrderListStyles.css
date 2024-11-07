@@ -1,0 +1,105 @@
+/* OrderListStyles.css */
+
+/* 주문 리스트의 기본 스타일 */
+.orderListContainer_l5R6 {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
+
+.datePickerWrap_f9Y7 {
+    margin-bottom: 20px;
+}
+
+input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 주문 목록 스타일 */
+.orderList_f9X2 {
+    list-style-type: none;
+    padding: 0;
+}
+
+.orderItem_b3T1 {
+    background-color: #f4f4f4;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.orderItem_b3T1:hover {
+    transform: scale(1.05);
+    background-color: #e1e1e1;
+}
+
+/* 주문 ID 스타일 */
+.orderId_p9T5 {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 주문 날짜와 결제 금액 */
+.orderItem_b3T1 p {
+    margin: 5px 0;
+    color: #666;
+}
+
+/* 모달 창 */
+.modalOverlay_s1W8 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 상세 주문 정보 */
+.orderDetailModal_s3V5 {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 제품 목록 */
+.productList_n9M1 {
+    list-style-type: none;
+    padding: 0;
+}
+
+.productItem_d1L9 {
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.productItem_d1L9 p {
+    margin: 5px 0;
+    color: #444;
+}
+
+/* 애니메이션 효과 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
