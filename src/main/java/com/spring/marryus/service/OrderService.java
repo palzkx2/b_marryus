@@ -58,6 +58,8 @@ public class OrderService {
 	 	 // userId로 Member 조회
 	     Long userId = orderRequest.getUserId();
 	     
+	     System.out.println(userId + "createOrder 서비스 호출 됨");
+	     
 	     Member member = memberRepository.findById(userId)
 	     		
 	         .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다. ID: " + userId));
@@ -118,23 +120,23 @@ public class OrderService {
 
 
 
-		    @Transactional
-		    public Orders confirmOrder(Orders temporaryOrders, String englishName, String englishFamilyName, String email, String phone, String payMethod) { // 수정한 부분
-		        
-		    	 String merchantUid = generateMerchantUid(); // 주문번호 생성 //수정한 부분
-		    	
-		    	
+    @Transactional
+    public Orders confirmOrder(Orders temporaryOrders, String englishName, String englishFamilyName, String email, String phone, String payMethod) { // 수정한 부분
+        
+    	 String merchantUid = generateMerchantUid(); // 주문번호 생성 //수정한 부분
+    	
+    	
 
-		    	  // 사용자 입력 정보 업데이트
-		    	    temporaryOrders.updateUserInfo(englishName, englishFamilyName, email, phone); // 수정한 부분
-		    	    
-		    	    temporaryOrders.setPayMethod(PayMethod.valueOf(payMethod)); // 결제 방식 설정 // 수정한 부분
-		    	    temporaryOrders.setMerchantUid(merchantUid); // 주문번호 설정 // 수정한 부분
-		    	    temporaryOrders.setStatus(OrderStatus.CONFIRMED); // 주문 상태 변경 // 수정한 부분
+    	  // 사용자 입력 정보 업데이트
+    	    temporaryOrders.updateUserInfo(englishName, englishFamilyName, email, phone); // 수정한 부분
+    	    
+    	    temporaryOrders.setPayMethod(PayMethod.valueOf(payMethod)); // 결제 방식 설정 // 수정한 부분
+    	    temporaryOrders.setMerchantUid(merchantUid); // 주문번호 설정 // 수정한 부분
+    	    temporaryOrders.setStatus(OrderStatus.CONFIRMED); // 주문 상태 변경 // 수정한 부분
 
-		    	    return orderRepository.save(temporaryOrders);
+    	    return orderRepository.save(temporaryOrders);
 
-		    }
+    }
 
 
     private String generateMerchantUid() {
@@ -182,6 +184,16 @@ public class OrderService {
         cartRepository.deleteById(memberId);
     }
     
+    
+    public Orders getOrders(Long orderId) {
+        try {
+            return orderRepository.findById(orderId).orElse(null); // null 반환을 선호한다면
+        } catch (NumberFormatException e) {
+            System.out.println("유효하지 않은 주문 ID 형식: " + orderId);
+            return null;
+        }
+    }
+
    
 }
 

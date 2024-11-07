@@ -133,8 +133,8 @@ const AddSukso = () => {
 
     // wido, gyungdo 업데이트 함수
     const handleGeocodeResult = (latitude, longitude) => {
-        setWido(latitude);
-        setGyungdo(longitude);
+        setWido(longitude);
+        setGyungdo(latitude);
     };
 
     return (

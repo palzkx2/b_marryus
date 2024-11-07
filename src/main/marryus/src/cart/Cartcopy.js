@@ -28,6 +28,7 @@ const Cartcopy = () => {
                         price: parseInt(item.price, 10), // 문자열을 정수로 변환
                         quantity: item.count, // 수량
                         userType: item.userType,
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     
@@ -65,6 +66,7 @@ const Cartcopy = () => {
                         suitVest: item.suitVest,//조끼(선택)
                         suitJacket: item.suitJacket,//자켓(선택)
                         flowerColor: item.flowerColor,//부케색상
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     
@@ -77,6 +79,7 @@ const Cartcopy = () => {
                         price: parseInt(item.price, 10),
                         quantity: item.count,
                         userType: item.userType,
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     

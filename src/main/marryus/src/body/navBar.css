@@ -10,14 +10,14 @@
 .category p:hover{
     color: white;
     background: #FFD9EC;
-    padding: 5px 20px;
+    padding: 0px 20px;
     font-weight: bold;
 }
 
 .category .active p {
     color: white;
     background-color: #FFD9EC;
-    padding: 5px 20px;
+    padding: 0px 20px;
     font-weight: bold;
 }
 

@@ -47,6 +47,8 @@ import Cartcopy from "./cart/Cartcopy";
 import WeddingScheduler from "./body/mypage/WeddingScheduler";
 import { TbShoppingCartCopy } from "react-icons/tb";
 import PaymentButton from "./cart/PaymentButton";
+import DWPayment from "./cart/DWPayment";
+import PaymentComplete from "./cart/PaymentComplete";
 
 
 function App() {
@@ -96,6 +98,8 @@ function App() {
         <Route path={['/overseasDestinations']}><OverseasDestinations/></Route>
         <Route path={['/travelSearch']}><SearchComponent/></Route>
         <Route path={['/travelArticle/:id/:name/:rating/:price/:addr/:imgName/:lat/:lng']}><ArticlePage/></Route>
+        <Route path={['/DWTest']}><DWPayment/></Route>
+        <Route path={['/paymentComplete']}><PaymentComplete/></Route>
       </Switch>
       <Footer/>
       <PaymentButton/>
