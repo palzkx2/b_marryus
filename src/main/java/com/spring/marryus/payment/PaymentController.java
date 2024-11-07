@@ -2,6 +2,8 @@ package com.spring.marryus.payment;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,8 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.marryus.dao.CartRepository;
+import com.spring.marryus.entity.Cart;
 import com.spring.marryus.entity.Member;
 import com.spring.marryus.entity.Orders;
 import com.spring.marryus.oauth.SessionUser;
@@ -118,8 +122,8 @@ public class PaymentController {
             System.out.println("결제완료까지 한걸음");
             saveHistory(session, orderId, txId, order);
            
-            //////
-            
+            //////delete 세션 데이터 삭제
+            deleteSession(session);
             
             
             
@@ -144,9 +148,28 @@ public class PaymentController {
 	
 	private final Oauth2Service oauth2Service;
 	private final MemberService memberService;
+	private final CartRepository cartrepository;
 	
-	
-	
+	private void deleteSession(HttpSession httpSession) {
+		
+		List<Long> cartIds=(List<Long>)httpSession.getAttribute("cartIds");
+		
+		System.out.println("결제 완료된 cartid는 어디갔나"+ cartIds);
+		
+		for(Long cartId: cartIds) {
+			Cart cart = cartrepository.findById(cartId)
+					.orElseThrow(()-> new NoSuchElementException("삭제할 장바구니를 찾을수 없습니다"));
+			
+			cartrepository.delete(cart); // 데이터베이스에서 Cart 항목 삭제
+		
+		}
+		
+		httpSession.removeAttribute("temporaryOrder");
+		System.out.println("진짜로 삭제되나 임시결제1");
+		httpSession.removeAttribute("cartIds");
+		System.out.println("진짜로 삭제되나 cartids");
+		
+	}
 	
 	
 	private Customer getMemeber(HttpSession session) {
