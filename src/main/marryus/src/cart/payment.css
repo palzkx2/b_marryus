@@ -11,7 +11,7 @@
     width: 1250px;
     height: auto;
     margin: 0 auto;
-    
+
     justify-content: center; /* 가로 방향으로 중앙 정렬 */
     align-items: center; /* 세로 방향으로 중앙 정렬 */
 }
@@ -29,11 +29,11 @@
 .totalItems {
     background-color: rgb(254, 245, 245);
     width: 732px;
-    height: 1200px;
+    height: auto;
     padding: 10px;
     margin: 20px;
     display: flex; 
-    justify-content: space-between; 
+    justify-content: flex-start; 
 }
 
 /* 오른쪽 주문창의 스타일 */
@@ -106,7 +106,7 @@
 .naeItem {
     
     width: 520px;
-    height: 650px;
+    height: auto;
     padding: 24px;
     font-size: 14pt;
     order: 1; 
