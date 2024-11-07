@@ -40,9 +40,9 @@ public class CartController {
 	 @PostMapping("/api/addCart")
 	    public void addCart(@RequestBody Cart cart, HttpSession session) {
 		  	
-		 System.out.println("호출됨");
-		 System.out.println("호출됨");
-		 System.out.println("호출됨");
+		 //System.out.println("호출됨");
+		 //System.out.println("호출됨");
+		 //System.out.println("호출됨");
 		 
 	        // 세션에서 값을 읽어오기
 	        SessionUser oauthUser = (SessionUser) session.getAttribute("oauthUser");
@@ -61,6 +61,44 @@ public class CartController {
 
 	        // 세션에서 읽은 값이 null이 아닌지 확인
 	        if (oauthUser != null) {
+	            //System.out.println("OAuth 사용자 이름: " + oauthUser.getName());
+	            userId = oauth2Service.readUser(oauthUser.getEmail()).getId().toString();	  
+	            userType = "oauth";
+	        } else {
+	            //System.out.println("OAuth 사용자 정보가 세션에 없습니다.");
+	        }
+
+	        if (defaultUser != null) {
+	            //System.out.println("일반 사용자 이름: " + defaultUser.getName());
+	            userId = memberService.readUser(defaultUser.getEmail()).getId().toString();
+	            userType = "default";
+	        } else {
+	            //System.out.println("일반 사용자 정보가 세션에 없습니다.");
+	        }
+	        
+	        cart.getRingFemaleSize();
+	        cart.getRingMaleSize();
+	        
+	        
+	        cartService.addCart(userId, productCount, userType, category, productName, productPrice);
+	        
+	    }
+	 
+	 @PostMapping("/api/addWeddingItemCart")
+	    public void addWeddingItemCart(@RequestBody Cart cart, HttpSession session) {
+
+		 System.out.println("호출됨");
+		 
+	        // 세션에서 값을 읽어오기
+	        SessionUser oauthUser = (SessionUser) session.getAttribute("oauthUser");
+	        Member defaultUser = (Member) session.getAttribute("user");
+	        
+	        String userId="유저ID";
+	        int productCount = 1;
+	        String userType = "회원종류";       	        
+
+	        // 세션에서 읽은 값이 null이 아닌지 확인
+	        if (oauthUser != null) {
 	            System.out.println("OAuth 사용자 이름: " + oauthUser.getName());
 	            userId = oauth2Service.readUser(oauthUser.getEmail()).getId().toString();	  
 	            userType = "oauth";
@@ -74,14 +112,11 @@ public class CartController {
 	            userType = "default";
 	        } else {
 	            System.out.println("일반 사용자 정보가 세션에 없습니다.");
-	        }
+	        }       
 	        
-	        cart.getRingFemaleSize();
-	        cart.getRingMaleSize();
-	        
-	        
-	        cartService.addCart(userId, productCount, userType, category, productName, productPrice);
-	        
+	        cartService.addWeddingItemCart(userId, productCount, userType,
+	        		cart.getCategory(), cart.getName(), cart.getPrice(), cart);
+        
 	    }
 	 
 	
@@ -96,21 +131,21 @@ public class CartController {
         
         // 세션에서 읽은 값이 null이 아닌지 확인
         if (oauthUser != null) {
-            System.out.println("OAuth 사용자 이름: " + oauthUser.getName());
+            //System.out.println("OAuth 사용자 이름: " + oauthUser.getName());
             userId = oauth2Service.readUser(oauthUser.getEmail()).getId().toString();	  
             userType = "oauth";
             return cartService.readCarts(userId, userType);
         } else {
-            System.out.println("OAuth 사용자 정보가 세션에 없습니다.");
+            //System.out.println("OAuth 사용자 정보가 세션에 없습니다.");
         }
 
         if (defaultUser != null) {
-            System.out.println("일반 사용자 이름: " + defaultUser.getName());
+            //System.out.println("일반 사용자 이름: " + defaultUser.getName());
             userId = memberService.readUser(defaultUser.getEmail()).getId().toString();
             userType = "default";
             return cartService.readCarts(userId, userType);
         } else {
-            System.out.println("일반 사용자 정보가 세션에 없습니다.");
+            //System.out.println("일반 사용자 정보가 세션에 없습니다.");
         }
         
 		
@@ -121,7 +156,7 @@ public class CartController {
     @DeleteMapping("/api/deleteCart/{id}")
     public ResponseEntity<String> deleteCart(@PathVariable Long id) {
     	
-    	System.out.println("장바구니 삭제 메서드 실행 확인");
+    	//System.out.println("장바구니 삭제 메서드 실행 확인");
     	
         // 삭제할 숙소가 존재하는지 확인
         if (!cartService.existsById(id)) {

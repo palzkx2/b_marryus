@@ -113,39 +113,39 @@ public class OrderController {
     
     //주문서에서 예약 정보 입력받아서 저장하는 메소드
  
-    	@PostMapping("/done") // HTTP POST 요청을 처리하며, URL이 "/done"인 경우 이 메서드를 호출합니다.
-    	public ResponseEntity<String> confirmOrder(@RequestBody OrderRequest orderRequest, HttpSession session){
-            try {
-            	// 세션에서 임시 주문 객체 가져오기
-                Orders temporaryOrder = (Orders) session.getAttribute("temporaryOrder");
-                
-                if (temporaryOrder == null) {
-                	
-                    return ResponseEntity.badRequest().body("임시 주문을 찾을 수 없습니다.");
-                }
-                System.out.println("좋은말로할때 나와라1");
-                // orderRequest에서 필요한 정보 추출하여 업데이트
-                Orders confirmedOrder = orderService.confirmOrder(
-                    temporaryOrder,
-                    orderRequest.getEnglishName(), // 수정한 부분
-                    orderRequest.getEnglishFamilyName(), // 수정한 부분
-                    orderRequest.getEmail(), // 수정한 부분
-                    orderRequest.getPhone(), // 수정한 부분
-                    orderRequest.getPayMethod() // 수정한 부분
-                );
-                
-                System.out.println("좋은말로할때 나와라2");
-                // OrderResponseDto로 변환하여 반환 // 수정한 부분
-                OrderResponseDto responseDto = new OrderResponseDto(confirmedOrder); // 수정한 부분
-                
-                return ResponseEntity.ok("주문서 완료되었습니다. 주문 번호: " + confirmedOrder.getOrderId()); // 수정한 부분
-                
-                
-            } catch (Exception e) {
-            	 e.printStackTrace();
-            	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 처리 중 오류가 발생했습니다."); // 수정한 부분
+	@PostMapping("/done") // HTTP POST 요청을 처리하며, URL이 "/done"인 경우 이 메서드를 호출합니다.
+	public ResponseEntity<String> confirmOrder(@RequestBody OrderRequest orderRequest, HttpSession session){
+        try {
+        	// 세션에서 임시 주문 객체 가져오기
+            Orders temporaryOrder = (Orders) session.getAttribute("temporaryOrder");
+            
+            if (temporaryOrder == null) {
+            	
+                return ResponseEntity.badRequest().body("임시 주문을 찾을 수 없습니다.");
             }
+            System.out.println("좋은말로할때 나와라1");
+            // orderRequest에서 필요한 정보 추출하여 업데이트
+            Orders confirmedOrder = orderService.confirmOrder(
+                temporaryOrder,
+                orderRequest.getEnglishName(), // 수정한 부분
+                orderRequest.getEnglishFamilyName(), // 수정한 부분
+                orderRequest.getEmail(), // 수정한 부분
+                orderRequest.getPhone(), // 수정한 부분
+                orderRequest.getPayMethod() // 수정한 부분
+            );
+            
+            System.out.println("좋은말로할때 나와라2");
+            // OrderResponseDto로 변환하여 반환 // 수정한 부분
+            OrderResponseDto responseDto = new OrderResponseDto(confirmedOrder); // 수정한 부분
+            
+            return ResponseEntity.ok(confirmedOrder.getOrderId().toString()); // 수정한 부분
+            
+            
+        } catch (Exception e) {
+        	 e.printStackTrace();
+        	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 처리 중 오류가 발생했습니다."); // 수정한 부분
         }
+    }
 	
 	
 	

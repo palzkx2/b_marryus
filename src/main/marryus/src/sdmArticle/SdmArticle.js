@@ -6,6 +6,7 @@ import axios from 'axios';
 import './sdmarticle.css';
 import SdmModal from '../sdm/common/SdmModal'; 
 import '../sdm/common/sdmmodal.css';
+import RingReviewList from '../weddingItem/RingReviewList';
 
 
 export const API_SERVER_HOST = 'http://localhost:8080'; // 서버 주소
@@ -20,7 +21,7 @@ const SdmArticle = () => {
    const [selectedImage, setSelectedImage] = useState('');
    const [userRole,setUserRole] = useState('')
    const [showModal, setShowModal] = useState(false);
-
+   const [item, setItem] = useState();
 
    useEffect(() => {
     const fetchSessionData = async () => {
@@ -213,6 +214,7 @@ const postData = async (item) => {
                         </div>
                     </div>
                 </div>
+                
 
                 
             </div>
@@ -253,6 +255,7 @@ const postData = async (item) => {
                     <div>
                         <p onClick={() => postData(sdm)} className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
                     </div>
+                    
                     <div style={{width:'1260px', height:'140px',display:'flex', justifyContent:'right'}}>
                             {/* 상세페이지 수정 보류
                             <div style={{marginTop:'20px' }}>
@@ -275,6 +278,7 @@ const postData = async (item) => {
                     </div>
                 </div>
             </div>
+            <RingReviewList item={sdm}/>
         </div>
     </div>
     );

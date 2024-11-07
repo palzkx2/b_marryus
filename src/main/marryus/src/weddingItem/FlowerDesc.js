@@ -24,7 +24,7 @@ const FlowerDesc = ({item}) => {
             };
 
             try {
-                const response = axios.post('/api/addCart', weddingItemData, {
+                const response = axios.post('/api/addWeddingItemCart', weddingItemData, {
                     withCredentials: true
                 });
                 console.log('POST response data:', response.data);

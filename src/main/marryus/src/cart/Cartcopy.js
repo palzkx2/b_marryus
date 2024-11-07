@@ -28,6 +28,7 @@ const Cartcopy = () => {
                         price: parseInt(item.price, 10), // 문자열을 정수로 변환
                         quantity: item.count, // 수량
                         userType: item.userType,
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     
@@ -65,6 +66,7 @@ const Cartcopy = () => {
                         suitVest: item.suitVest,//조끼(선택)
                         suitJacket: item.suitJacket,//자켓(선택)
                         flowerColor: item.flowerColor,//부케색상
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     
@@ -77,6 +79,7 @@ const Cartcopy = () => {
                         price: parseInt(item.price, 10),
                         quantity: item.count,
                         userType: item.userType,
+                        checked: true // 체크박스 상태 추가
                         // 필요에 따라 추가 속성을 더 설정할 수 있습니다.
                     }));
     
@@ -97,17 +100,11 @@ const Cartcopy = () => {
     
     
     
-      const [studios, setStudios] = useState([
-        { id: 1, name: '스드메 패키지 1', price: 2000000, quantity: 1, checked: true },
-        { id: 2, name: '스드메 패키지 2', price: 2500000, quantity: 1, checked: true },
-      ]);
+      const [studios, setStudios] = useState([]);
     
       
     
-      const [destinations, setDestinations] = useState([
-        { id: 1, name: '허니문 여행지 1', price: 5000000, quantity: 1, checked: true },
-        { id: 2, name: '허니문 여행지 2', price: 4500000, quantity: 1, checked: true },
-      ]);
+      const [destinations, setDestinations] = useState([]);
     
 
       const history = useHistory();
@@ -210,6 +207,11 @@ const Cartcopy = () => {
     // 체크된 항목을 어떻게 처리할지 여기에서 결정
     console.log("체크된 아이템:", checkedItems); // 디버깅용
     const totalAmount = calculateTotal(); // 함수 결과 계산
+
+    if(checkedItems.length < 1){
+        alert('상품을 선택해주세요.')
+        return
+    }
     
     console.log("총 금액:", totalAmount);
 
