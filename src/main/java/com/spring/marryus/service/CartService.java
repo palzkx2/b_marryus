@@ -50,5 +50,19 @@ public class CartService {
     public Cart getReadOneCart(String name,String userrId,String userType) {
     	return cartRepository.findByNameAndUserrIdAndUserType(name, userrId, userType);
     }
+    
+    //혼수품 카트추가
+    public void addWeddingItemCart(String userId, int productCount, String userType,
+    		String category, String productName, String productPrice, Cart cart) {
+        cart.setUserrId(userId);
+        cart.setCount(productCount);
+        cart.setUserType(userType);
+        cart.setCategory(category);
+        cart.setName(productName);
+        cart.setPrice(productPrice);
+        cartRepository.save(cart);
+
+        System.out.println("장바구니에 추가되었습니다.");
+    }
 	
 }
