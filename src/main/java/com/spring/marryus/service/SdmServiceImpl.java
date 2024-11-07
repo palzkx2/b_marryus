@@ -38,6 +38,22 @@ public class SdmServiceImpl implements SdmService {
  // SdmRepository를 주입받습니다.
  private final SdmRepository sdmRepository;
 
+//Sdm의 totalLikes를 업데이트하는 메소드입니다.
+@Override
+public void updateTotalLikes(Long id, int totalLikes) {
+  // Sdm 엔티티를 ID로 조회
+  Sdm sdm = sdmRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("SDM not found with ID: " + id));
+
+  // totalLikes 값 업데이트
+  sdm.setTotalLikes(totalLikes);
+  
+  // 변경된 엔티티 저장
+  sdmRepository.save(sdm);
+}
+ 
+ 
+ 
  // 페이지네이션된 Sdm 목록을 가져오는 메소드입니다.
  @Override
  public SdmPageResponseDTO<SdmDTO> getList(SdmPageRequestDTO pageRequestDTO) {

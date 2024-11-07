@@ -72,6 +72,7 @@ public class PaymentController {
 
             // 2. 고객사 내부 주문 데이터의 가격과 실제 지불된 금액을 비교
             Long orderIdLong = Long.parseLong(orderId); // orderId가 올바른지 확인
+            
             Orders order = orderService.getOrders(orderIdLong);
             
             System.out.println(order.getEmail());
@@ -82,6 +83,7 @@ public class PaymentController {
             }
 
             BigDecimal orderDBAmount = order.getTotalPrice();  // 주문 금액 확인
+            
             System.out.println(orderDBAmount);
             if (orderDBAmount == null || payment.getAmount() == null) {
                 throw new RuntimeException("결제 금액 정보가 누락되었습니다.");
@@ -116,8 +118,14 @@ public class PaymentController {
             System.out.println("결제완료까지 한걸음");
             saveHistory(session, orderId, txId, order);
            
+            //////
+            
+            
+            
             
             return ResponseEntity.ok("결제 완료");
+            
+            
             
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 검증 실패: " + e.getMessage());
@@ -136,6 +144,10 @@ public class PaymentController {
 	
 	private final Oauth2Service oauth2Service;
 	private final MemberService memberService;
+	
+	
+	
+	
 	
 	private Customer getMemeber(HttpSession session) {
 		

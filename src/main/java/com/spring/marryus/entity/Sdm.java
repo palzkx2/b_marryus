@@ -134,5 +134,9 @@ public class Sdm {
 	        }
 	        this.stockNumber -= quantity; // 재고 수량 감소
 	    }
+	    
+	    public void setRating(Integer rating) {
+	        this.rating = rating;
+	    }
 
 }
