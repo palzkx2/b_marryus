@@ -29,4 +29,6 @@ code {
 
 * {
   font-family: '제주고딕 보통';
+  user-select: none;
+  -webkit-user-drag: none;
 }
