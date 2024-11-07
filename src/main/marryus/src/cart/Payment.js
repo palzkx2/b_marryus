@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import './payment.css';
 import cartdata from './cartData';
 import Numeral from 'numeral';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import axios from 'axios';
 import * as PortOne from "@portone/browser-sdk/v2";
 import PaymentInputs from './PaymentInputs';
 
 const Payment = () => {
-
     const location = useLocation(); // useLocation 사용
     const [cartData] = useState(location.state?.items || []); // 전달받은 데이터 사용
     const [userName,setUserName] = useState('');//이름 불러오기
     const [phone,setPhone] = useState('');//전화번호 불러오기
     const [email, setEmail] = useState(''); //이메일 불러오기
     const [totalPrice, setTotalPrice] = useState(location.state?.totalAmount || 0);
-  
+    const [btnToggle,setBtnToggle] = useState(false);
+    const [orderNum,setOrderNum] = useState('');
+
+    const history = useHistory();
 
     useEffect(() => {
         const fetchSessionData = async () => {
@@ -40,8 +42,10 @@ const Payment = () => {
             }
         };
 
+
         fetchSessionData();
        fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
+       
     }, []);
     
     useEffect(() => {
@@ -49,54 +53,56 @@ const Payment = () => {
             const total = cartData.reduce((acc, item) => acc + item.price*item.quantity, 0);
             setTotalPrice(total);
         };
-
         calculateTotalPrice();
     }, [cartData]);
 
-    const requestPayment = () => {
+    const requestPayment = async() => {
+        
         const paymentId = `payment-${crypto.randomUUID().slice(0, 30)}`;
         //const paymentId = 123;
         const cartIds = cartData.map(item => item.id);
+        const cartProductNames = cartData.map(item => item.name);
         
-        PortOne.requestPayment({
-            storeId: "store-bbe87222-8591-4722-8181-48e02a268865",
-            channelKey: "channel-key-f80c9eee-2239-477a-a67b-f2bf4d975a13",
-            paymentId,
-            orderName: "상품이름이나와야하는데..",
-            totalAmount: totalPrice,
+        alert('결제하기 함수 호출도미')
+        const response = await PortOne.requestPayment({
+            storeId: "store-9b57f72e-69ea-41b3-aadf-c57541ce33ba",
+            channelKey: "channel-key-5d5ddf15-c935-4d80-8c2c-ea68627e11b8",
+            paymentId: `payment-${crypto.randomUUID().slice(0, 32)}`,
+            orderName: (cartProductNames.length-1===0) ? cartProductNames[0] : cartProductNames[0]+'외 '+ (cartProductNames.length-1)+'개 의 상품',
+            totalAmount: 1000,
             currency: "CURRENCY_KRW",
             payMethod: "CARD",
-            customer: {
+            customer:{
+                customerId: userName,
                 fullName: userName,
-                phoneNumber: phone,
-                email: email,
-            },
-        }, async (response) => {
-            if (response.success) {
-                const impUid = response.data.imp_uid;
-                console.log("imp_uid 왜 안나와",impUid)
-                try {
-                     // 1. 결제 확인 요청 - PaymentController의 /api/order/payment/{imp_uid}로 요청 전송
-                     const verifyPaymentResponse = await axios.get(`/api/order/payment/${impUid}`, { 
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: true,
-                    });
-
-                    console.log("서버로부터 결제 확인 응답:", verifyPaymentResponse.data); // 수정2차
-                    if (verifyPaymentResponse.data.status === "paid") {
-                        alert("결제가 성공적으로 완료되었습니다.");
-                        // 결제가 성공한 후 추가 로직을 넣을 수 있습니다.
-                    } else {
-                        alert("결제 검증 실패: 결제가 완료되지 않았습니다."); // 수정2차
-                    }
-                } catch (error) {
-                    console.error("결제 확인 중 오류 발생:", error); // 수정2차
-                    alert("결제 확인 중 오류 발생"); // 수정2차
-                }
-            } else {
-                alert("결제 실패");
+                email:email,
+                phoneNumber: phone
             }
+        })
+        console.log('결제처리됨 반환값은1?',response)
+        if (response.code != null) {
+            // 오류 발생
+            return alert('결제처리안안됨됨 반환값은?',response.message);
+          }else{
+            console.log('결제처리됨 반환값은2?',response)
+          }
+        
+        const notified = await fetch('api/payment/complete', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+            paymentId: response.paymentId,
+            txId: response.txId,
+            orderId: orderNum,
+            // 주문 정보...
+            }),
         });
+        const message = await notified.text();  // 응답 메시지를 텍스트로 받기
+        console.log(message);
+        alert(message)
+        if(message==='결제 완료'){
+            history.push('/paymentComplete')
+        }
     };
 
 
@@ -142,9 +148,9 @@ const Payment = () => {
                                 )}
 
                     {/*예약 상품정보 */}
-                            <PaymentInputs/>
+                            <PaymentInputs setOrderNum={setOrderNum}/>
             </div>
-                        <div className='rightItem' style={{ position: 'sticky', top: '20px' }}>
+                        <div className='rightItem' style={{ position: 'sticky', top: '90px' }}>
                             {cartData.length > 0 && (
                                 <div className='jumunyoyak' >
                                     <h6 style={{fontSize:'1em', marginBottom:'28px'}}>주문요약</h6>
@@ -178,7 +184,7 @@ const Payment = () => {
                                 <label style={{marginBottom: '5px',fontSize:'18px'}}>전체 주문 동의</label>
                             </div>
                             <div className='lastButton'>
-                                <button className='lastBtn' onClick={requestPayment}>결제하기</button>
+                                <button onClick={requestPayment} className={`lastBtn ${btnToggle ? 'active' : 'lastInactiveBtn'}`}>결제하기</button>
                             </div>
                         </div>
                     </div>
