@@ -7,7 +7,7 @@ import './sdmarticle.css';
 import SdmModal from '../sdm/common/SdmModal'; 
 import '../sdm/common/sdmmodal.css';
 import RingReviewList from '../weddingItem/RingReviewList';
-
+import SdmReviewList from './SdmReviewList';
 
 export const API_SERVER_HOST = 'http://localhost:8080'; // 서버 주소
 
@@ -21,7 +21,7 @@ const SdmArticle = () => {
    const [selectedImage, setSelectedImage] = useState('');
    const [userRole,setUserRole] = useState('')
    const [showModal, setShowModal] = useState(false);
-   const [item, setItem] = useState();
+   const [averageRating, setAverageRating] = useState(0); 
 
    useEffect(() => {
     const fetchSessionData = async () => {
@@ -88,10 +88,6 @@ const postData = async (item) => {
         }
     }, [itemNm]);
 
-    if (!sdm) {
-        return <p>Loading...</p>;
-    }
-
     /* 보류
     const handleUpdate = (updatedSdm) => {
         // 업데이트된 정보를 처리하는 함수
@@ -99,6 +95,31 @@ const postData = async (item) => {
         setIsEdit(false); // 수정 모드 종료
     };
 */
+
+        // 평균 평점 가져오기 //수정완료
+    useEffect(() => {
+            const fetchAverageRating = async () => {
+                try {
+                    const response = await axios.get(`${API_SERVER_HOST}/api/reviews/averageRating`, {
+                        params: { productId: sdm?.id }
+                    });
+                    setAverageRating(response.data);
+                } catch (error) {
+                    console.error("평균 평점 데이터를 가져오는 중 오류 발생:", error);
+                }
+            };
+    
+            if (sdm) {
+                fetchAverageRating();
+            }
+        }, [sdm]);
+    
+        if (!sdm) {
+            return <p>Loading...</p>;
+        }
+    
+
+
     const handleImageClick = (image) => {
         setSelectedImage(image); // 클릭한 이미지로 상태 업데이트
     };
@@ -120,7 +141,7 @@ const postData = async (item) => {
         <div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
                 <div style={{width:'1400px', height:'350px', display:'flex', justifyContent:'center', alignContent:'center', backgroundImage:`url(${sdmImg})`, backgroundSize:'cover', backgroundPosition:`center calc(100% + 300px)`}}>
-                    <p style={{marginTop:'140px', fontSize:'32pt', fontWeight:'bold', color:'#F8D3D3', textShadow:'2px 2px 2px rgba(0,0,0, 0.5)'}}>♥ 스/드/메 ♥</p>
+                    <p style={{marginTop:'140px', fontSize:'32pt', fontWeight:'bold', color:'#F8D3D3', textShadow:'2px 2px 2px rgba(0,0,0, 0.5)'}}>Studio&Dress&Makeup</p>
                 </div>
             </div>
             <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
@@ -147,20 +168,19 @@ const postData = async (item) => {
                         <div style={{display:'flex', justifyContent:'start', alignContent:'start'}}>
                             <div style={{marginLeft:'20px'}}>
                                 <p style={{fontSize:'14pt', marginTop:'15px'}}>- 상세정보</p>
-                                <p style={{color:'gray'}}>아름다운 사랑의 감정을 느낄 수 있습니다.</p>
+                                <p style={{color:'gray'}}>{sdm.itemDetail}</p>
                                 <p style={{ color: 'gray' }}>{sdm.itemNm}</p>
-                                <p style={{ color: 'gray' , whiteSpace: 'break-spaces'}}>{sdm.itemDetail}</p>
-                                <p style={{ color: 'gray' }}>{sdm.totalLikes}</p>
-                                <p style={{ color: 'gray' }}>{sdm.tag}</p>
-                                <p style={{ color: 'gray' }}>{sdm.category}</p>
+                                
+                                <p style={{color:'gray'}}>평점: {averageRating}★</p>
+                                
+                                <p style={{ color: 'gray' }}>태그: {sdm.tag}</p>
+                                <p style={{ color: 'gray' }}>카테고리: {sdm.category}</p>
                                 
                             </div>
                         </div>
 
                         <div style={{display:'flex', justifyContent:'start', alignContent:'start'}}>
-                            <div style={{marginTop:'15px', border:'1px solid black', width:'350px', height:'350px'}}>
-                                지도
-                            </div>
+                            
                         </div>
 
                     </div>
@@ -219,30 +239,13 @@ const postData = async (item) => {
                 
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <div style={{display:'flex', justifyContent:'center', alignContent:'center'}}>
+            <div style={{display:'flex', justifyContent:'center', alignContent:'center' }}>
                 <div style={{width: '1260px',height: '140px',display: 'flex',placeContent: 'center', marginLeft: '472px',justifyContent: 'center'}}>
                     <div style={{marginTop:'20px', marginLeft:'200px'}}>
                         <Link to='/sdm'>
                             <button style={{fontSize:'22pt', padding:'20px 70px', background:'#32CD32', border:'none', color:'white', cursor:'pointer'}}>목록</button>
                         </Link>
-                       
+                        
                     </div>
                     
                     {
@@ -252,10 +255,12 @@ const postData = async (item) => {
                     }
                     
                     
-                    <div>
-                        <p onClick={() => postData(sdm)} className='byeBtna' style={{backgroundColor:'gray',border:'none', paddingLeft:'28px',cursor:'pointer'}}>장바구니</p>
+                    <div className='sdmarticle-item' style={{}}>
+                        <p onClick={() => postData(sdm)} className='sdmarticlebtn' >장바구니</p>
+                        
                     </div>
-                    
+                   
+
                     <div style={{width:'1260px', height:'140px',display:'flex', justifyContent:'right'}}>
                             {/* 상세페이지 수정 보류
                             <div style={{marginTop:'20px' }}>
@@ -275,10 +280,14 @@ const postData = async (item) => {
                                                 삭제하기
                                 </button>
                             </div> */}
+                           
                     </div>
+                    
                 </div>
             </div>
-            <RingReviewList item={sdm}/>
+            
+            <SdmReviewList item={sdm} style={{width:'1400px', height:'160px', display:'flex', justifyContent:'start', alignContent:'center'}}/>
+            
         </div>
     </div>
     );

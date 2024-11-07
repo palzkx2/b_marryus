@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './weddingItemReview.css';
+import './sdmReview.css';
 
-const ReviewSdm = ({ item, onClose, review }) => {
+const ReviewRing = ({ item, onClose, review }) => {
     const [rating, setRating] = useState(review ? review.rating : 0); // 별점 상태
     const [hoverRating, setHoverRating] = useState(0); // 호버 상태
     const [reviewText, setReviewText] = useState(review ? review.reviewContent : ''); // 리뷰 텍스트 상태
@@ -52,7 +52,7 @@ const ReviewSdm = ({ item, onClose, review }) => {
             subcategory: item.subcategory,
             productId: item.id,
             author: author,
-            productName: item.itemNm,
+            productName: item.imgName,
             recommended: false,
             createdAt: new Date().toISOString(),
             email: email,
@@ -122,4 +122,4 @@ const ReviewSdm = ({ item, onClose, review }) => {
     );
 };
 
-export default ReviewSdm;
+export default ReviewRing;

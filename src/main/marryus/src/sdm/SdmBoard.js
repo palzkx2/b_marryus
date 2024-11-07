@@ -25,6 +25,7 @@ const SdmBoard = () => {
     const [searchTerm, setSearchTerm] = useState(''); // 빈 문자열로 초기화
     const [userRole,setUserRole] = useState('')
     const [isOnCart, setIsOnCart] = useState(null);
+    const [likedItems, setLikedItems] = useState({});
 
     const fetchCartData = async () => {
         try {
@@ -140,7 +141,25 @@ const SdmBoard = () => {
                 }
             });
             const dtoList = response.data.dtoList || [];
-            setData(dtoList);
+
+             // 리뷰에서 평균 평점 가져오기 - 수정완료
+             const updatedData = await Promise.all(
+                dtoList.map(async (item) => {
+                    try {
+                        const reviewResponse = await axios.get(`/api/reviews/average`, {
+                            params: { productId: item.id }
+                        });
+                        const averageRating = reviewResponse.data.averageRating || 0;
+                        return { ...item, rating: averageRating };
+                    } catch (error) {
+                        console.error(`평균 평점 가져오기 실패 (item ID: ${item.id}):`, error);
+                        return item;
+                    }
+                })
+            );
+
+
+            setData(updatedData);
             setPageResponse(response.data);
         } catch (error) {
             console.error('데이터를 가져오는 중 오류가 발생했습니다:', error);
@@ -234,14 +253,30 @@ const SdmBoard = () => {
         setSortDirection('DESC');  // 정렬 방향 설정 (ASC 또는 DESC)
     };
 
-    const toggleLike = (item) => {
-        const updatedData = data.map((d) => {
-            if (d.itemNm === item.itemNm) {
-                return { ...d, totalLikes: d.totalLikes + 1 }; // 좋아요 수 증가
-            }
-            return d;
-        });
-        setData(updatedData);
+    const toggleLike = async (item) => {
+        const isLiked = likedItems[item.itemNm]; // 현재 좋아요 상태
+        const updatedLikes = isLiked ? item.totalLikes - 1 : item.totalLikes + 1;
+    
+        // 클라이언트 상태 업데이트
+        setData((prevData) =>
+            prevData.map((d) =>
+                d.itemNm === item.itemNm ? { ...d, totalLikes: updatedLikes } : d
+            )
+        );
+        setLikedItems((prevLikedItems) => ({
+            ...prevLikedItems,
+            [item.itemNm]: !isLiked,
+        }));
+    
+        // 서버에 업데이트 요청 보내기
+        try {
+            await axios.post(`${API_SERVER_HOST}/api/sdm/updateLikes`, {
+                itemNm: item.itemNm,
+                totalLikes: updatedLikes
+            }, { withCredentials: true });
+        } catch (error) {
+            console.error("Error updating totalLikes in DB:", error);
+        }
     };
 
     // 삭제 핸들러
@@ -331,27 +366,29 @@ const SdmBoard = () => {
 
                                                 <div className='imgDiv' style={{marginLeft:'20px', marginTop:'30px', height:'370px'}}>
                                                     <Link to={`/sdmArticle/${item.itemNm}?page=${page}`} style={{ color: 'black' }}>
-                                                    <div>
-                                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.uploadFileNames[0]}`} alt={item.itemNm} width={220} height={200} style={{padding: '15px'}} />
+                                                        <div>
+                                                            <img src={`${API_SERVER_HOST}/api/sdm/view/${item.uploadFileNames[0]}`} alt={item.itemNm} width={220} height={200} style={{padding: '15px'}} />
+                                                    
+                                                        </div>
+                                                    
+                                                            <strong>{item.itemNm}</strong>
+                                                            <p>{item.addr}</p>
+                                                            <p style={{ marginBottom: '40px' }}>{numeral(item.price).format('0,0')}원</p>
+                                                        </Link>
+                                                            <p style={{ padding: `7px 15px 0px`, marginTop: '-15px' }}>
+                                                            <IoHeart
+                                                                style={{ cursor: 'pointer', color: 'red' }}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation(); // 수정완료: 이벤트 전파 방지
+                                                                    toggleLike(item);
+                                                                }}
+                                                            />
+                                                                {item.totalLikes}
+                                                            </p>
+                                                            <p>평점:{item.rating}</p> 
+                                                    
+                                                            
                                                    
-                                                    </div>
-                                                    
-                                                        <strong>{item.itemNm}</strong>
-                                                        <p>{item.addr}</p>
-                                                    
-                                                    <p style={{ padding: `7px 15px 0px`, marginTop: '-15px' }}>
-                                                        <IoHeart
-                                                            style={{ cursor: 'pointer', color: 'red' }}
-                                                            onClick={() => toggleLike(item)}
-                                                        />
-                                                        {item.totalLikes}
-                                                    </p>
-                                                        <p>
-                                                        <MdThumbUp  style={{color:'yellow',width:'15px',height:'20px'}}/>
-                                                            평점:{item.rating}</p> 
-                                                    
-                                                        <p style={{ marginBottom: '40px' }}>{numeral(item.price).format('0,0')}원</p>
-                                                    </Link>
                                                             {
                                                                 userRole === 'ADMIN' &&
                                                                 <div

@@ -8,6 +8,7 @@ import RingDesc from './RingDesc';
 import RingReviewList from './RingReviewList';
 import numeral from 'numeral';
 
+
 const WeddingItemArticle = () => {
     const { id } = useParams();
     const [item, setItem] = useState();
