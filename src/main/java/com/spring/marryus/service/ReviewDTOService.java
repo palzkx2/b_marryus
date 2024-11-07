@@ -3,18 +3,26 @@ package com.spring.marryus.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.marryus.dao.ReviewDTORepository;
+import com.spring.marryus.dao.SdmRepository;
 import com.spring.marryus.dao.WeddingItemRepository;
 import com.spring.marryus.entity.ReviewDTO;
+import com.spring.marryus.entity.Sdm;
 import com.spring.marryus.entity.WeddingItemDTO;
 
 @Service
 public class ReviewDTOService {
+	
+	@Autowired
+	private SdmRepository sdmRepository;
+	
 	
 	@Autowired
 	private ReviewDTORepository reviewRepository;
@@ -22,6 +30,7 @@ public class ReviewDTOService {
 	@Autowired
 	private WeddingItemRepository weddingItemRepository;
 
+	
 	
 	 // 리뷰 저장
     public ReviewDTO saveReview(ReviewDTO review) {
@@ -57,12 +66,19 @@ public class ReviewDTOService {
         double averageRating = reviews.stream().mapToInt(ReviewDTO::getRating).average().orElse(0);
         return (int) Math.round(averageRating); // 정수로 반올림
     }
-
+    
+    @Transactional
     public void updateAverageRating(Long productId) {
         int averageRating = calculateAverageRating(productId);
         WeddingItemDTO item = weddingItemRepository.findById(productId).orElseThrow(null);
+        
+        Sdm sdm = sdmRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("해당 Sdm 아이템을 찾을 수 없습니다.")); // 예외 메시지 추가
+        
         item.setRate(averageRating);
         weddingItemRepository.save(item);
+        sdm.setRating(averageRating); //수정한부분
+        sdmRepository.save(sdm); //수정한부분
     }
     
     // 이메일로 리뷰 가져오기

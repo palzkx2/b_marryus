@@ -1,0 +1,75 @@
+/* AddWeddingItem.css */
+
+/* 전체 폼 스타일 */
+.add-wedding-item-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;  
+}
+
+/* 제목 스타일 */
+.add-wedding-item-title {
+    margin-top: 100px;
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 스타일 */
+.add-wedding-item-input,
+.add-wedding-item-select,
+.add-wedding-item-file-input {
+    width: 475px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* 입력 필드 포커스 스타일 */
+.add-wedding-item-input:focus,
+.add-wedding-item-select:focus,
+.add-wedding-item-file-input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* 미리보기 이미지 영역 스타일 */
+.add-wedding-item-image-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.add-wedding-item-image-preview img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* 버튼 스타일 */
+.add-wedding-item-button {
+    width: 500px;
+    padding: 12px;
+    background-color: #99cdff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 200px;
+}
+
+/* 버튼 호버 효과 */
+.add-wedding-item-button:hover {
+    background-color: #0056b3;
+}
+
+/* 비활성화된 카테고리 선택 스타일 */
+.add-wedding-item-select option:disabled {
+    color: #ccc;
+}

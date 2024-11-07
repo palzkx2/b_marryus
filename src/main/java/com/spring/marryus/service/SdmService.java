@@ -43,4 +43,7 @@ public interface SdmService {
 	List<Sdm> findByNameAndUserrId();
 	
 	List<Sdm> getAllSDMList();
+	
+	void updateTotalLikes(Long id, int totalLikes);
+	
 }

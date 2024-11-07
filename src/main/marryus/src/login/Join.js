@@ -324,7 +324,7 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderTop:'1px solid gray', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 (아이디)</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'564px', borderTop:'1px solid gray', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'564px', borderTop:'1px solid gray', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='text' ref={emailInput} style={{marginLeft:'20px'}}/> @ <input type='text' ref={domainInput} style={{width:'90px'}} value={selectedDomain} disabled={isDomainInputDisabled} onChange={(e) => setSelectedDomain(e.target.value)}/>
                         <select style={{marginLeft:'10px', fontSize:'9pt', height:'19px'}} onChange={handleDomainChange}>
                             <option>직접입력</option>
@@ -342,7 +342,7 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>인증번호</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'616px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'616px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='text' style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}} disabled={isCertificationNumberSent ? false : true} value={inputCertificationNumber} onChange={(e) => setInputCertificationNumber(e.target.value)}/>
                         <button style={{marginLeft:'5px', fontSize:'8pt', padding:'4px 7px', background:'gray', border:'1px solid gray', fontWeight:'bold', cursor:'pointer', color:'white'}} onClick={verifyCertificationNumber}>인증하기</button>
                         <span style={{marginLeft:'10px', color:color, fontSize:'9pt'}}>{message}</span>
@@ -351,28 +351,28 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'667px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'667px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='password' ref={passwordInput} style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>비밀번호 확인</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'718px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'718px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='password' ref={confirmPasswordInput} style={{marginLeft:'20px', fontFamily: 'Arial, sans-serif'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>성명</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'769px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'769px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='text' ref={nameInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>휴대폰</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'820px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <select style={{marginLeft:'20px'}} ref={phonePart1Ref}>
                             <option>010</option>
                             <option>011</option>
@@ -390,21 +390,21 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>주소</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'871px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'871px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='text' ref={addrInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>예식희망지역</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'922px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input type='text' ref={hopeAreaInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>결혼예정일</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'973px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'973px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center',marginTop:83}}>
                         <input
                             style={{ marginLeft: '20px', paddingLeft:'12px' }}
                             ref={weddingDateInput}
@@ -431,7 +431,7 @@ const Join = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid gray'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 수신여부</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'1024px', borderBottom:'1px solid gray', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'1024px', borderBottom:'1px solid gray', alignContent:'center',marginTop:83}}>
                         <input type='radio' name='agree' value={'이메일 수신 동의'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 동의
                         <input type='radio' name='agree' value={'이메일 수신 거부'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 거부
                     </div>

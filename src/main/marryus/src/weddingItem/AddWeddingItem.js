@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import './add.css'
 
 const AddWeddingItem = () => {
     const [itemName, setItemName] = useState('');
@@ -66,45 +67,52 @@ const AddWeddingItem = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="상품 이름"
-                value={itemName}
-                onChange={(e) => setItemName(e.target.value)}
-                required
-            /><br/>
-            <input
-                type="number"
-                placeholder="가격"
-                value={itemPrice}
-                onChange={(e) => setItemPrice(e.target.value)}
-                required
-            /><br/>
-            <select
-                value={itemCategory}
-                onChange={handleCategoryChange} // 카테고리 선택 시 함수 호출
-                required
-            >
-                <option value="" disabled>카테고리 선택</option>
-                <option value="suit">Suit</option>
-                <option value="flower">Flower</option>
-                <option value="ring">Ring</option>
-            </select><br/>
-            <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                required
-            /><br/>
-            {imagePreview && (
-                <div className="image-preview">
-                    <img src={imagePreview} alt="미리보기" style={{ width: '100px', height: '100px' }} />
-                </div>
-            )}
-            <button type="submit">추가</button>
+        <form className="add-wedding-item-form" onSubmit={handleSubmit}>
+            <h1 className="add-wedding-item-title">혼수품 추가</h1>
+                <input
+                    className="add-wedding-item-input"
+                    type="text"
+                    placeholder="상품 이름"
+                    value={itemName}
+                    onChange={(e) => setItemName(e.target.value)}
+                    required
+                /><br/>
+                <input
+                    className="add-wedding-item-input"
+                    type="number"
+                    placeholder="가격"
+                    value={itemPrice}
+                    onChange={(e) => setItemPrice(e.target.value)}
+                    required
+                /><br/>
+                <select
+                    className="add-wedding-item-select"
+                    value={itemCategory}
+                    onChange={handleCategoryChange}
+                    style={{width:500}}
+                    required
+                >
+                    <option value="" disabled>카테고리 선택</option>
+                    <option value="suit">Suit</option>
+                    <option value="flower">Flower</option>
+                    <option value="ring">Ring</option>
+                </select><br/>
+                <input
+                    className="add-wedding-item-file-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    required
+                /><br/>
+                {imagePreview && (
+                    <div className="add-wedding-item-image-preview">
+                        <img src={imagePreview} alt="미리보기" />
+                    </div>
+                )}
+            <button className="add-wedding-item-button" type="submit">추가</button>
         </form>
     );
 };
+
 
 export default AddWeddingItem;

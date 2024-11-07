@@ -65,6 +65,12 @@ public class SdmController {
                             : new ResponseEntity<>(HttpStatus.NOT_FOUND); // 존재하지 않으면 404 NOT FOUND 응답
     }
     
+    @PostMapping("/api/sdm/updateLikes")
+    public ResponseEntity<Void> updateTotalLikes(@RequestParam Long id, @RequestParam int totalLikes) {
+        sdmService.updateTotalLikes(id, totalLikes);
+        return ResponseEntity.ok().build();
+    }
+    
     // 아이템 등록
     @PostMapping(value = "/sdmRegister", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // POST 요청 처리
     public ResponseEntity<Map<String, String>> register(

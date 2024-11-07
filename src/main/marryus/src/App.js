@@ -46,7 +46,6 @@ import AddSdm from "./sdm/AddSdm";
 import Cartcopy from "./cart/Cartcopy";
 import WeddingScheduler from "./body/mypage/WeddingScheduler";
 import { TbShoppingCartCopy } from "react-icons/tb";
-import PaymentButton from "./cart/PaymentButton";
 import DWPayment from "./cart/DWPayment";
 import PaymentComplete from "./cart/PaymentComplete";
 import OrderList from "./cart/OrderList";
@@ -103,6 +102,7 @@ function App() {
         <Route path={['/paymentComplete']}><PaymentComplete/></Route>
       </Switch>
       <Footer/>
+      
       
     </div>
   );

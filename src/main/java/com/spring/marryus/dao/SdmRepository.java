@@ -59,4 +59,9 @@ public interface SdmRepository extends JpaRepository<Sdm, Long>{
     @Query("UPDATE Sdm s SET s.delFlag = :delFlag WHERE s.id = :id")
     void updateToDelete(@Param("id") Long id, @Param("delFlag") Boolean delFlag);
 	
+    @Modifying
+    @Transactional
+    @Query("UPDATE Sdm s SET s.totalLikes = :totalLikes WHERE s.id = :id")
+    void updateTotalLikes(@Param("id") Long id, @Param("totalLikes") int totalLikes); // totalLikes 업데이트 메소드
 }
+    

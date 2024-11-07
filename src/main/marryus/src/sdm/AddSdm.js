@@ -157,9 +157,17 @@ const AddSdm = () => {
                     </p>
                 </div>
 
+
                 <div>
                     <p>
-                        <label style={{padding:`10px 10px`}} >7. 판매중</label>
+                        <label style={{padding:`10px 10px`}} >7. 평점</label>
+                        <input type='text' name='price' value={sdm.rating} onChange={changeInput} style={{padding:'8px'}} />
+                    </p>
+                </div>
+
+                <div>
+                    <p>
+                        <label style={{padding:`10px 10px`}} >8. 판매중</label>
                         <select name='itemsellstatus' value={sdm.itemsellstatus} onChange={changeInput} required style={{padding:'8px', fontSize:'15px'}} >
                             <option value='SELL'>Sell</option>
                             <option value='SOLD_OUT'>SoldOut</option>
@@ -169,7 +177,7 @@ const AddSdm = () => {
 
                 <div>
                     <p>
-                        <label style={{padding:`10px 10px`}} >8. 태그</label>
+                        <label style={{padding:`10px 10px`}} >9. 태그</label>
                         <select name='tag' value={sdm.tag} onChange={changeInput} required style={{padding:'8px',fontSize:'15px'}}>
                             <option value='인물 위주'>인물 위주</option>
                             <option value='배경 위주'>배경 위주</option>
@@ -180,7 +188,7 @@ const AddSdm = () => {
                 
                 <div>
                     <p>
-                        <label style={{padding:`10px 10px`}} >9. 사진</label>
+                        <label style={{padding:`10px 10px`}} >10. 사진</label>
                         <input type='file' onChange={changeImage} accept="image/*" multiple style={{padding:'10px'}}/>
                     </p>
                 </div>

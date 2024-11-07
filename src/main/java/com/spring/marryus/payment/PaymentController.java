@@ -7,15 +7,16 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import java.util.NoSuchElementException;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.marryus.dao.CartRepository;
+import com.spring.marryus.entity.Cart;
 import com.spring.marryus.entity.Member;
 import com.spring.marryus.entity.Orders;
 import com.spring.marryus.oauth.SessionUser;
@@ -77,6 +78,7 @@ public class PaymentController {
 
             // 2. 고객사 내부 주문 데이터의 가격과 실제 지불된 금액을 비교
             Long orderIdLong = Long.parseLong(orderId); // orderId가 올바른지 확인
+            
             Orders order = orderService.getOrders(orderIdLong);
             
             System.out.println(order.getEmail());
@@ -87,6 +89,7 @@ public class PaymentController {
             }
 
             BigDecimal orderDBAmount = order.getTotalPrice();  // 주문 금액 확인
+            
             System.out.println(orderDBAmount);
             if (orderDBAmount == null || payment.getAmount() == null) {
                 throw new RuntimeException("결제 금액 정보가 누락되었습니다.");
@@ -121,8 +124,14 @@ public class PaymentController {
             System.out.println("결제완료까지 한걸음");
             saveHistory(session, orderId, txId, order);
            
+            //////delete 세션 데이터 삭제
+            deleteSession(session);
+            
+            
             
             return ResponseEntity.ok("결제 완료");
+            
+            
             
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 검증 실패: " + e.getMessage());
@@ -141,6 +150,29 @@ public class PaymentController {
 	
 	private final Oauth2Service oauth2Service;
 	private final MemberService memberService;
+	private final CartRepository cartrepository;
+	
+	private void deleteSession(HttpSession httpSession) {
+		
+		List<Long> cartIds=(List<Long>)httpSession.getAttribute("cartIds");
+		
+		System.out.println("결제 완료된 cartid는 어디갔나"+ cartIds);
+		
+		for(Long cartId: cartIds) {
+			Cart cart = cartrepository.findById(cartId)
+					.orElseThrow(()-> new NoSuchElementException("삭제할 장바구니를 찾을수 없습니다"));
+			
+			cartrepository.delete(cart); // 데이터베이스에서 Cart 항목 삭제
+		
+		}
+		
+		httpSession.removeAttribute("temporaryOrder");
+		System.out.println("진짜로 삭제되나 임시결제1");
+		httpSession.removeAttribute("cartIds");
+		System.out.println("진짜로 삭제되나 cartids");
+		
+	}
+	
 	
 	private Customer getMemeber(HttpSession session) {
 		
