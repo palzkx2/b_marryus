@@ -180,41 +180,61 @@ const NavBar = () => {
                 <div className='login' style={{display:'flex', flexDirection:'row'}}>
                     {
                         data.name!==undefined  ?
-                        <Link to='/'><p onClick={oauthLogout} style={{marginTop:50}}>로그아웃</p></Link> : 
+                        <Link to='/'>
+                            <div style={{marginTop:'50px'}}>
+                                <p onClick={oauthLogout}>로그아웃</p>
+                            </div>
+                        </Link> : 
                         
                         (
-                            userRole ? <Link to='/'><p onClick={logout} style={{marginTop:50}}>로그아웃</p></Link>
-                                     : <Link to='/login'><p style={{marginTop:50}}>로그인</p></Link>
+                            userRole ? 
+                            <div style={{marginTop:'50px'}}>
+                                <Link to='/'>
+                                    <p onClick={logout}>로그아웃</p>
+                                </Link>
+                            </div>
+                            :
+                            <div style={{marginTop:'50px'}}>
+                                <Link to='/login'>
+                                    <p>로그인</p>
+                                </Link>
+                            </div>
                         )
                         
                     }
 
                     {/* <input type='text' placeholder='검색 할 내용을 입력하세요.' style={{height:'20px', margin:'16px 0', width:'292px', fontSize:'10pt'}}/> */}
-                    {
-                        (data.name !== undefined || userRole) ? (
-                            <Link to='/myPage'><p style={{ marginLeft: '50px' }}>마이페이지</p></Link>
-                        ) : ''
-                    }
-                    {
-                        (data.name !== undefined || userRole) ? (
-                            <Link to='/cart'><p style={{ marginLeft: '50px' }}>장바구니</p></Link>
-                        ) : ''
-                    }
+                    
                    
                     <div style={{margin:'0 300px'}}>
                         <Link to='/' style={{color:'black'}}><img width={'300px'} height={'130px'} src={mainLogo}/></Link>
                     </div>
-                    
+
                     {
                         (data.name === undefined && !userRole) ? (
-                            <Link to='/signup'>
-                                <p style={{marginLeft: '50px',marginTop:50}}>회원가입</p>
-                            </Link>
+                            <div style={{marginLeft:'50px', marginTop:'50px'}}>
+                                <Link to='/signup'>
+                                    <p>회원가입</p>
+                                </Link>
+                            </div>
                         ) : ''
                     }
-                                        {
+                    {
                         (data.name !== undefined || userRole) ? (
-                            <Link to='/myPage'><p style={{ marginLeft: '50px', marginTop:50 }}>마이페이지</p></Link>
+                            <div style={{marginTop:'50px', marginLeft:'-60px'}}>
+                                <Link to='/myPage'>
+                                    <p>마이페이지</p>
+                                </Link>
+                            </div>
+                        ) : ''
+                    }
+                    {
+                        (data.name !== undefined || userRole) ? (
+                            <div style={{marginLeft:'50px', marginTop:'50px'}}>
+                                <Link to='/cart'>
+                                    <p>장바구니</p>
+                                </Link>
+                            </div>
                         ) : ''
                     }
                 </div>

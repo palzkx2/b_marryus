@@ -286,7 +286,7 @@ const Main = () => {
                                         <div className='imgdiv'>
                                             <strong style={{display: 'block', fontSize: '18pt'}}>{item.name}</strong>
                                             <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -355,7 +355,7 @@ const Main = () => {
                                         <div className='imgdiv'>
                                             <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
                                             <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
                                 </div>

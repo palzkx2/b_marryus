@@ -73,30 +73,9 @@ public class WeddingHallService {
     }
 
     // 이미지 목록 가져오기
-    public List<WeddingHall> getImages(String category, String imgType, String sortType) {
+    public List<WeddingHall> getImages() {
     	
-    	// 카테고리와 정렬 기준에 따라 데이터를 가져오는 로직
-        List<WeddingHall> weddingHalls = weddingHallRepository.findAll();
-
-        // 필터링
-        if (category != null && !category.isEmpty()) {
-            weddingHalls = weddingHalls.stream()
-                    .filter(wh -> wh.getImgType().equals(category))
-                    .collect(Collectors.toList());
-        }
-
-        // 정렬
-        if ("newest".equals(sortType)) {
-            weddingHalls.sort(Comparator.comparing(WeddingHall::getCreated).reversed());
-        } else if ("rating".equals(sortType)) {
-            weddingHalls.sort(Comparator.comparing(WeddingHall::getRating).reversed());
-        } else if ("highPrice".equals(sortType)) {
-            weddingHalls.sort(Comparator.comparing(WeddingHall::getPrice).reversed());
-        } else if ("lowPrice".equals(sortType)) {
-            weddingHalls.sort(Comparator.comparing(WeddingHall::getPrice));
-        }
-
-        return weddingHalls;
+    	return weddingHallRepository.findAll();
         
     }
 
@@ -139,38 +118,5 @@ public class WeddingHallService {
     public WeddingHall findById(Long id) {
         return weddingHallRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("해당 ID의 웨딩홀이 존재하지 않습니다: " + id)); // ID로 웨딩홀 조회, 없으면 예외 발생
-    }
-    
-    // 최신순 정렬
-    public List<WeddingHall> getWeddingHallsSortedByNewest() {
-        return weddingHallRepository.findAll().stream()
-                .sorted(Comparator.comparing(WeddingHall::getCreated).reversed())
-                .collect(Collectors.toList());
-    }
-    
-    // 평점순 정렬
-    public List<WeddingHall> getWeddingHallsSortedByRating() {
-        return weddingHallRepository.findAll().stream()
-                .sorted(Comparator.comparing(WeddingHall::getRating).reversed())
-                .collect(Collectors.toList());
-    }
-    
-    // 낮은 가격순 정렬
-    public List<WeddingHall> getWeddingHallsSortedByLowestPrice() {
-        return weddingHallRepository.findAll().stream()
-                .sorted(Comparator.comparing(WeddingHall::getPrice))
-                .collect(Collectors.toList());
-    }
-    
-    // 높은 가격순 정렬
-    public List<WeddingHall> getWeddingHallsSortedByHighestPrice() {
-        return weddingHallRepository.findAll().stream()
-                .sorted(Comparator.comparing(WeddingHall::getPrice).reversed())
-                .collect(Collectors.toList());
-    }
-    
-    // imgType에 따른 데이터를 필터링하는 메서드
-    public List<WeddingHall> getImagesByCategory(String imgType) {
-        return weddingHallRepository.findByImgType(imgType);
     }
 }

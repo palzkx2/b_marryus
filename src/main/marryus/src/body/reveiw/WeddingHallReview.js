@@ -92,9 +92,17 @@ const WeddingHallReview = ({weddingHall}) => {
         fetchSessionData();
     }, []);
 
+    const [data,setData] = useState({});
+
+    useEffect(()=>{
+        axios.get('/api/oauthUserInfo',{withCredentials: true})
+        .then(res=>setData(res.data))
+        .catch(error=>console.log(error))
+    },[])
+
     const create = async () => {
 
-        if(!userRole){
+        if(data.name === undefined && !userRole){
             alert('로그인 후 이용해주세요.')
             history.push('/login')
             return
@@ -105,23 +113,30 @@ const WeddingHallReview = ({weddingHall}) => {
             return
         }
 
-        try{
+        if (name || data.name) {
 
-            const response = await axios.post('/api/createReview', {
-                content:content,
-                name:name,
-                rating:rating,
-                email:email,
-                weddingHallName:weddingHall
-            })
+            const nameToUse = name || data.name;
+            const emailToUse = email || data.email;
 
-            // 평균 평점 업데이트 API 호출
-            await axios.get(`/api/average?weddingHallName=${encodeURIComponent(weddingHall)}`)
+            try{
 
-            window.location.reload()
+                const response = await axios.post('/api/createReview', {
+                    content:content,
+                    name:nameToUse,
+                    rating:rating,
+                    email:emailToUse,
+                    weddingHallName:weddingHall
+                })
 
-        }catch(error){
-            console.log('리뷰 작성 실패', error)
+                // 평균 평점 업데이트 API 호출
+                await axios.get(`/api/average?weddingHallName=${encodeURIComponent(weddingHall)}`)
+
+                window.location.reload()
+
+            }catch(error){
+                console.log('리뷰 작성 실패', error)
+            }
+
         }
 
     }

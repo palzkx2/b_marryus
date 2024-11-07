@@ -60,24 +60,16 @@ public class WeddingHallController {
     
     // 모든 웨딩홀 목록 반환
     @GetMapping("/api/images")
-    public ResponseEntity<List<WeddingHall>> getImages(
-            @RequestParam(value = "category", required = false) String category,
-            @RequestParam(value = "imgType", required = false) String imgType,
-            @RequestParam(value = "sortType", required = false) String sortType,
-            @RequestParam(value = "search", required = false) String search) {
-
-    	List<WeddingHall> weddingHalls;
-
+    public ResponseEntity<List<WeddingHall>> getImages(@RequestParam(value = "search", required = false) String search) {
+        List<WeddingHall> weddingHalls;
+        
         if (search != null && !search.trim().isEmpty()) {
-            // 검색어가 있을 경우 카테고리와 정렬 기준 무시하고 검색
             weddingHalls = weddingHallService.searchWeddingHall(search);
         } else {
-            // 카테고리와 정렬 기준에 따라 이미지 반환
-            weddingHalls = weddingHallService.getImages(category, imgType, sortType);
+            weddingHalls = weddingHallService.getImages();
         }
-
-        return ResponseEntity.ok(weddingHalls);
         
+        return ResponseEntity.ok(weddingHalls);
     }
     
     // 유효한 sortType인지 확인하는 메서드
@@ -146,48 +138,6 @@ public class WeddingHallController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 웨딩홀의 이름을 찾을 수 없습니다.");
         }
-        
-    }
-    
-    @GetMapping("/api/sorted")
-    public ResponseEntity<List<WeddingHall>> getSortedWeddingHalls(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String imgType,
-            @RequestParam(required = false) String sortType) {
-        
-        List<WeddingHall> weddingHalls;
-
-        if (sortType == null || sortType.isEmpty()) {
-            // 기본 정렬 처리 로직
-            weddingHalls = weddingHallService.getImages(category, imgType, null);
-        } else {
-            switch (sortType) {
-                case "newest":
-                    weddingHalls = weddingHallService.getWeddingHallsSortedByNewest();
-                    break;
-                case "rating":
-                    weddingHalls = weddingHallService.getWeddingHallsSortedByRating();
-                    break;
-                case "lowPrice":
-                    weddingHalls = weddingHallService.getWeddingHallsSortedByLowestPrice();
-                    break;
-                case "highPrice":
-                    weddingHalls = weddingHallService.getWeddingHallsSortedByHighestPrice();
-                    break;
-                default:
-                    return ResponseEntity.badRequest().body(null); // 잘못된 요청 처리
-            }
-        }
-
-        return ResponseEntity.ok(weddingHalls);
-    }
-    
-    // imgType에 따른 데이터를 가져오는 엔드포인트
-    @GetMapping("/api/category")
-    public ResponseEntity<List<WeddingHall>> getImagesByCategory(@RequestParam(value = "imgType") String imgType) {
-        
-        List<WeddingHall> images = weddingHallService.getImagesByCategory(imgType);
-        return ResponseEntity.ok(images);
         
     }
 

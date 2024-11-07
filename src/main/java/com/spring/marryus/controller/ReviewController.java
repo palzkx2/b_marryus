@@ -85,14 +85,16 @@ public class ReviewController {
     
 	@PostMapping("/api/toggleRecommendation")
 	public ResponseEntity<Map<String, Object>> toggleRecommendation(@RequestParam String email, @RequestParam Long reviewId) {
-	    boolean isRecommended = reviewService.toggleRecommendation(email, reviewId);
+		
+		boolean isRecommended = reviewService.toggleRecommendation(email, reviewId); // 추천 상태 토글
 	    Review review = reviewService.getReviewById(reviewId); // 리뷰 정보 가져오기
 	    
 	    Map<String, Object> response = new HashMap<>();
-	    response.put("isRecommended", isRecommended);
-	    response.put("recommendCount", review.getRecommendCount());
+	    response.put("isRecommended", isRecommended); // 추천 상태
+	    response.put("recommendCount", review.getRecommendCount()); // 새로운 추천 수
 	    
-	    return ResponseEntity.ok(response);
+	    return ResponseEntity.ok(response); // 응답 반환
+	    
 	}
 	
 	@GetMapping("/api/checkRecommendation")
@@ -100,7 +102,11 @@ public class ReviewController {
 	    @RequestParam String email,
 	    @RequestParam Long reviewId) {
 	    
-	    boolean isRecommended = reviewService.isRecommended(email, reviewId);
+		Map<String, Object> response = new HashMap<>();
+	    
+	    boolean isRecommended = reviewService.isRecommended(email, reviewId); // 추천 상태 확인
+	    response.put("isRecommended", isRecommended);
+	    
 	    return ResponseEntity.ok(Collections.singletonMap("isRecommended", isRecommended));
 	}
 	@GetMapping("/api/getAllMyReviews")
