@@ -29,19 +29,19 @@ const Payment = () => {
             }
         };
 
-        // const fetchOauthData = async () => { //OAuth 데이터 가져오기
-        //     try {
-        //         const response = await axios.get('/api/oauthReaduser');          
-        //             setUserName(response.data.name);
-        //             setPhone(response.data.phone);
-        //             setEmail(response.data.email);              
-        //     } catch (error) {
-        //         console.log('OAuth 데이터 가져오기 실패:', error);
-        //     }
-        // };
+        const fetchOauthData = async () => { //OAuth 데이터 가져오기
+            try {
+                const response = await axios.get('/api/oauthReaduser');          
+                    setUserName(response.data.name);
+                    setPhone(response.data.phone);
+                    setEmail(response.data.email);              
+            } catch (error) {
+                console.log('OAuth 데이터 가져오기 실패:', error);
+            }
+        };
 
         fetchSessionData();
-       // fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
+       fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
     }, []);
     
     useEffect(() => {
@@ -119,9 +119,10 @@ const Payment = () => {
                                     <p>장소      /    가격</p>
                                     {cartData.map((item) => (
                                             <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
-                                                <img src={item.img} alt={item.name} style={{ width: '60px', height: '60px', marginRight: '10px' }} />
+                                                {/* <img src={item.img} alt={item.name} style={{ width: '60px', height: '60px', marginRight: '10px' }} /> */}
                                                 <p style={{ marginRight: '10px', marginTop: '10px' }}>{item.name}</p>
                                                 <p style={{ marginRight: '10px', marginTop: '9px' }}>{Numeral(item.price).format('0,0')} 원</p>
+                                                <p style={{ marginRight: '10px', marginTop: '9px' }}>X {item.quantity}</p>
                                             </div>
                                         ))}
                             

@@ -92,17 +92,29 @@ const NavBar = () => {
 
     //웨딩홀
     const isWeddingHallActive = () => {
-        return location.pathname === '/weddingHall' || location.pathname.startsWith('/wdArticle');
+        return (
+            location.pathname === '/weddingHall' ||
+            location.pathname === '/insertWeddingHall' ||
+            location.pathname.startsWith('/wdArticle')
+        );
     };
 
     //스드메
     const isSdmActive = () => {
-        return location.pathname === '/sdm' || location.pathname.startsWith('/sdmArticle');
+        return (
+            location.pathname === '/sdm' ||
+            location.pathname === '/sdmRegister' ||
+            location.pathname.startsWith('/sdmArticle')
+        );
     };
 
     //혼수컬랙션
     const isWeddingItemActive = () => {
-        return location.pathname === '/weddingItem' || location.pathname.startsWith('/weddingItemArticle');
+        return (
+            location.pathname === '/weddingItem' ||
+            location.pathname === '/addWeddingItem' ||           
+            location.pathname.startsWith('/weddingItemArticle')
+        );
     };
 
     //신혼여행지
@@ -112,9 +124,20 @@ const NavBar = () => {
             location.pathname === '/overseasDestinations' ||
             location.pathname === '/domesticDestinations' ||
             location.pathname === '/travelSearch' ||
-            location.pathname === '/ArticlePage'
+            location.pathname === '/insertTravle' ||
+            location.pathname.startsWith('/travelArticle')
         );
     };
+
+    //서비스 센터
+    const isServiceCenter = () => {
+        return (
+            location.pathname === '/serviceCenter' ||
+            location.pathname === '/ServiceCenterCreate' ||
+            location.pathname.startsWith('/ServiceCenterArticle')
+        )
+    }
+
     const cartBtn = () => {
         if(data.name === undefined && !userRole){
             alert('로그인 후 이용해주세요.')
@@ -266,7 +289,10 @@ const NavBar = () => {
                                 고객센터
                             </p>
                         ) : (
-                            <NavLink to='/serviceCenter'>
+                            <NavLink
+                            to='/serviceCenter'
+                            className={isServiceCenter() ? 'active' : ''}
+                            >
                                 <p style={{ paddingLeft: '20px', marginRight: '21px' }}>고객센터</p>
                             </NavLink>
                         )

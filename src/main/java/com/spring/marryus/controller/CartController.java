@@ -84,6 +84,41 @@ public class CartController {
 	        
 	    }
 	 
+	 @PostMapping("/api/addWeddingItemCart")
+	    public void addWeddingItemCart(@RequestBody Cart cart, HttpSession session) {
+
+		 System.out.println("호출됨");
+		 
+	        // 세션에서 값을 읽어오기
+	        SessionUser oauthUser = (SessionUser) session.getAttribute("oauthUser");
+	        Member defaultUser = (Member) session.getAttribute("user");
+	        
+	        String userId="유저ID";
+	        int productCount = 1;
+	        String userType = "회원종류";       	        
+
+	        // 세션에서 읽은 값이 null이 아닌지 확인
+	        if (oauthUser != null) {
+	            System.out.println("OAuth 사용자 이름: " + oauthUser.getName());
+	            userId = oauth2Service.readUser(oauthUser.getEmail()).getId().toString();	  
+	            userType = "oauth";
+	        } else {
+	            System.out.println("OAuth 사용자 정보가 세션에 없습니다.");
+	        }
+
+	        if (defaultUser != null) {
+	            System.out.println("일반 사용자 이름: " + defaultUser.getName());
+	            userId = memberService.readUser(defaultUser.getEmail()).getId().toString();
+	            userType = "default";
+	        } else {
+	            System.out.println("일반 사용자 정보가 세션에 없습니다.");
+	        }       
+	        
+	        cartService.addWeddingItemCart(userId, productCount, userType,
+	        		cart.getCategory(), cart.getName(), cart.getPrice(), cart);
+        
+	    }
+	 
 	
 	@GetMapping("/api/readCart")
 	public List<Cart> cartList(HttpSession session){
