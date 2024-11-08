@@ -101,7 +101,10 @@ const Payment = () => {
         console.log(message);
         alert(message)
         if(message==='결제 완료'){
-            history.push('/paymentComplete')
+            history.push({
+                pathname: '/paymentComplete',
+                state: { orderNum }
+            });
         }
     };
 

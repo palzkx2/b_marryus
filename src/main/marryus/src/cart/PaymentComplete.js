@@ -1,8 +1,15 @@
 import React from 'react';
 import { FaRegCircleCheck } from "react-icons/fa6";
 import './paymentComplete.css'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
 const PaymentComplete = () => {
+
+    const location = useLocation();
+    const orderNum = location.state?.orderNum;
+
+
+
     return (
         <div>
 
