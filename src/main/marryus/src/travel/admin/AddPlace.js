@@ -46,7 +46,7 @@ const AddPlace = () => {
         formData.append('imgType', imgType);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/insertTravel', formData, {
+            const response = await axios.post('http://192.168.16.23:8080/api/insertTravel', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

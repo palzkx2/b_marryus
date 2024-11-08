@@ -67,12 +67,12 @@ const postData = async (item) => {
             console.log("fetchitem이 호출되었습니다");
             console.log("itemNm:", itemNm);
             try { 
-                const response = await axios.get(`http://localhost:8080/api/sdm/item/${itemNm}`);
+                const response = await axios.get(`http://192.168.16.23:8080/api/sdm/item/${itemNm}`);
                 if (response.data) {
                     console.log("response.data:", response.data);
                     setSdm(response.data);
                     setSelectedImage(response.data.uploadFileNames.length > 0 
-                        ? `http://localhost:8080/api/sdm/view/${response.data.uploadFileNames[0]}` 
+                        ? `http://192.168.16.23:8080/api/sdm/view/${response.data.uploadFileNames[0]}` 
                         : sdmImg);
                 } else {
                     console.log("No items found.");
@@ -127,7 +127,7 @@ const postData = async (item) => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/sdm/delete/${sdm.id}`); // 서버에 삭제 요청
+            await axios.delete(`http://192.168.16.23:8080/api/sdm/delete/${sdm.id}`); // 서버에 삭제 요청
             // 삭제 후 목록으로 리다이렉트하거나 상태 업데이트
             // 예: history.push('/sdm'); (react-router-dom을 사용하는 경우)
         } catch (error) {
@@ -222,11 +222,11 @@ const postData = async (item) => {
                                 {sdm.uploadFileNames.map((fileName, index) => (
                                     <div key={index} style={{ background: 'red', width: '120px', height: '120px' }}>
                                         <img 
-                                            src={`http://localhost:8080/api/sdm/view/${fileName}`} 
+                                            src={`http://192.168.16.23:8080/api/sdm/view/${fileName}`} 
                                             alt={sdm.itemNm} 
                                             width={120} 
                                             height={120} 
-                                            onClick={() => handleImageClick(`http://localhost:8080/api/sdm/view/${fileName}`)} // 클릭 시 함수 호출
+                                            onClick={() => handleImageClick(`http://192.168.16.23:8080/api/sdm/view/${fileName}`)} // 클릭 시 함수 호출
                                         />
                                     </div>
                                 ))}

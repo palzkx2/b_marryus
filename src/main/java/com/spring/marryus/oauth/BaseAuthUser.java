@@ -23,13 +23,13 @@ public class BaseAuthUser {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String picture;
 	
 	@Enumerated(EnumType.STRING)

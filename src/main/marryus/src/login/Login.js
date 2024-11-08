@@ -72,14 +72,14 @@ const Login = () => {
         if(site==='google'){              
             authWindow =
             window.open(
-                'http://localhost:8080/oauth2/authorization/google', // 열고자 하는 URL
+                'http://192.168.16.23:8080/oauth2/authorization/google', // 열고자 하는 URL
                 '구글로 로그인', // 창 이름
                 `width=${width}, height=${height}, top=${top}, left=${left}`
             );
         }else if(site==='kakao'){
             authWindow =
             window.open(
-                'http://localhost:8080/oauth2/authorization/kakao', // 열고자 하는 URL
+                'http://192.168.16.23:8080/oauth2/authorization/kakao', // 열고자 하는 URL
                 '카카오로 로그인', // 창 이름
                 `width=${width}, height=${height}, top=${top}, left=${left}`
             );
@@ -87,17 +87,20 @@ const Login = () => {
         else if(site==='naver'){
             authWindow =
             window.open(
-                'http://localhost:8080/oauth2/authorization/naver', // 열고자 하는 URL
+                'http://192.168.16.23:8080/oauth2/authorization/naver', // 열고자 하는 URL
                 '네이버 로그인', // 창 이름
                 `width=${width}, height=${height}, top=${top}, left=${left}`
             );
         }
         window.addEventListener('message', (event) => {
-            console.log(event.data)
-            console.log(event.origin)
-            if (event.origin !== 'http://localhost:8080') {
+
+            console.log('event.data=========================' + event.data)
+            console.log('event.origin========================' + event.origin)
+
+            if (event.origin !== 'http://192.168.16.23:8080') {
               return;
             }
+
             if (event.data === 'success') {
                 authWindow.close();
                 history.push('/')
@@ -109,9 +112,9 @@ const Login = () => {
                 window.location.reload();
             }
 
-
-          });
-      };
+        });
+        
+    };
 
     return (
         <div>

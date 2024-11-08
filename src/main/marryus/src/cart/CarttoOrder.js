@@ -52,7 +52,7 @@ const CarttoOrder = ({ handleOrder, checkedItemsWithCategory, totalAmount }) => 
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/api/order/create', payload, {
+            const response = await axios.post('http://192.168.16.23:8080/api/order/create', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

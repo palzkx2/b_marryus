@@ -25,7 +25,7 @@ const EditSdm = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/sdm/${id}`);
+      const response = await axios.get(`http://192.168.16.23:8080/api/sdm/${id}`);
       setSdm(response.data);
     } catch (error) {
       console.error("데이터 가져오기 중 오류 발생:", error);
@@ -66,7 +66,7 @@ const EditSdm = () => {
       });
     }
     try {
-      const response = await axios.patch(`http://localhost:8080/api/modify/${id}`, formData);
+      const response = await axios.patch(`http://192.168.16.23:8080/api/modify/${id}`, formData);
       if (response.data.RESULT === 'SUCCESS') {
         alert('수정되었습니다.');
         history.push(`/sdm/${id}`);

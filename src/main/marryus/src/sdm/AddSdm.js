@@ -71,7 +71,7 @@ const AddSdm = () => {
         }
     
         try {
-            const response = await axios.post('http://localhost:8080/api/sdm/sdmRegister', formData);
+            const response = await axios.post('http://192.168.16.23:8080/api/sdm/sdmRegister', formData);
             console.log("서버 응답 데이터: ", response.data);
     
             if (response.data.result === 'success') {

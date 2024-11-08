@@ -56,7 +56,7 @@ const AddSukso = () => {
         formData.append('imgName', imageFile);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/insertSukso', formData, {
+            const response = await axios.post('http://192.168.16.23:8080/api/insertSukso', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
