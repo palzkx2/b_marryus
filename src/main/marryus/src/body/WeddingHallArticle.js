@@ -183,9 +183,9 @@ const WeddingHallArticle = () => {
                     </div>
                 </div>
             </div>
-            <div className='alignGood'>
+            {/* <div className='alignGood'>
                 <Link to={`/weddingHall?page=${previousPage}`}><p className='byeBtna'  style={{backgroundColor:'gray',border:'none',paddingRight:'25px'}}>되돌아가기</p></Link>
-            </div>
+            </div> */}
             
             <div className='alignGood' style={{marginTop:'30px'}}>
                 {/* 지도 API */}

@@ -63,7 +63,6 @@ const Payment = () => {
         const cartIds = cartData.map(item => item.id);
         const cartProductNames = cartData.map(item => item.name);
         
-        alert('결제하기 함수 호출도미')
         const response = await PortOne.requestPayment({
             storeId: "store-9b57f72e-69ea-41b3-aadf-c57541ce33ba",
             channelKey: "channel-key-5d5ddf15-c935-4d80-8c2c-ea68627e11b8",
@@ -82,7 +81,7 @@ const Payment = () => {
         console.log('결제처리됨 반환값은1?',response)
         if (response.code != null) {
             // 오류 발생
-            return alert('결제처리안안됨됨 반환값은?',response.message);
+            return console.log('결제처리안됨 반환값은?',response.message);
           }else{
             console.log('결제처리됨 반환값은2?',response)
           }
@@ -99,7 +98,6 @@ const Payment = () => {
         });
         const message = await notified.text();  // 응답 메시지를 텍스트로 받기
         console.log(message);
-        alert(message)
         if(message==='결제 완료'){
             history.push({
                 pathname: '/paymentComplete',

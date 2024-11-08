@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import studioImg from '../s_images/cartBar.jpg'
-import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import './cart.css'
 import axios from 'axios';
 import { FaCircleMinus } from "react-icons/fa6";
@@ -307,7 +307,9 @@ const Cartcopy = () => {
                                         <div key={item.id} className="cart-item">
                                             <input type="checkbox" checked={item.checked}
                                                 onChange={(e) => handleCheckboxChange('weddingHalls', item.id, e.target.checked)}/>
-                                            <span>{item.name}</span>
+                                            <Link to={`/wdArticle/${item.name}`}>
+                                                <span className='pidif'>{item.name}</span>
+                                            </Link>
                                             <span>{item.price}원</span>
                                             <div className='inppputCon'>
                                                 <input type="number" value={item.quantity} 

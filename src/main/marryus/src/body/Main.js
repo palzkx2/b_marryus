@@ -281,6 +281,7 @@ const Main = () => {
                         {images.slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+                                <Link to={`/wdArticle/${item.name}`}>
                                     <div style={{textAlign: 'left', width: '230px'}}>
                                         <img src={`/api/images/${item.imgPath.split('\\').pop()}`} alt='' style={{position:'relative', maxWidth: '230px'}}/>
                                         <div className='imgdiv'>
@@ -290,7 +291,7 @@ const Main = () => {
                                                 wordBreak: 'break-word', 
                                                 overflowWrap: 'break-word', 
                                                 whiteSpace: 'normal',
-                                                maxWidth:'200px'
+                                                maxWidth:'190px'
                                             }}>
                                                 {item.name}
                                             </strong>
@@ -300,11 +301,12 @@ const Main = () => {
                                                 wordBreak: 'break-word', 
                                                 overflowWrap: 'break-word', 
                                                 whiteSpace: 'normal',
-                                                maxWidth:'200px'
+                                                maxWidth:'190px'
                                             }}>{item.addr}</p>
                                             <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}

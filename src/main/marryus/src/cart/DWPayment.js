@@ -5,7 +5,6 @@ import * as PortOne from "@portone/browser-sdk/v2";
 const DWPayment = () => {
 
     const  LetsPay = async () => {
-        alert('결제하기 함수 호출도미')
         const response = await PortOne.requestPayment({
             storeId: "store-9b57f72e-69ea-41b3-aadf-c57541ce33ba",
             channelKey: "channel-key-5d5ddf15-c935-4d80-8c2c-ea68627e11b8",

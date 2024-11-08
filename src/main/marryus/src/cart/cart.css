@@ -117,6 +117,7 @@
 .pidif{
   cursor: pointer;
   transition: all 0.3s ease;
+  color: black;
 }
 .pidif:hover{
   text-decoration: underline;
