@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaRegCircleCheck } from "react-icons/fa6";
 import './paymentComplete.css'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import Numeral from 'numeral';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from 'axios';
 
 const PaymentComplete = () => {
 
     const location = useLocation();
     const orderNum = location.state?.orderNum;
+    console.log(orderNum+'잘받는데?');
+    const [orderData, setOrderData] = useState(null);
 
+    useEffect(() => {
+        // orderNum이 있으면 API 요청을 보냄
+        if (orderNum) {
+            axios.get(`/api/payment/orderComplete?orderId=${orderNum}`)
+            .then(response => {
+                setOrderData(response.data);  // API 응답 데이터를 state에 저장
+            })
+            .catch(error => {
+                console.error('Error fetching order data:', error);
+            });
+        }
+       
+    }, [orderNum]);
+
+    if (!orderData) {
+        return <div>Loading...</div>;
+    }
+
+    // order와 products를 분리하여 사용
+    const { order, products } = orderData;
 
 
     return (
@@ -22,7 +45,7 @@ const PaymentComplete = () => {
                 </div>
 
                 <div className='content-center'>
-                    <strong style={{fontSize:'22pt', marginTop:'25px'}}>구매가 완료되었습니다.</strong>
+                    <strong style={{fontSize:'22pt', marginTop:'25px'}}>구매가 완료되었습니다. 주문번호: {orderNum}</strong>
                 </div>
 
                 <div className='content-center'>
@@ -31,7 +54,7 @@ const PaymentComplete = () => {
 
                 <div className='content-center'>
                     <div style={{flexDirection:'column', alignItems:'flex-start', width:'470px'}}>
-                        <p style={{fontSize:'11pt'}}>abcd@naver.com</p>
+                        <p style={{fontSize:'11pt'}}>{order.member.email}</p>
                     </div>
                 </div>
 
@@ -41,11 +64,13 @@ const PaymentComplete = () => {
 
                 <div className='content-center'>
                     <div style={{flexDirection:'column', alignItems:'flex-start', width:'470px'}}>
-                        <p style={{fontSize:'11pt'}}>- 웨딩홀</p>
-                        <p style={{fontSize:'11pt'}}>- 스튜디오</p>
-                        <p style={{fontSize:'11pt'}}>- 드레스</p>
-                        <p style={{fontSize:'11pt'}}>- 메이크업</p>
-                        <p style={{fontSize:'11pt'}}>- 부케</p>
+                        {products.map((product, index) => (
+                            <div style={{display:'flex'}} key={index}>
+                                <p style={{fontSize:'11pt'}}>- {product.pname},</p>
+                                <p style={{fontSize:'11pt',paddingLeft:'13px'}}>{product.pcat},</p>
+                                <p style={{fontSize:'11pt',paddingLeft:'13px'}}>{Numeral(product.price).format('0,0')}원</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
@@ -55,7 +80,11 @@ const PaymentComplete = () => {
 
                 <div className='content-center'>
                     <div style={{flexDirection:'column', alignItems:'flex-start', width:'470px'}}>
-                        <p style={{fontSize:'11pt'}}>신용카드</p>
+                        <p style={{fontSize:'11pt'}}>
+                            { order.payMethod==='CREDIT_CARD'
+                                    ? '신용카드' : '그외 결제방법'
+                            }
+                        </p>
                     </div>
                 </div>
 
@@ -65,7 +94,7 @@ const PaymentComplete = () => {
 
                 <div className='content-center'>
                     <div style={{flexDirection:'column', alignItems:'flex-start', width:'470px'}}>
-                        <p style={{fontSize:'11pt'}}>{Numeral(3000000).format('0,0')}</p>
+                        <p style={{fontSize:'11pt'}}>{Numeral(order.totalPrice).format('0,0')}</p>
                     </div>
                 </div>
 

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -123,16 +124,9 @@ public class PaymentController {
 
             System.out.println("결제완료까지 한걸음");
             saveHistory(session, orderId, txId, order);
-           
             //////delete 세션 데이터 삭제
             deleteSession(session);
-            
-            
-            
-            return ResponseEntity.ok("결제 완료");
-            
-            
-            
+            return ResponseEntity.ok("결제 완료");   
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 검증 실패: " + e.getMessage());
         }
@@ -155,9 +149,6 @@ public class PaymentController {
 	private void deleteSession(HttpSession httpSession) {
 		
 		List<Long> cartIds=(List<Long>)httpSession.getAttribute("cartIds");
-		
-		System.out.println("결제 완료된 cartid는 어디갔나"+ cartIds);
-		
 		for(Long cartId: cartIds) {
 			Cart cart = cartrepository.findById(cartId)
 					.orElseThrow(()-> new NoSuchElementException("삭제할 장바구니를 찾을수 없습니다"));
@@ -167,9 +158,7 @@ public class PaymentController {
 		}
 		
 		httpSession.removeAttribute("temporaryOrder");
-		System.out.println("진짜로 삭제되나 임시결제1");
 		httpSession.removeAttribute("cartIds");
-		System.out.println("진짜로 삭제되나 cartids");
 		
 	}
 	
@@ -188,33 +177,22 @@ public class PaymentController {
         if (oauthUser != null) {
             userId = oauth2Service.readUser(oauthUser.getEmail()).getId().toString();	
             user.setUserId(userId);
-            System.out.println("멤버 확인 메소드 호출됨1" + userId);
-            
             user.setUserEmail(oauth2Service.readUser(oauthUser.getEmail()).getEmail().toString());
-            System.out.println("멤버 확인 메소드 호출됨2");
-            
             userType = "oauth";
             user.setUserType(userType);
-            System.out.println("멤버 확인 메소드 호출됨3");
         }
         if (defaultUser != null) {
             userId = memberService.readUser(defaultUser.getEmail()).getId().toString();
             user.setUserId(userId);
-            System.out.println("멤버 확인 메소드 호출됨1" + userId);
-            
             user.setUserEmail(defaultUser.getEmail());
-            System.out.println("멤버 확인 메소드 호출됨2");
-            
             userType = "default";
             user.setUserType(userType);
-            System.out.println("멤버 확인 메소드 호출됨3");
         }
         else {
             // 예외를 던지거나, 기본값 처리
             throw new RuntimeException("로그인 정보가 존재하지 않습니다.");
         }
-        System.out.println("멤버 확인 메소드 호출됨5" + " : " + user.getUserEmail() + " : " + user.getUserId() + " : " + user.getUserType());
-        return user;
+        	return user;
 	}
 	
 	private void saveHistory(HttpSession session,String orderId,String txId,Orders order) {
@@ -256,6 +234,36 @@ public class PaymentController {
 
 		
 		return paymentHistoryService.getMyList(c1.getUserId());
+	}
+	
+	@GetMapping("/orderComplete")
+	public OrdersResponse getOrderComplete(@RequestParam("orderId") String orderId) {
+	    System.out.println("호출됨");
+	    Orders orderData = orderService.getOrders(Long.parseLong(orderId));
+	    
+	    // Products 문자열을 파싱하여 List<Product>로 변환
+	    List<ProductDTO> products = parseProducts(orderData.getPoducts());
+	    
+	    // OrdersResponse 객체 생성 후 반환
+	    return new OrdersResponse(orderData, products);
+	}
+
+	public List<ProductDTO> parseProducts(String productsString) {
+	    List<ProductDTO> products = new ArrayList<>();
+	    String[] items = productsString.split("/p/");  // 각 제품 구분
+	    
+	    for (String item : items) {
+	        String[] attributes = item.split("/d/");
+
+	        String name = attributes[0].split(":")[1];
+	        Long id = Long.parseLong(attributes[1].split(":")[1]);
+	        String category = attributes[2].split(":")[1];
+	        Double price = Double.parseDouble(attributes[3].split(":")[1]);
+
+	        products.add(new ProductDTO(name, id, category, price));
+	    }
+	    
+	    return products;
 	}
 	
 	

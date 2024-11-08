@@ -11,7 +11,7 @@ function OrderList() {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('/api/orders');
+            const response = await axios.get('/api/payment/orders');
             setOrders(response.data);
             setFilteredOrders(response.data);
         } catch (error) {
@@ -82,7 +82,7 @@ function OrderList() {
                     {selectedOrder && (
                         <div className="modalOverlay_s1W8" onClick={() => setSelectedOrder(null)}>
                             <div className="orderDetailModal_s3V5" onClick={(e) => e.stopPropagation()}>
-                                <h2>주문 상세 정보</h2>
+                                <h2>주문 상세 정보<button style={{marginLeft:'30px'}} onClick={()=>setSelectedOrder(null)}>닫기</button></h2>
                                 <ul className="productList_n9M1">
                                     {selectedOrder.products.map(product => (
                                         <li key={product.pid} className="productItem_d1L9">

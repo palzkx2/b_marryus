@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.spring.marryus.status.OrderStatus;
 import com.spring.marryus.status.PayMethod;
 
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "orders")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Orders {
 
 	@Id
