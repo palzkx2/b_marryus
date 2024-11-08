@@ -65,7 +65,7 @@ const ReviewSdm = ({ item, onClose, review }) => {
                 alert('리뷰가 성공적으로 수정되었습니다!');
             } else {
                 // 추가 모드
-                await axios.post('/api/reviews', reviewPayload);
+                await axios.post('/api/reviews/create', reviewPayload);
                 alert('리뷰가 성공적으로 제출되었습니다!');
             }
             await updateAverageRating(item.id);
