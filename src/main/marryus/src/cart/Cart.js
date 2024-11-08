@@ -241,6 +241,7 @@ const Cart = () => {
   };
 
   const [travel, setTravel] = useState([]);
+  const [weddingItem, setWeddingItem] = useState([]);
 
   useEffect(() => {
       axios.get('/api/readSukso')
@@ -260,8 +261,7 @@ const Cart = () => {
     } else {
         console.error("해당 이름의 데이터를 찾을 수 없습니다.");
     }
-};
-    
+};  
 
     return (
         <div>
