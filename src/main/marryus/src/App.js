@@ -48,6 +48,7 @@ import WeddingScheduler from "./body/mypage/WeddingScheduler";
 import { TbShoppingCartCopy } from "react-icons/tb";
 import DWPayment from "./cart/DWPayment";
 import PaymentComplete from "./cart/PaymentComplete";
+import OrderList from "./cart/OrderList";
 
 
 function App() {
@@ -76,7 +77,7 @@ function App() {
         <Route path='/myReview' component={MyReivew} />
         <Route path='/myWedding' component={WeddingScheduler} />
         <Route path='/myBookList' component={MyBookList} />
-        <Route path='/myOrder' component={MyOrder} />
+        <Route path='/myOrder' component={OrderList} />
         <Route path='/myBookmark' component={MyBookmark} />
         <Route path='/myCart' component={MyCart} />
         <Route path='/updateUser' component={UpdateUser} />

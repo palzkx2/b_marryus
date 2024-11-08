@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.marryus.entity.Member;
-
+import com.spring.marryus.entity.OrderProductList;
 import com.spring.marryus.entity.OrderRequest;
 import com.spring.marryus.entity.OrderResponseDto;
 import com.spring.marryus.entity.OrderResponseDto.OrderDto;
@@ -120,22 +120,24 @@ public class OrderController {
             Orders temporaryOrder = (Orders) session.getAttribute("temporaryOrder");
             
             if (temporaryOrder == null) {
-            	
                 return ResponseEntity.badRequest().body("임시 주문을 찾을 수 없습니다.");
             }
-            System.out.println("좋은말로할때 나와라1");
-            // orderRequest에서 필요한 정보 추출하여 업데이트
+            
+            
+            System.out.println(orderRequest.getCartData());
+            String products = convertCartDataToString(orderRequest.getCartData());
+          
             Orders confirmedOrder = orderService.confirmOrder(
                 temporaryOrder,
                 orderRequest.getEnglishName(), // 수정한 부분
                 orderRequest.getEnglishFamilyName(), // 수정한 부분
                 orderRequest.getEmail(), // 수정한 부분
                 orderRequest.getPhone(), // 수정한 부분
-                orderRequest.getPayMethod() // 수정한 부분
+                orderRequest.getPayMethod(), // 수정한 부분
+                products
             );
             
-            System.out.println("좋은말로할때 나와라2");
-            // OrderResponseDto로 변환하여 반환 // 수정한 부분
+           
             OrderResponseDto responseDto = new OrderResponseDto(confirmedOrder); // 수정한 부분
             
             return ResponseEntity.ok(confirmedOrder.getOrderId().toString()); // 수정한 부분
@@ -146,6 +148,30 @@ public class OrderController {
         	 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("주문 처리 중 오류가 발생했습니다."); // 수정한 부분
         }
     }
+	
+	 public String convertCartDataToString(List<OrderProductList> cartData) {
+	        // 상품 구분자로 /p/, 필드 구분자로 /d/ 사용
+	        StringBuilder result = new StringBuilder();
+	        
+	        for (OrderProductList item : cartData) {
+	            result.append("Pname:")
+	                  .append(item.getName())
+	                  .append("/d/pId:")
+	                  .append(item.getId())
+	                  .append("/d/Pcat:")
+	                  .append(item.getCategory())
+	                  .append("/d/Price:")
+	                  .append(item.getPrice())
+	                  .append("/p/");
+	        }
+	        
+	        // 마지막 /p/ 제거
+	        if (result.length() > 0) {
+	            result.setLength(result.length() - 3);  // 마지막 구분자 제거
+	        }
+	        
+	        return result.toString();
+	    }
 	
 	
 	

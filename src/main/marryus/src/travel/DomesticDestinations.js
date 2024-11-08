@@ -55,9 +55,9 @@ const DomesticDestinations = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const sResponse = await axios.get('http://localhost:8080/api/readSukso');
+                const sResponse = await axios.get('/api/readSukso');
                 const accommodationsData = sResponse.data; // API에서 숙소 데이터를 가져옴
-                const aResponse = await axios.get('http://localhost:8080/api/readSukso');
+                const aResponse = await axios.get('/api/readSukso');
                 const agenciesData = aResponse.data; // API에서 여행사 데이터를 가져옴
                 const destinationsData = [
                     { 

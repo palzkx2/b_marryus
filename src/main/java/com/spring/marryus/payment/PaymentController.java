@@ -1,16 +1,23 @@
 package com.spring.marryus.payment;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Date;
+import java.util.List;
+import java.util.NoSuchElementException;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.marryus.dao.CartRepository;
+import com.spring.marryus.entity.Cart;
 import com.spring.marryus.entity.Member;
 import com.spring.marryus.entity.Orders;
 import com.spring.marryus.oauth.SessionUser;
@@ -117,16 +124,9 @@ public class PaymentController {
 
             System.out.println("결제완료까지 한걸음");
             saveHistory(session, orderId, txId, order);
-           
-            //////
-            
-            
-            
-            
-            return ResponseEntity.ok("결제 완료");
-            
-            
-            
+            //////delete 세션 데이터 삭제
+            deleteSession(session);
+            return ResponseEntity.ok("결제 완료");   
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 검증 실패: " + e.getMessage());
         }
@@ -144,9 +144,23 @@ public class PaymentController {
 	
 	private final Oauth2Service oauth2Service;
 	private final MemberService memberService;
+	private final CartRepository cartrepository;
 	
-	
-	
+	private void deleteSession(HttpSession httpSession) {
+		
+		List<Long> cartIds=(List<Long>)httpSession.getAttribute("cartIds");
+		for(Long cartId: cartIds) {
+			Cart cart = cartrepository.findById(cartId)
+					.orElseThrow(()-> new NoSuchElementException("삭제할 장바구니를 찾을수 없습니다"));
+			
+			cartrepository.delete(cart); // 데이터베이스에서 Cart 항목 삭제
+		
+		}
+		
+		httpSession.removeAttribute("temporaryOrder");
+		httpSession.removeAttribute("cartIds");
+		
+	}
 	
 	
 	private Customer getMemeber(HttpSession session) {
@@ -163,76 +177,93 @@ public class PaymentController {
         if (oauthUser != null) {
             userId = oauth2Service.readUser(oauthUser.getEmail()).getId().toString();	
             user.setUserId(userId);
-            System.out.println("멤버 확인 메소드 호출됨1" + userId);
-            
             user.setUserEmail(oauth2Service.readUser(oauthUser.getEmail()).getEmail().toString());
-            System.out.println("멤버 확인 메소드 호출됨2");
-            
             userType = "oauth";
             user.setUserType(userType);
-            System.out.println("멤버 확인 메소드 호출됨3");
         }
         if (defaultUser != null) {
             userId = memberService.readUser(defaultUser.getEmail()).getId().toString();
             user.setUserId(userId);
-            System.out.println("멤버 확인 메소드 호출됨1" + userId);
-            
             user.setUserEmail(defaultUser.getEmail());
-            System.out.println("멤버 확인 메소드 호출됨2");
-            
             userType = "default";
             user.setUserType(userType);
-            System.out.println("멤버 확인 메소드 호출됨3");
         }
         else {
             // 예외를 던지거나, 기본값 처리
             throw new RuntimeException("로그인 정보가 존재하지 않습니다.");
         }
-        System.out.println("멤버 확인 메소드 호출됨5" + " : " + user.getUserEmail() + " : " + user.getUserId() + " : " + user.getUserType());
-        return user;
+        	return user;
 	}
 	
 	private void saveHistory(HttpSession session,String orderId,String txId,Orders order) {
-		System.out.println("DB 저장 메소드 호출됨");
+
 		 Customer c1 = new Customer();
          c1 = getMemeber(session);
-         System.out.println("DB 저장 메소드 호출됨1");
-         
-         System.out.println(c1.getAddr() + " 주소 호출됨 ");
-         System.out.println(c1.getUserEmail() + " 이메일 호출됨 ");
-         System.out.println(c1.getUserId() + " 아이디 호출됨 ");
-         System.out.println(c1.getUserType() + " 타입 호출됨 ");
-         
+
          PaymentHistoryEntity pHistory = new PaymentHistoryEntity();
          
          pHistory.setOrderId(orderId);
-         System.out.println("DB 저장 메소드 호출됨2");
          pHistory.setTransactionId(txId);
-         System.out.println("DB 저장 메소드 호출됨3");
-         pHistory.setOrderDate(Calendar.getInstance().getTime());
-         System.out.println("DB 저장 메소드 호출됨4");
-         pHistory.setCustomerContact(order.getPhone());
-         System.out.println("DB 저장 메소드 호출됨5");
-         pHistory.setTotalPrice(order.getTotalPrice().toString());
-         System.out.println("DB 저장 메소드 호출됨6");
-         pHistory.setPaymentMethod(order.getPayMethod().toString());
-         System.out.println("DB 저장 메소드 호출됨7");
-         pHistory.setStatus(order.getStatus().toString());
-         System.out.println("DB 저장 메소드 호출됨8");
          
+         LocalDateTime localDateTime = order.getOrderDate(); // LocalDateTime 객체
+         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()); // LocalDateTime을 Date로 변환
+
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         String formattedDate = sdf.format(date); // 포맷된 문자열 반환
+         
+         pHistory.setOrderDate(formattedDate);
+         pHistory.setCustomerContact(order.getPhone());
+         pHistory.setTotalPrice(order.getTotalPrice().toString());
+         pHistory.setPaymentMethod(order.getPayMethod().toString());
+         pHistory.setStatus(order.getStatus().toString());
          pHistory.setCustomerEmail(c1.getUserEmail());
-         System.out.println("DB 저장 메소드 호출됨10");
          pHistory.setCustomerId(c1.getUserId());
-         System.out.println("DB 저장 메소드 호출됨11");
          pHistory.setCustomerType(c1.getUserType());
-         System.out.println("DB 저장 메소드 호출됨12");
          pHistory.setShippingAddress(c1.getAddr());
-         System.out.println("DB 저장 메소드 호출됨13");
+         pHistory.setProducts(order.getPoducts());
          
          paymentHistoryService.saveHistory(pHistory);
-         System.out.println("DB 저장 메소드 호출됨14");
-         
-         System.out.println("주문내역 저장됨");
+	}
+	
+	@GetMapping("/orders")
+	public List<PaymentHistoryDTO> getMyList(HttpSession session){
+		
+		Customer c1 = new Customer();
+		c1 = getMemeber(session);
+		
+
+		
+		return paymentHistoryService.getMyList(c1.getUserId());
+	}
+	
+	@GetMapping("/orderComplete")
+	public OrdersResponse getOrderComplete(@RequestParam("orderId") String orderId) {
+	    System.out.println("호출됨");
+	    Orders orderData = orderService.getOrders(Long.parseLong(orderId));
+	    
+	    // Products 문자열을 파싱하여 List<Product>로 변환
+	    List<ProductDTO> products = parseProducts(orderData.getPoducts());
+	    
+	    // OrdersResponse 객체 생성 후 반환
+	    return new OrdersResponse(orderData, products);
+	}
+
+	public List<ProductDTO> parseProducts(String productsString) {
+	    List<ProductDTO> products = new ArrayList<>();
+	    String[] items = productsString.split("/p/");  // 각 제품 구분
+	    
+	    for (String item : items) {
+	        String[] attributes = item.split("/d/");
+
+	        String name = attributes[0].split(":")[1];
+	        Long id = Long.parseLong(attributes[1].split(":")[1]);
+	        String category = attributes[2].split(":")[1];
+	        Double price = Double.parseDouble(attributes[3].split(":")[1]);
+
+	        products.add(new ProductDTO(name, id, category, price));
+	    }
+	    
+	    return products;
 	}
 	
 	

@@ -153,25 +153,25 @@ const MyReivew = () => {
                             <ul>
                                 <div>웨딩홀</div>
                                 {wdReviews.map(review => (
-                                    <li key={review.id}  className="weddingItemReview-card">
+                                    <div key={review.id}  className="weddingItemReview-card">
                                         <h3 className="product-name">{review.weddingHallName}</h3> 
                                         <p className="weddingItemReview-content">{review.content}</p> 
                                         <p className="rating">평점: {review.rating}★</p> 
                                         <p className="date">작성일: {new Date(review.created).toLocaleDateString()}</p>
                                         {/* <button onClick={() => handleEditClick(review)}>수정</button>
                                         <button onClick={() => handleDeleteClick(review.id)}>삭제</button> */}
-                                    </li>
+                                    </div>
                                 ))}
                                 <div>혼수</div>
                                 {reviews.map(review => (
-                                    <li key={review.id}  className="weddingItemReview-card">
+                                    <div key={review.id}  className="weddingItemReview-card">
                                         <h3 className="product-name">{review.productName}</h3> 
                                         <p className="weddingItemReview-content">{review.reviewContent}</p> 
                                         <p className="rating">평점: {review.rating}★</p> 
                                         <p className="date">작성일: {new Date(review.createdAt).toLocaleDateString()}</p>
                                         <button onClick={() => handleEditClick(review)}>수정</button>
                                         <button onClick={() => handleDeleteClick(review.id)}>삭제</button>
-                                    </li>
+                                    </div>
                                 ))}
                                 
                             </ul>

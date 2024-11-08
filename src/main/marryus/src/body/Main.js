@@ -281,12 +281,28 @@ const Main = () => {
                         {images.slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <img src={`/api/images/${item.imgPath.split('\\').pop()}`} alt='' style={{position:'relative'}}/>
+                                    <div style={{textAlign: 'left', width: '230px'}}>
+                                        <img src={`/api/images/${item.imgPath.split('\\').pop()}`} alt='' style={{position:'relative', maxWidth: '230px'}}/>
                                         <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.name}</strong>
-                                            <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            <strong style={{
+                                                display: 'block', 
+                                                fontSize: '18pt', 
+                                                wordBreak: 'break-word', 
+                                                overflowWrap: 'break-word', 
+                                                whiteSpace: 'normal',
+                                                maxWidth:'200px'
+                                            }}>
+                                                {item.name}
+                                            </strong>
+                                            <p style={{
+                                                display: 'block', 
+                                                fontSize: '12pt', 
+                                                wordBreak: 'break-word', 
+                                                overflowWrap: 'break-word', 
+                                                whiteSpace: 'normal',
+                                                maxWidth:'200px'
+                                            }}>{item.addr}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -350,6 +366,7 @@ const Main = () => {
                         {sdmList.filter(name => name.category==='스튜디오').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+<<<<<<< HEAD
                                     <Link to={`/sdmArticle/${item.itemNm}`}>
                                         <div style={{textAlign: 'left'}}>
                                             <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
@@ -358,6 +375,14 @@ const Main = () => {
                                                 <p>{item.addr}</p>
                                                 <p style={{paddingBottom:'25px'}}>{item.price}</p>
                                             </div>
+=======
+                                    <div style={{textAlign: 'left'}}>
+                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
+                                        <div className='imgdiv'>
+                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                            <p>{item.addr}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
+>>>>>>> branch '카트와리뷰를_합쳤어용' of https://github.com/palzkx2/b_marryus.git
                                         </div>
                                     </Link>
                                 </div>

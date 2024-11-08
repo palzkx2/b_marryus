@@ -13,6 +13,7 @@ public class OrderRequest {
     private List<Long> cartIds;
     private BigDecimal totalAmount;
     private Long userId; 
+    private String userType;
     
     // 추가된 필드들 - 수정
     private String address; // 주소, 사용자 입력
@@ -31,6 +32,10 @@ public class OrderRequest {
     private String englishFamilyName; // 영문 성
     private String email; // 이메일 주소
     private String phone; // 전화번호
+    
+    private List<OrderProductList> cartData;
+    
+    
    
     
     

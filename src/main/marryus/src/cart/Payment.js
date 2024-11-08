@@ -69,7 +69,7 @@ const Payment = () => {
             channelKey: "channel-key-5d5ddf15-c935-4d80-8c2c-ea68627e11b8",
             paymentId: `payment-${crypto.randomUUID().slice(0, 32)}`,
             orderName: (cartProductNames.length-1===0) ? cartProductNames[0] : cartProductNames[0]+'외 '+ (cartProductNames.length-1)+'개 의 상품',
-            totalAmount: 1000,
+            totalAmount: totalPrice,
             currency: "CURRENCY_KRW",
             payMethod: "CARD",
             customer:{
@@ -99,9 +99,12 @@ const Payment = () => {
         });
         const message = await notified.text();  // 응답 메시지를 텍스트로 받기
         console.log(message);
-        alert(message)
         if(message==='결제 완료'){
-            history.push('/paymentComplete')
+            console.log('Redirecting with orderNum:', orderNum);
+            history.push({
+                pathname: '/paymentComplete',
+                state: { orderNum: orderNum  }
+            });
         }
     };
 
@@ -127,6 +130,7 @@ const Payment = () => {
                                             <div key={item.id} style={{ display: 'flex', alignItems: 'center' }}>
                                                 {/* <img src={item.img} alt={item.name} style={{ width: '60px', height: '60px', marginRight: '10px' }} /> */}
                                                 <p style={{ marginRight: '10px', marginTop: '10px' }}>{item.name}</p>
+                                                <p style={{ marginRight: '10px', marginTop: '10px' }}>{item.category}</p>
                                                 <p style={{ marginRight: '10px', marginTop: '9px' }}>{Numeral(item.price).format('0,0')} 원</p>
                                                 <p style={{ marginRight: '10px', marginTop: '9px' }}>X {item.quantity}</p>
                                             </div>
@@ -148,7 +152,7 @@ const Payment = () => {
                                 )}
 
                     {/*예약 상품정보 */}
-                            <PaymentInputs setOrderNum={setOrderNum}/>
+                            <PaymentInputs setOrderNum={setOrderNum} cartData={cartData}/>
             </div>
                         <div className='rightItem' style={{ position: 'sticky', top: '90px' }}>
                             {cartData.length > 0 && (

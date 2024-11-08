@@ -50,7 +50,6 @@ const HoneymoonDestinations = () => {
             }
                 
         <div className="honeymoon-destinations">
-            
             <div className="category-container">
                 {/* 해외 신혼 여행지 카드 */}
                 <Link to='/overseasDestinations'>

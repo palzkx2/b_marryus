@@ -121,7 +121,7 @@ public class OrderService {
 
 
     @Transactional
-    public Orders confirmOrder(Orders temporaryOrders, String englishName, String englishFamilyName, String email, String phone, String payMethod) { // 수정한 부분
+    public Orders confirmOrder(Orders temporaryOrders, String englishName, String englishFamilyName, String email, String phone, String payMethod,String products) { // 수정한 부분
         
     	 String merchantUid = generateMerchantUid(); // 주문번호 생성 //수정한 부분
     	
@@ -133,6 +133,7 @@ public class OrderService {
     	    temporaryOrders.setPayMethod(PayMethod.valueOf(payMethod)); // 결제 방식 설정 // 수정한 부분
     	    temporaryOrders.setMerchantUid(merchantUid); // 주문번호 설정 // 수정한 부분
     	    temporaryOrders.setStatus(OrderStatus.CONFIRMED); // 주문 상태 변경 // 수정한 부분
+    	    temporaryOrders.setPoducts(products);
 
     	    return orderRepository.save(temporaryOrders);
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-const PaymentInputs = ({setOrderNum}) => {
+const PaymentInputs = ({setOrderNum,cartData}) => {
     
     const [btnToggle,setBtnToggle] = useState(false);
     
@@ -35,7 +35,8 @@ const PaymentInputs = ({setOrderNum}) => {
                 englishFamilyName: formData.englishFamilyName,
                 email: formData.email,
                 phone: formData.phone,
-                payMethod: 'CREDIT_CARD'
+                payMethod: 'CREDIT_CARD',
+                cartData: cartData
             };
             const response =await axios.post('http://localhost:8080/api/order/done',payload, {withCredentials: true});
             console.log("서버응답데이터:" ,response.data);

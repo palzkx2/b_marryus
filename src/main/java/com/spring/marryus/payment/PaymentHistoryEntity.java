@@ -1,4 +1,5 @@
 package com.spring.marryus.payment;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class PaymentHistoryEntity {
 	
 	private String orderId;//주문 id
 	
-	private Date orderDate;//주문일자
+	private String orderDate;//주문일자
 	
 	private String status;//주문 상태(결제완료, 배송중, 배송 완료, 취소 등)
 	
@@ -64,7 +65,7 @@ public class PaymentHistoryEntity {
 	private String tax;//세금 금액
 	private String remarks;//고객 요청이나 메모
 	
-	
+	private String products;
 	
 	
 	
