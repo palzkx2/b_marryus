@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.marryus.dao.MemberRepository;
@@ -21,6 +22,8 @@ public class MemberService {
     private final EmailProvider emailProvider;
     
     private final SmsService smsService;
+    
+    private final PasswordEncoder passwordEncoder;
     
     // 인증코드 생성 후 이메일 전송 메소드
     public String sendcertificationEmail(String email) {
@@ -42,6 +45,8 @@ public class MemberService {
 
     // 회원 저장 메서드
     public Member saveMember(Member member) {
+    	String encodedPassword = passwordEncoder.encode(member.getPassword());
+    	member.setPassword(encodedPassword);
         return memberRepository.save(member); // 회원 정보를 데이터베이스에 저장
     }
 
@@ -59,7 +64,7 @@ public class MemberService {
             Member member = memberOptional.get(); // 회원 정보 가져오기
             
             // 비밀번호가 일치하는지 확인
-            if (member.getPassword().equals(password)) {
+            if (passwordEncoder.matches(password, member.getPassword())) {
                 return member; // 로그인 성공
             } else {
                 throw new IllegalArgumentException("비밀번호가 일치하지 않습니다."); // 비밀번호 불일치
@@ -106,6 +111,14 @@ public class MemberService {
     	
     }
     
+    public boolean findPasswordByEmailAndPhone(String email, String phone) {
+    	
+        Optional<Member> memberOpt = memberRepository.findByEmailAndPhone(email, phone);
+        
+        return memberOpt.isPresent();
+        
+    }
+    
     public String findEmailByNameAndPhone(String name, String phone) {
     	
     	Optional<Member> memberOpt = memberRepository.findByNameAndPhone(name, phone);
@@ -129,6 +142,27 @@ public class MemberService {
         }
         
         return email;
+        
+    }
+	
+	public boolean resetPassword(String email, String phone, String newPassword) {
+		
+        Optional<Member> memberOpt = memberRepository.findByEmailAndPhone(email, phone);
+
+        if (memberOpt.isPresent()) {
+        	
+            Member member = memberOpt.get();
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            member.setPassword(encodedPassword);
+            memberRepository.save(member);
+            
+            return true;
+            
+        } else {
+        	
+            return false;
+            
+        }
         
     }
 	

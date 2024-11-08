@@ -57,6 +57,12 @@ body {
   text-shadow: rgba(0,0,0,0.6) 2px 2px 1px;
 }
 
+.item-name{
+  display: block;
+  word-break: break-word;       /* 긴 단어가 div 너비를 초과할 때 줄바꿈 */
+  overflow-wrap: break-word;
+}
+
 .topNav {
   display: block;
   position: fixed;

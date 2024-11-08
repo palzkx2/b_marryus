@@ -9,6 +9,8 @@ const Cart = () => {
 
     const [weddingHalls, setWeddingHalls] = useState([]);
     const [householdItems, setHouseholdItems] = useState([]);
+    const [studios, setStudios] = useState([]);
+    const [destinations, setDestinations] = useState([]);
    
     
     useEffect(() => {
@@ -92,21 +94,6 @@ const Cart = () => {
         getCartList();
 
     }, []);
-    
-    
-    
-      const [studios, setStudios] = useState([
-        { id: 1, name: '스드메 패키지 1', price: 2000000, quantity: 1, checked: true },
-        { id: 2, name: '스드메 패키지 2', price: 2500000, quantity: 1, checked: true },
-      ]);
-    
-      
-    
-      const [destinations, setDestinations] = useState([
-        { id: 1, name: '허니문 여행지 1', price: 5000000, quantity: 1, checked: true },
-        { id: 2, name: '허니문 여행지 2', price: 4500000, quantity: 1, checked: true },
-      ]);
-    
 
       const history = useHistory();
 
@@ -201,19 +188,25 @@ const Cart = () => {
     ];
 };
 
-  // 주문하기 버튼 클릭 시
-  const handleOrder = () => {
-    const checkedItems = getCheckedItems();
-    // 체크된 항목을 어떻게 처리할지 여기에서 결정
-    console.log("체크된 아이템:", checkedItems); // 디버깅용
+    // 주문하기 버튼 클릭 시
+    const handleOrder = () => {
 
-    // 예를 들어, 결제 페이지로 아이템을 넘길 수 있습니다:
-    history.push({
-        pathname: '/payment',
-        state: { items: checkedItems }, // 체크된 아이템을 결제 페이지로 전달
-    });
-    
-  };
+        if(!weddingHalls && !studios && !householdItems && !destinations){
+            alert('상품을 선택해주세요.')
+            return
+        }
+
+        const checkedItems = getCheckedItems();
+        // 체크된 항목을 어떻게 처리할지 여기에서 결정
+        console.log("체크된 아이템:", checkedItems); // 디버깅용
+
+        // 예를 들어, 결제 페이지로 아이템을 넘길 수 있습니다:
+        history.push({
+            pathname: '/payment',
+            state: { items: checkedItems }, // 체크된 아이템을 결제 페이지로 전달
+        });
+        
+    };
 
   const onDelete = async(id) => {
         const confirmation = window.confirm('삭제하시겠습니까?');

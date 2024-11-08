@@ -228,4 +228,36 @@ public class MemberController {
     	
     }
     
+    @GetMapping("/api/findPassword")
+    public ResponseEntity<String> findPassword(@RequestParam String email, @RequestParam String phone) {
+    	
+        boolean userExists = memberService.findPasswordByEmailAndPhone(email, phone);
+        
+        if (userExists) {
+            return ResponseEntity.ok("사용자가 일치합니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("일치하는 사용자가 없습니다.");
+        }
+        
+    }
+    
+    
+    // 비밀번호 재설정 엔드포인트
+    @PostMapping("/api/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> requestData) {
+    	
+        String email = requestData.get("email");
+        String phone = requestData.get("phone");
+        String newPassword = requestData.get("newPassword");
+
+        boolean isUpdated = memberService.resetPassword(email, phone, newPassword);
+
+        if (isUpdated) {
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("일치하는 회원 정보가 없습니다.");
+        }
+        
+    }
+    
 }

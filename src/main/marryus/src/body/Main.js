@@ -281,12 +281,28 @@ const Main = () => {
                         {images.slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <img src={`/api/images/${item.imgPath.split('\\').pop()}`} alt='' style={{position:'relative'}}/>
+                                    <div style={{textAlign: 'left', width: '230px'}}>
+                                        <img src={`/api/images/${item.imgPath.split('\\').pop()}`} alt='' style={{position:'relative', maxWidth: '230px'}}/>
                                         <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.name}</strong>
-                                            <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            <strong style={{
+                                                display: 'block', 
+                                                fontSize: '18pt', 
+                                                wordBreak: 'break-word', 
+                                                overflowWrap: 'break-word', 
+                                                whiteSpace: 'normal',
+                                                maxWidth:'200px'
+                                            }}>
+                                                {item.name}
+                                            </strong>
+                                            <p style={{
+                                                display: 'block', 
+                                                fontSize: '12pt', 
+                                                wordBreak: 'break-word', 
+                                                overflowWrap: 'break-word', 
+                                                whiteSpace: 'normal',
+                                                maxWidth:'200px'
+                                            }}>{item.addr}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -355,7 +371,7 @@ const Main = () => {
                                         <div className='imgdiv'>
                                             <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
                                             <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                         </div>
                                     </div>
                                 </div>

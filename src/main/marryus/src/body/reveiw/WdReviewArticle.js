@@ -19,7 +19,30 @@ const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
     const [newContent, setNewContent] = useState(content);
     const [newCreated, setNewCreated] = useState(created)
     const [newRating, setNewRating] = useState(rating);
+    const [useToEmail,setUseToEmail] = useState('')
+    const [data,setData] = useState({});
     const history = useHistory()
+
+    useEffect(() => {
+
+        const selectEmail = () => {
+            
+            if(userEmail || data.email){
+                const selectToEmail = userEmail || data.email
+                setUseToEmail(selectToEmail)
+            }
+            
+        }
+        
+        selectEmail()
+        
+    }, [userEmail, data.email])
+
+    useEffect(()=>{
+        axios.get('/api/oauthUserInfo',{withCredentials: true})
+        .then(res=>setData(res.data))
+        .catch(error=>console.log(error))
+    },[])
 
     const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
@@ -61,31 +84,38 @@ const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
         setIsEditing(false); // 수정 모드 비활성화
     };
 
+    // 세션에서 사용자 이메일을 가져오는 코드
     useEffect(() => {
         const fetchSessionData = async () => {
             try {
-                const response = await axios.get('/api/session', { withCredentials: true }); // 세션 정보를 가져오는 API 호출
-                console.log('사용자 이메일 : ', response.data.email)
-                setUserEmail(response.data.email); // 세션 정보를 상태에 저장
+                // OAuth 이메일이 없을 경우 세션에서 이메일 가져오기
+                if (!userEmail) {
+                    const response = await axios.get('/api/session', { withCredentials: true });
+                    setUserEmail(response.data.email); // 세션 정보에서 이메일 설정
+                }
             } catch (error) {
                 console.error('세션 정보 가져오기 실패:', error);
             }
         };
 
-        fetchSessionData();
-    }, []);
+        if (!userEmail) {  // OAuth 이메일이 없을 경우 세션에서 이메일 가져오기
+            fetchSessionData();
+        }
+    }, [userEmail]); // userEmail 변경 시마다 실행
 
     const handleToggleRecommendation = async () => {
 
-        if(!userEmail){
+        if(data.name === undefined && !userEmail){
             alert('로그인 후 이용해주세요.')
             history.push('/login')
             return
         }
 
+        const emailToUse = userEmail || data.email;
+
         try {
             const response = await axios.post(`/api/toggleRecommendation`, null, {
-                params: { email: userEmail, reviewId: review.id },
+                params: { email: emailToUse, reviewId: review.id },
             });
             setToggle(response.data.isRecommended);
             setRecommendCount(response.data.recommendCount);
@@ -96,21 +126,36 @@ const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
     };
 
     useEffect(() => {
-        const checkRecommendation = async () => {
-            try {
-                const response = await axios.get(`/api/checkRecommendation`, {
-                    params: { email: userEmail, reviewId: review.id },
-                });
-                setToggle(response.data.isRecommended);
-            } catch (error) {
-                console.error('추천 상태 가져오기 실패:', error);
-            }
-        };
 
-        if (userEmail) {
+        const checkRecommendation = async () => {
+
+            if (userEmail || data.email) {
+
+                const emailToUse = userEmail || data.email;
+
+                try {
+
+                    const response = await axios.get(`/api/checkRecommendation`, {
+                        params: { email: emailToUse, reviewId: review.id },
+                    });
+    
+                    // 추천 상태 업데이트
+                    setToggle(response.data.isRecommended);
+
+                } catch (error) {
+                    console.error('추천 상태 가져오기 실패:', error);
+                }
+
+            }
+
+        };
+    
+        // 추천 상태 확인
+        if (userEmail || data.email) {
             checkRecommendation();
         }
-    }, [userEmail, review.id]);
+
+    }, [userEmail, data.email, review.id]);
 
     return (
         <div>
@@ -165,13 +210,13 @@ const WdReviewArticle = ({review, deleteReview, weddingHall}) => {
                         {!isEditing &&
                         <>
                         {
-                            userEmail === review.email ?
+                            useToEmail === review.email ?
                             <div onClick={handleEditClick} className='a1t2' style={{margin:'-25px 300px 20px 1290px',fontSize:'9pt',position:'absolute', cursor:'pointer'}}>수정</div>
                             :
                             <div></div>
                         }
                         {
-                            userEmail === review.email ?
+                            useToEmail === review.email ?
                             <div onClick={() => deleteReview(review.id)} className='a1t2' style={{margin:'-25px 300px 20px 1320px',fontSize:'9pt',position:'absolute', cursor:'pointer'}}>삭제</div>
                             :
                             <div></div>
