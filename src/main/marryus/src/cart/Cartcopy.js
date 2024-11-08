@@ -280,7 +280,52 @@ const Cartcopy = () => {
         console.error("해당 이름의 데이터를 찾을 수 없습니다.");
     }
 };
+
+    const [weddingItem, setWeddingItem] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/weddingItem')
+            .then((response) => {
+                setWeddingItem(response.data);
+            })
+            .catch(err => console.log("데이터 불러오기 실패:", err));
+    }, []);
     
+    const goToWeddingItem = (sname) => {
+    
+    const foundItem = weddingItem.find((item) => item.imgName === sname);
+
+    if (foundItem) {
+        
+        window.location.href = `/weddingItemArticle/${foundItem.id}`;
+    } else {
+        console.error("해당 이름의 데이터를 찾을 수 없습니다.");
+    }
+};
+
+    const [sdm, setSdm] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/sdm/readSdmList')
+            .then((response) => {
+                setSdm(response.data);
+            })
+            .catch(err => console.log("데이터 불러오기 실패:", err));
+    }, []);
+
+    const goToSdm = (sname) => {
+
+    const foundItem = sdm.find((item) => item.itemNm === sname);
+
+    if (foundItem) {
+        
+        window.location.href = `/sdmArticle/${foundItem.itemNm}`;
+    } else {
+        console.error("해당 이름의 데이터를 찾을 수 없습니다.");
+    }
+};
+
+
 
     return (
         <div>
@@ -337,7 +382,7 @@ const Cartcopy = () => {
                                         <div key={item.id} className="cart-item">
                                             <input type="checkbox" checked={item.checked}
                                                 onChange={(e) => handleCheckboxChange('studios', item.id, e.target.checked)}/>
-                                            <span>{item.name}</span>
+                                            <span className='pidif' onClick={() => goToSdm(item.name)}>{item.name}</span>
                                             <span>{item.price}원</span>
                                             <div className='inppputCon'>
                                                 <input type="number" value={item.quantity} 
@@ -364,7 +409,7 @@ const Cartcopy = () => {
                                         <div key={item.id} className="cart-item">
                                             <input type="checkbox" checked={item.checked}
                                                 onChange={(e) => handleCheckboxChange('householdItems', item.id, e.target.checked)}/>
-                                            <span>{item.name}</span>
+                                            <span className='pidif' onClick={() => goToWeddingItem(item.name)}>{item.name}</span>
                                             <span>{item.price}원</span>
                                             <>
                                               {item.ringMaleSize && (

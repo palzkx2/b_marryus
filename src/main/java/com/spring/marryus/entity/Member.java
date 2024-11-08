@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
@@ -18,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @JsonInclude(JsonInclude.Include.ALWAYS)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Member {
 	
 	@Id

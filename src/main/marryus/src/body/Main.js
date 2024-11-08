@@ -368,14 +368,25 @@ const Main = () => {
                         {sdmList.filter(name => name.category==='스튜디오').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
+<<<<<<< HEAD
+                                    <Link to={`/sdmArticle/${item.itemNm}`}>
+                                        <div style={{textAlign: 'left'}}>
+                                            <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
+                                            <div className='imgdiv'>
+                                                <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                                <p>{item.addr}</p>
+                                                <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            </div>
+=======
                                     <div style={{textAlign: 'left'}}>
                                         <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
                                         <div className='imgdiv'>
                                             <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
                                             <p>{item.addr}</p>
                                             <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
+>>>>>>> branch '카트와리뷰를_합쳤어용' of https://github.com/palzkx2/b_marryus.git
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}
@@ -437,14 +448,16 @@ const Main = () => {
                         {sdmList.filter(name => name.category==='드레스').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
-                                        <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
-                                            <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                    <Link to={`/sdmArticle/${item.itemNm}`}>
+                                        <div style={{textAlign: 'left'}}>
+                                            <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
+                                            <div className='imgdiv'>
+                                                <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                                <p>{item.addr}</p>
+                                                <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}
@@ -506,14 +519,16 @@ const Main = () => {
                         {sdmList.filter(name => name.category==='메이크업').map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
-                                        <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
-                                            <p>{item.addr}</p>
-                                            <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                    <Link to={`/sdmArticle/${item.itemNm}`}>
+                                        <div style={{textAlign: 'left'}}>
+                                            <img src={`${API_SERVER_HOST}/api/sdm/view/${item.imageList[0].imgName}`} alt='' style={{position:'relative'}}/>
+                                            <div className='imgdiv'>
+                                                <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
+                                                <p>{item.addr}</p>
+                                                <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}
@@ -575,14 +590,16 @@ const Main = () => {
                         {weddingItem.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-                                    <div style={{textAlign: 'left'}}>
-                                        <img src={`${process.env.PUBLIC_URL}${item.imgAddr}`} alt={item.imgName} style={{position:'relative'}}/>
-                                        <div className='imgdiv'>
-                                            <strong style={{display: 'block', fontSize: '18pt'}}>{item.IMG_ADDR}</strong>
-                                            <p>{item.imgName}</p>
-                                            <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
+                                    <Link to={`/weddingItemArticle/${item.id}`}>
+                                        <div style={{textAlign: 'left'}}>
+                                            <img src={`${process.env.PUBLIC_URL}${item.imgAddr}`} alt={item.imgName} style={{position:'relative'}}/>
+                                            <div className='imgdiv'>
+                                                <strong style={{display: 'block', fontSize: '18pt'}}>{item.IMG_ADDR}</strong>
+                                                <p>{item.imgName}</p>
+                                                <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             </SwiperSlide>
                         ))}

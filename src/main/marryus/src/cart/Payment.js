@@ -99,9 +99,10 @@ const Payment = () => {
         const message = await notified.text();  // 응답 메시지를 텍스트로 받기
         console.log(message);
         if(message==='결제 완료'){
+            console.log('Redirecting with orderNum:', orderNum);
             history.push({
                 pathname: '/paymentComplete',
-                state: { orderNum }
+                state: { orderNum: orderNum  }
             });
         }
     };
