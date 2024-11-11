@@ -6,6 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom.m
 import axios from 'axios';
 import * as PortOne from "@portone/browser-sdk/v2";
 import PaymentInputs from './PaymentInputs';
+import {v4 as uuidv4} from 'uuid';
 
 const Payment = () => {
     const location = useLocation(); // useLocation 사용
@@ -58,7 +59,7 @@ const Payment = () => {
 
     const requestPayment = async() => {
         
-        const paymentId = `payment-${crypto.randomUUID().slice(0, 30)}`;
+        const paymentId = `payment-${uuidv4().slice(0, 30)}`;
         //const paymentId = 123;
         const cartIds = cartData.map(item => item.id);
         const cartProductNames = cartData.map(item => item.name);
