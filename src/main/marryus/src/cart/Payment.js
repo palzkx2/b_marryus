@@ -32,20 +32,20 @@ const Payment = () => {
             }
         };
 
-        const fetchOauthData = async () => { //OAuth 데이터 가져오기
-            try {
-                const response = await axios.get('/api/oauthReaduser');          
-                    setUserName(response.data.name);
-                    setPhone(response.data.phone);
-                    setEmail(response.data.email);              
-            } catch (error) {
-                console.log('OAuth 데이터 가져오기 실패:', error);
-            }
-        };
+        // const fetchOauthData = async () => { //OAuth 데이터 가져오기
+        //     try {
+        //         const response = await axios.get('/api/oauthReaduser');          
+        //             setUserName(response.data.name);
+        //             setPhone(response.data.phone);
+        //             setEmail(response.data.email);              
+        //     } catch (error) {
+        //         console.log('OAuth 데이터 가져오기 실패:', error);
+        //     }
+        // };
 
 
         fetchSessionData();
-       fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
+    //    fetchOauthData(); // OAuth 데이터 가져오는 함수 호출
        
     }, []);
     
