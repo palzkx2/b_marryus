@@ -67,7 +67,7 @@ const Payment = () => {
         const response = await PortOne.requestPayment({
             storeId: "store-9b57f72e-69ea-41b3-aadf-c57541ce33ba",
             channelKey: "channel-key-5d5ddf15-c935-4d80-8c2c-ea68627e11b8",
-            paymentId: `payment-${crypto.randomUUID().slice(0, 32)}`,
+            paymentId: `payment-${uuidv4().slice(0, 32)}`,
             orderName: (cartProductNames.length-1===0) ? cartProductNames[0] : cartProductNames[0]+'외 '+ (cartProductNames.length-1)+'개 의 상품',
             totalAmount: totalPrice,
             currency: "CURRENCY_KRW",
