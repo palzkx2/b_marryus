@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Cart {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
     private String category;
