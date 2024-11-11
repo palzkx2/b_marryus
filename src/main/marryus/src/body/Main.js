@@ -265,7 +265,7 @@ const Main = () => {
                             windowDimensions.width >= 1340 ? 3 :
                             windowDimensions.width >= 1090 ? 2 : 1
                         }
-                        slidesPerGroup={3}
+                        slidesPerGroup={5}
                         // navigation={true}
                         navigation={{
                             prevEl: '.sw1',
@@ -366,7 +366,7 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {sdmList.filter(name => name.category==='스튜디오').map((item, index) => (
+                        {sdmList.filter(name => name.category==='스튜디오').slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <Link to={`/sdmArticle/${item.itemNm}`}>
@@ -437,7 +437,7 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {sdmList.filter(name => name.category==='드레스').map((item, index) => (
+                        {sdmList.filter(name => name.category==='드레스').slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <Link to={`/sdmArticle/${item.itemNm}`}>
@@ -508,7 +508,7 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {sdmList.filter(name => name.category==='메이크업').map((item, index) => (
+                        {sdmList.filter(name => name.category==='메이크업').slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <Link to={`/sdmArticle/${item.itemNm}`}>
@@ -579,7 +579,7 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {weddingItem.map((item, index) => (
+                        {weddingItem.slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <Link to={`/weddingItemArticle/${item.id}`}>
@@ -650,7 +650,7 @@ const Main = () => {
                         initialSlide={0}
                     >
                         
-                        {travel.map((item, index) => (
+                        {travel.slice(0,25).map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className='swiper-slide' style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
                                     <Link to={`/travelArticle/${item.id}/${item.sname}/${item.pyong}/${item.price}/${item.addr}/${item.imgName}/${item.wido}/${item.gyungdo}`}>
