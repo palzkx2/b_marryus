@@ -384,7 +384,7 @@ const Cartcopy = () => {
                                             <input type="checkbox" checked={item.checked}
                                                 onChange={(e) => handleCheckboxChange('studios', item.id, e.target.checked)}/>
                                             <span className='pidif' onClick={() => goToSdm(item.name)}>{item.name}</span>
-                                            <span>{item.price}원</span>
+                                            <span>{numeral(item.price).format('0,0')}원</span>
                                             <div className='inppputCon'>
                                                 <input type="number" value={item.quantity} 
                                                         onChange={(e) => handleQuantityChange('studios', item.id, parseInt(e.target.value))} min="1"
