@@ -161,7 +161,7 @@ const AddSdm = () => {
                 <div>
                     <p>
                         <label style={{padding:`10px 10px`}} >7. 평점</label>
-                        <input type='text' name='price' value={sdm.rating} onChange={changeInput} style={{padding:'8px'}} />
+                        <input type='text' name='rating' value={sdm.rating} onChange={changeInput} style={{padding:'8px'}} />
                     </p>
                 </div>
 

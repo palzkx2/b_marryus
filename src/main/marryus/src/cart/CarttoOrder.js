@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './carttoorder.css';
+import {v4 as uuidv4} from 'uuid';
 
 const CarttoOrder = ({ handleOrder, checkedItemsWithCategory, totalAmount }) => {
     
@@ -38,7 +39,7 @@ const CarttoOrder = ({ handleOrder, checkedItemsWithCategory, totalAmount }) => 
         
         // 결제에 필요한 추가 정보 구성
         const payload = {
-            paymentId: `payment${crypto.randomUUID()}`,
+            paymentId: `payment${uuidv4()}`,
             cartIds: cartIds,
             totalAmount: totalAmountValue // 추가된 총 결제 금액 필드
             ,
@@ -52,7 +53,7 @@ const CarttoOrder = ({ handleOrder, checkedItemsWithCategory, totalAmount }) => 
         };
 
         try {
-            const response = await axios.post('http://192.168.16.23:8080/api/order/create', payload, {
+            const response = await axios.post('/api/order/create', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

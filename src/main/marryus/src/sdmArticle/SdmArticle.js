@@ -127,7 +127,7 @@ const postData = async (item) => {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://192.168.16.23:8080/api/sdm/delete/${sdm.id}`); // 서버에 삭제 요청
+            await axios.delete(`/api/sdm/delete/${sdm.id}`); // 서버에 삭제 요청
             // 삭제 후 목록으로 리다이렉트하거나 상태 업데이트
             // 예: history.push('/sdm'); (react-router-dom을 사용하는 경우)
         } catch (error) {

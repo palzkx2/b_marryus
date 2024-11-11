@@ -11,7 +11,7 @@ import { TiShoppingCart } from "react-icons/ti";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export const API_SERVER_HOST = 'http://localhost:8080'; // 서버 주소
+export const API_SERVER_HOST = 'http://192.168.16.23:8080'; // 서버 주소
 const prefix = `${API_SERVER_HOST}/api/sdm`; // API 경로 설정
 
 const SdmBoard = () => {

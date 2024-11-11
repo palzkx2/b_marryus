@@ -16,7 +16,7 @@ import MainInfo_T from './MainInfo_T';
 import axios from 'axios';
 import numeral from 'numeral';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-export const API_SERVER_HOST = 'http://localhost:8080';
+export const API_SERVER_HOST = 'http://192.168.16.23:8080';
 
 const Main = () => {
 
@@ -77,7 +77,7 @@ const Main = () => {
         setBackgroundPosition(scrollY * 0.5);
     };
 
-    const [showWRecom,setShowWRecom] = useState(false)
+    const [showWRecom,setShowWRecom] = useState(true)
     const [showSRecom,setShowSRecom] = useState(false)
     const [showHRecom,setShowHRecom] = useState(false)
     const [showTRecom,setShowTRecom] = useState(false)

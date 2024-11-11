@@ -52,7 +52,7 @@ const ReviewSdm = ({ item, onClose, review }) => {
             subcategory: item.subcategory,
             productId: item.id,
             author: author,
-            productName: item.itemNm,
+            productName: item.imgName,
             recommended: false,
             createdAt: new Date().toISOString(),
             email: email,

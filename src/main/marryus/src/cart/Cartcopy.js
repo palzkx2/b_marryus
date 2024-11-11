@@ -6,6 +6,7 @@ import './cart.css'
 import axios from 'axios';
 import { FaCircleMinus } from "react-icons/fa6";
 import CarttoOrder from './CarttoOrder';
+import numeral from 'numeral';
 
 const Cartcopy = () => {
 
@@ -483,7 +484,7 @@ const Cartcopy = () => {
                             
                             {/* 총 합 */}
                             <div className="cart-total">
-                                <h3>총 합계: {calculateTotal()}원</h3>
+                                <h3>총 합계: {numeral(calculateTotal()).format('0,0')}원</h3>
                             </div>
                             {/*  총 합 end */}
                             
