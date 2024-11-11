@@ -8,6 +8,7 @@ import SdmModal from '../sdm/common/SdmModal';
 import '../sdm/common/sdmmodal.css';
 import RingReviewList from '../weddingItem/RingReviewList';
 import SdmReviewList from './SdmReviewList';
+import numeral from 'numeral';
 
 export const API_SERVER_HOST = 'http://localhost:8080'; // 서버 주소
 
@@ -171,7 +172,7 @@ const postData = async (item) => {
                                 <p style={{color:'gray'}}>{sdm.itemDetail}</p>
                                 <p style={{ color: 'gray' }}>{sdm.itemNm}</p>
                                 
-                                <p style={{color:'gray'}}>평점: {averageRating}★</p>
+                                <p style={{color:'gray'}}>가격: {numeral(sdm.price).format('0,0')}</p>
                                 
                                 <p style={{ color: 'gray' }}>태그: {sdm.tag}</p>
                                 <p style={{ color: 'gray' }}>카테고리: {sdm.category}</p>

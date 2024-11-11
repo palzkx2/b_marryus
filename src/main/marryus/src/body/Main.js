@@ -341,6 +341,7 @@ const Main = () => {
                 </div>
 
                 <div style={{display:'flex', position: 'relative', marginBottom:'50px'}}>
+                    
                     <Swiper
                         dir="ltr"
                         pagination={{
@@ -374,7 +375,7 @@ const Main = () => {
                                             <div className='imgdiv'>
                                                 <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
                                                 <p>{item.addr}</p>
-                                                <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                                <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                             </div>
                                         </div>
                                     </Link>
@@ -445,7 +446,7 @@ const Main = () => {
                                             <div className='imgdiv'>
                                                 <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
                                                 <p>{item.addr}</p>
-                                                <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                                <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                             </div>
                                         </div>
                                     </Link>
@@ -516,7 +517,7 @@ const Main = () => {
                                             <div className='imgdiv'>
                                                 <strong style={{display: 'block', fontSize: '18pt'}}>{item.itemNm}</strong>
                                                 <p>{item.addr}</p>
-                                                <p style={{paddingBottom:'25px'}}>{item.price}</p>
+                                                <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                             </div>
                                         </div>
                                     </Link>
@@ -585,7 +586,7 @@ const Main = () => {
                                         <div style={{textAlign: 'left'}}>
                                             <img src={`${process.env.PUBLIC_URL}${item.imgAddr}`} alt={item.imgName} style={{position:'relative'}}/>
                                             <div className='imgdiv'>
-                                                <strong style={{display: 'block', fontSize: '18pt'}}>{item.IMG_ADDR}</strong>
+                                                <strong style={{display: 'block', fontSize: '18pt', wordBreak: 'break-all'}}>{item.IMG_ADDR}</strong>
                                                 <p>{item.imgName}</p>
                                                 <p style={{paddingBottom:'25px'}}>{numeral(item.price).format('0,0')}</p>
                                             </div>
