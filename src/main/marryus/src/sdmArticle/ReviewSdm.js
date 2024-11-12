@@ -52,7 +52,7 @@ const ReviewRing = ({ item, onClose, review }) => {
             subcategory: item.subcategory,
             productId: item.id,
             author: author,
-            productName: item.imgName,
+            productName: item.itemNm,
             recommended: false,
             createdAt: new Date().toISOString(),
             email: email,

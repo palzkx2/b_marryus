@@ -52,7 +52,7 @@ const ReviewSdm = ({ item, onClose, review }) => {
             subcategory: item.subcategory,
             productId: item.id,
             author: author,
-            productName: item.itemNm,
+            productName: item.imgName,
             recommended: false,
             createdAt: new Date().toISOString(),
             email: email,
@@ -66,6 +66,8 @@ const ReviewSdm = ({ item, onClose, review }) => {
             } else {
                 // 추가 모드
                 await axios.post('/api/reviews/create', reviewPayload);
+                await axios.post('/api/reviews', reviewPayload);
+
                 alert('리뷰가 성공적으로 제출되었습니다!');
             }
             await updateAverageRating(item.id);
@@ -80,12 +82,20 @@ const ReviewSdm = ({ item, onClose, review }) => {
             const response = await axios.get(`/api/reviews/averageRating`, {
                 params: { productId }
             });
+
             const averageRating = response.data.averageRating;
+
+            console.log('평균 별점 응답:', averageRating);  // 응답 값 확인
+
+            if (isNaN(averageRating) || averageRating == null) {
+                throw new Error('평균 별점이 유효하지 않음');
+            }
 
             await axios.put(`/api/weddingItem/${productId}`, { rate: averageRating });
             console.log('평균 별점이 업데이트되었습니다:', averageRating);
+            
         } catch (error) {
-            console.log('평균 별점 업데이트 실패:', error);
+            console.log('평균 별점 업데이트 실패:', error.message);
         }
     };
 
