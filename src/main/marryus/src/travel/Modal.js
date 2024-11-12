@@ -90,15 +90,16 @@ const Modal = ({ agency, accommodation, onClose }) => {
                 {agency ? ( // 여행사 정보가 있을 경우
                     <>
                         <h2>{agency.name}</h2>
-                        <p>평점: {agency.rating}</p>
+                        {/* <p>평점: {agency.rating}</p> */}
                         <p>가격: {agency.price}</p>
                         <p>소재지: {agency.location}</p>
                     </>
                 ) : accommodation ? ( // 숙소 정보가 있을 경우
                     <>
                         <h2>{accommodation.sname}</h2>
-                        <p>평점: {accommodation.pyong}</p>
-                        <p>가격: {Numeral(accommodation.price).format('0,0')}</p>
+                        <img src={`/p_images/travel/sukso/${accommodation.imgName}`} alt={accommodation.imgName} className="hotel-image" style={{width:'300px',height:'200px'}}/>
+                        {/* <p>평점: {accommodation.pyong}</p> */}
+                        <p style={{marginTop:'10px'}}>가격: {Numeral(accommodation.price).format('0,0')} 원</p>
                         <p>소재지: {accommodation.addr}</p>
                     </>
                 ) : null}

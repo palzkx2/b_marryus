@@ -38,7 +38,7 @@ const PaymentInputs = ({setOrderNum,cartData}) => {
                 payMethod: 'CREDIT_CARD',
                 cartData: cartData
             };
-            const response =await axios.post('http://192.168.16.23:8080/api/order/done',payload, {withCredentials: true});
+            const response =await axios.post('api/order/done',payload, {withCredentials: true});
             console.log("서버응답데이터:" ,response.data);
             alert('입력정보 저장이 완료되었습니다.')
             setBtnToggle(true)
