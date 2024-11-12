@@ -173,10 +173,10 @@ const OauthSingUp = () => {
                 <div style={{width:'1400px', height:'700px', background:'#FFE4E1'}}>
 
                     <h2 style={{padding:'50px 70px 0px 70px'}}>내 정보 입력</h2>                  
-                    <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
+                    <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)', borderTop:'1px solid gray'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>휴대폰</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'564.4px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'653px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center', borderTop:'1px solid gray'}}>
                         <select style={{marginLeft:'20px'}} ref={phonePart1Ref}>
                             <option>010</option>
                             <option>011</option>
@@ -194,21 +194,21 @@ const OauthSingUp = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>주소</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'615.3px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'705px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' ref={addrInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>예식희망지역</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'664.6px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'756px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input type='text' ref={hopeAreaInput} style={{marginLeft:'20px'}}/>
                     </div>
 
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>결혼예정일</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'717.5px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'807px', borderBottom:'1px solid rgba(0,0,0,0.1)', alignContent:'center'}}>
                         <input
                             style={{ marginLeft: '20px', paddingLeft:'12px' }}
                             ref={weddingDateInput}
@@ -235,7 +235,7 @@ const OauthSingUp = () => {
                     <div style={{width:'200px', height:'50px', background:'#C3E6CB', margin:'0 70px 0 70px', position:'relative', borderBottom:'1px solid gray'}}>
                         <p style={{fontWeight:'bold', color:'gray', padding:'15px 30px'}}>이메일 수신여부</p>
                     </div>
-                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'768.4px', borderBottom:'1px solid gray', alignContent:'center'}}>
+                    <div style={{width:'1050px', height:'50px', background:'none', position:'absolute', margin:'0 70px 0 270px', top:'858px', borderBottom:'1px solid gray', alignContent:'center'}}>
                         <input type='radio' value={'이메일 수신 동의'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 동의
                         <input type='radio' value={'이메일 수신 거부'} style={{marginLeft:'20px', fontSize:'8pt'}} onChange={handleEmailAgreeChange}/>이메일 수신 거부
                     </div>
