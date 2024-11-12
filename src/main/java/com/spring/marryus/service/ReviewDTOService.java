@@ -20,8 +20,8 @@ import com.spring.marryus.entity.WeddingItemDTO;
 @Service
 public class ReviewDTOService {
 	
-	@Autowired
-	private SdmRepository sdmRepository;
+//	@Autowired
+//	private SdmRepository sdmRepository;
 	
 	
 	@Autowired
@@ -64,21 +64,33 @@ public class ReviewDTOService {
             return 0; // 리뷰가 없으면 0 반환
         }
         double averageRating = reviews.stream().mapToInt(ReviewDTO::getRating).average().orElse(0);
+        
+        System.out.println("Calculated average rating for productId " + productId + ": " + averageRating);
+        
         return (int) Math.round(averageRating); // 정수로 반올림
     }
     
     @Transactional
     public void updateAverageRating(Long productId) {
         int averageRating = calculateAverageRating(productId);
-        WeddingItemDTO item = weddingItemRepository.findById(productId).orElseThrow(null);
+        WeddingItemDTO item = weddingItemRepository.findById(productId)
+        		.orElseThrow(() -> new RuntimeException("WeddingItem not found for productId: " + productId));
+       
+        System.out.println("Updating WeddingItem with productId: " + productId + " to rate: " + averageRating);
         
-        Sdm sdm = sdmRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("해당 Sdm 아이템을 찾을 수 없습니다.")); // 예외 메시지 추가
+//        Sdm sdm = sdmRepository.findById(productId)
+//                .orElseThrow(() -> new RuntimeException("해당 Sdm 아이템을 찾을 수 없습니다.")); // 예외 메시지 추가
         
+        
+        //weddingItem
         item.setRate(averageRating);
         weddingItemRepository.save(item);
-        sdm.setRating(averageRating); //수정한부분
-        sdmRepository.save(sdm); //수정한부분
+        
+        System.out.println("WeddingItem with productId " + productId + " saved with rate: " + item.getRate());
+        
+        //sdm
+//        sdm.setRating(averageRating);
+//        sdmRepository.save(sdm);
     }
     
     // 이메일로 리뷰 가져오기

@@ -135,16 +135,19 @@ public class ReviewDTOController {
     }
     
     @PostMapping
-    public ResponseEntity<ReviewDTO> addReview(@RequestBody ReviewDTO review) {
-        ReviewDTO savedReview = reviewRepository.save(review);
+    public void addReview(@RequestBody ReviewDTO review) {
+        
         reviewService.updateAverageRating(review.getProductId()); // 평균 별점 업데이트
-        return ResponseEntity.ok(savedReview);
+        
     }
 
     // 특정 상품의 평균 별점 조회
     @GetMapping("/averageRating")
     public ResponseEntity<Integer> getAverageRating(@RequestParam Long productId) {
-        int averageRating = reviewService.calculateAverageRating(productId);
+        
+    	System.out.println("Calling updateAverageRating from controller for productId: " + productId);
+    	
+    	int averageRating = reviewService.calculateAverageRating(productId);
         return ResponseEntity.ok(averageRating);
     }
     
