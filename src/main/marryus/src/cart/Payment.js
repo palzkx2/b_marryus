@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './payment.css';
 import cartdata from './cartData';
 import Numeral from 'numeral';
@@ -17,6 +17,8 @@ const Payment = () => {
     const [totalPrice, setTotalPrice] = useState(location.state?.totalAmount || 0);
     const [btnToggle,setBtnToggle] = useState(false);
     const [orderNum,setOrderNum] = useState('');
+    const card = useRef()
+    const agree = useRef()
 
     const history = useHistory();
 
@@ -58,6 +60,16 @@ const Payment = () => {
     }, [cartData]);
 
     const requestPayment = async() => {
+
+        if(!card.current.checked){
+            alert('결제 수단을 선택해주세요')
+            return
+        }
+
+        if(!agree.current.checked){
+            alert('전체 주문 동의를 확인해주세요.')
+            return
+        }
         
         const paymentId = `payment-${uuidv4().slice(0, 30)}`;
         //const paymentId = 123;
@@ -99,6 +111,7 @@ const Payment = () => {
         });
         const message = await notified.text();  // 응답 메시지를 텍스트로 받기
         console.log(message);
+        alert('결제가 완료되었습니다.')
         if(message==='결제 완료'){
             console.log('Redirecting with orderNum:', orderNum);
             history.push({
@@ -175,8 +188,8 @@ const Payment = () => {
                             <div className='realPayment'>
                                 <h2>결제 수단</h2>
                                     <div>
-                                        <input type='radio' name='payment' id='creditCard' />
-                                        <label htmlFor='creditCard' style={{fontSize: '18px' ,marginBottom:'10px'}}>신용카드</label>
+                                        <input type='radio' name='payment' id='creditCard' ref={card}/>
+                                            <label htmlFor='creditCard' style={{fontSize: '18px' ,marginBottom:'10px'}}>신용카드</label>
                                         <br />
                                         
                                     </div>
@@ -184,7 +197,7 @@ const Payment = () => {
                             
 
                             <div className='lastAgreement' style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
-                                <input type='checkbox' />
+                                <input type='checkbox' ref={agree}/>
                                 <label style={{marginBottom: '5px',fontSize:'18px'}}>전체 주문 동의</label>
                             </div>
                             <div className='lastButton'>
